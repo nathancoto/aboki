@@ -4,6 +4,8 @@ import {LinearGradient} from 'expo-linear-gradient';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import Logo from '../assets/logo-typo.svg';
+import Globe from '../assets/globe.svg';
+import Dropdown from '../assets/dropdown.svg';
 
 import * as G from '../service/global'
 
@@ -18,7 +20,10 @@ export default class Connexion extends Component {
         this.state = {
             inputLogin: '',
             inputPassword: '',
-            isChecked: false
+            isChecked: false,
+            visible: false,
+            selectedLang: 'FR',
+            langs: ['FR', 'EN', 'GER', 'ES']
         }
     }
 
@@ -40,6 +45,31 @@ export default class Connexion extends Component {
         // TODO
     }
 
+    toggleLangVisibility = () => {
+        this.setState({visible: !this.state.visible})
+    }
+
+    onLangSelect = (lang) => {
+        this.setState({selectedLang: lang})
+    }
+
+    renderDropdown = () => {
+        let output = [];
+        for(let i=0; i<this.state.langs.length; i++) {
+            if(this.state.langs[i] != this.state.selectedLang) {
+                output[i] =  <TouchableOpacity onPress={() => this.onLangSelect(this.state.langs[i])} activeOpacity={.7}>
+                        <Text style={styles.dropdown}>{this.state.langs[i]}</Text>
+                    </TouchableOpacity>
+            }
+        }
+
+        return (
+            <>
+            {output}
+            </>
+        );
+      };
+
     render() {
         return(
             <>
@@ -49,6 +79,15 @@ export default class Connexion extends Component {
                     colors={['#EF835E', '#FABB5B']}
                     style={styles.container}>
                 <Logo width={200} height={120} style={styles.logo}/>
+
+                <View style={styles.langContainer}>
+                    <TouchableOpacity style={styles.selectedLangContainer} onPress={this.toggleLangVisibility} activeOpacity={.7}>
+                        <Globe width={16} height={16} style={{color: 'white'}} />
+                        <Text style={styles.langSelected}>{this.state.selectedLang}</Text>
+                        <Dropdown width={16} height={16} style={{color: 'white'}} />
+                    </TouchableOpacity>
+                    {this.state.visible ? this.renderDropdown() : null}
+                </View>
 
                 <View style={styles.containerLogin}>
                     <TextInput
@@ -136,6 +175,28 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+
+    langContainer: {
+        position: 'absolute',
+        top: 60,
+        right: 30,
+        alignItems: 'flex-end'
+    },
+
+    selectedLangContainer: {
+        flexDirection: 'row',
+    },
+
+    langSelected: {
+        color: 'white',
+        marginLeft: 6,
+        marginRight: 2
+    },
+
+    dropdown: {
+        color: 'white',
+        marginVertical: 7
     },
 
     containerLogin: {
