@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
@@ -57,7 +57,7 @@ export default class Connexion extends Component {
         let output = [];
         for(let i=0; i<this.state.langs.length; i++) {
             if(this.state.langs[i] != this.state.selectedLang) {
-                output[i] =  <TouchableOpacity onPress={() => this.onLangSelect(this.state.langs[i])} activeOpacity={.7}>
+                output[i] =  <TouchableOpacity onPress={() => this.onLangSelect(this.state.langs[i])} activeOpacity={.7} key={i}>
                         <Text style={styles.dropdown}>{this.state.langs[i]}</Text>
                     </TouchableOpacity>
             }
@@ -133,7 +133,7 @@ export default class Connexion extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            this.props.navigation.navigate('Home');
+                            this.props.navigation.navigate('App');
                         }}
                         activeOpacity={.7}
                     >
