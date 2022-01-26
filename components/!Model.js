@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Text, View, StyleSheet, Image, FlatList, ScrollView} from 'react-native'
 
+import * as G from '../service/global'
+
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
 

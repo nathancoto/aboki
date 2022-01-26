@@ -83,6 +83,7 @@ export default function App() {
                 onLongPress={onLongPress}
                 style={isFocused ? styles.tabBarElementActive : styles.tabBarElement }
                 activeOpacity={.7}
+                key={index}
               >
                 {renderIcon(label)}
               </TouchableOpacity>
@@ -97,7 +98,11 @@ export default function App() {
     return (
       <Tab.Navigator
           initialRouteName='Connexion'
-          screenOptions={{headerShown: false}}
+          screenOptions={{
+            headerShown: false,
+            animationEnabled: true,
+            animationTypeForReplace: 'push'
+          }}
           tabBar={props => <MyTabBar {...props} />}>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Search" component={Search} />
@@ -111,7 +116,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Connexion' screenOptions={{headerShown: false}} >
         <Stack.Screen name="Connexion" component={Connexion} />
-        <Stack.Screen name="Home" component={HomeTabs} />
+        <Stack.Screen name="App" component={HomeTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -134,7 +139,16 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 63,
     backgroundColor: 'white',
-    borderRadius: 25
+    borderRadius: 25,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 10,
   },
 
   tabBarElement: {

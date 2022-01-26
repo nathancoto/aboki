@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native'
 import {LinearGradient} from 'expo-linear-gradient';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Logo from '../assets/logo-typo.svg';
 import Globe from '../assets/globe.svg';
 import Dropdown from '../assets/dropdown.svg';
 
+import axios from 'axios';
 import * as G from '../service/global'
 
 // Largeur des items
@@ -18,20 +20,23 @@ export default class Connexion extends Component {
 
         // Etats
         this.state = {
-            inputLogin: '',
+            inputMail: '',
             inputPassword: '',
             isChecked: false,
             visible: false,
             selectedLang: 'FR',
-            langs: ['FR', 'EN', 'GER', 'ES']
+            langs: ['FR', 'EN', 'ES', 'PT', 'DE', 'IT', 'CN', 'RU'],
+            validating: false,
+            failedLogin: false,
+            needConnection: false
         }
     }
 
-    onChangeLogin = (text) => {
-        this.setState({inputLogin:text})
+    onChangeMail = (text) => {
+        this.setState({inputMail:text})
     }
-    onFocusLogin = () => {
-        this.setState({inputLogin: ''})
+    onFocusMail = () => {
+        this.setState({inputMail: ''})
     }
 
     onChangePassword = (text) => {
@@ -42,7 +47,58 @@ export default class Connexion extends Component {
     }
 
     onSubmit = () => {
-        // TODO
+        this.setState({ validating: true });
+
+        let mail = this.state.inputMail;
+        let password = this.state.inputPassword;
+        let type = 'login';
+
+        axios.post('https://dev-aboki.pantheonsite.io/authentification.php',
+                {
+                    type: type,
+                    email: mail,
+                    password: password
+                },
+                {timeout: 10000})
+            .then((response) => {
+                this.checkConnection(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    async checkConnection(response) {
+        let data = response.data;
+
+        const connected = await this.saveToStorage(data);
+        if (connected){
+            this.setState({
+                validating: false
+            });
+
+            /* Redirect to accounts page */
+            this.props.navigation.navigate('App');
+        } else {
+            this.setState({
+                failedLogin: true
+            });
+        }
+    }
+
+    async saveToStorage(userData){
+        if (userData && userData.status) {
+            await AsyncStorage.setItem('user', JSON.stringify({
+                    isLoggedIn: true,
+                    authToken: userData.data.auth_token,
+                    id: userData.data.user_id,
+                    name: userData.data.user_login
+                })
+            );
+            return true;
+        } else {
+            return false;
+        }
     }
 
     toggleLangVisibility = () => {
@@ -57,7 +113,7 @@ export default class Connexion extends Component {
         let output = [];
         for(let i=0; i<this.state.langs.length; i++) {
             if(this.state.langs[i] != this.state.selectedLang) {
-                output[i] =  <TouchableOpacity onPress={() => this.onLangSelect(this.state.langs[i])} activeOpacity={.7}>
+                output[i] =  <TouchableOpacity onPress={() => this.onLangSelect(this.state.langs[i])} activeOpacity={.7} key={i}>
                         <Text style={styles.dropdown}>{this.state.langs[i]}</Text>
                     </TouchableOpacity>
             }
@@ -72,7 +128,6 @@ export default class Connexion extends Component {
 
     render() {
         return(
-            <>
             <LinearGradient
                     start={{x: 0, y: 0}}
                     end={{x: 1, y: 0}}
@@ -89,7 +144,9 @@ export default class Connexion extends Component {
                     {this.state.visible ? this.renderDropdown() : null}
                 </View>
 
-                <View style={styles.containerLogin}>
+                {this.state.failedLogin ? <Text style={styles.failedMessage}>Mauvaise combinaison mail / mot de passe</Text> : null}
+
+                <View style={styles.containerMail}>
                     <TextInput
                         style={styles.input}
                         placeholder="Mail"
@@ -99,9 +156,8 @@ export default class Connexion extends Component {
                         value={this.state.inputValue}
 
                         // Events
-                        onChangeText = {this.onChangeLogin}
-                        onFocus = {this.onFocusLogin}
-                        onSubmitEditing = {this.onSubmit}/>
+                        onChangeText = {this.onChangeMail}
+                        onFocus = {this.onFocusMail}/>
 
                     <TextInput
                         style={styles.input}
@@ -114,8 +170,7 @@ export default class Connexion extends Component {
 
                         // Events
                         onChangeText = {this.onChangePassword}
-                        onFocus = {this.onFocusPassword}
-                        onSubmitEditing = {this.onSubmit}/>
+                        onFocus = {this.onFocusPassword}/>
 
                     <BouncyCheckbox
                         size={20}
@@ -133,12 +188,19 @@ export default class Connexion extends Component {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
-                            this.props.navigation.navigate('Home');
+                            if(this.state.needConnection) {
+                                if(this.state.inputMail && this.state.inputPassword) {
+                                    this.onSubmit();
+                                }
+                            } else {
+                                this.props.navigation.navigate('App');
+                            }
                         }}
                         activeOpacity={.7}
                     >
                         <Text style={styles.buttonText}>Se connecter</Text>
                     </TouchableOpacity>
+
                 </View>
 
                 <View style={{
@@ -162,7 +224,6 @@ export default class Connexion extends Component {
                     </Text>
                 </View>
             </LinearGradient>
-            </>
         )
     }
 }
@@ -195,10 +256,11 @@ const styles = StyleSheet.create({
 
     dropdown: {
         color: 'white',
-        marginVertical: 7
+        marginVertical: 7,
+        marginRight: 18
     },
 
-    containerLogin: {
+    containerMail: {
         width: '100%',
         alignItems: 'center'
     },
@@ -232,5 +294,11 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#EF835E',
         fontWeight: 'bold'
+    },
+
+    failedMessage: {
+        marginBottom: 20,
+        fontWeight: 'bold',
+        color: 'white'
     }
 })
