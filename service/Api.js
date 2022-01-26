@@ -7,7 +7,7 @@ const apiPath = 'https://dev-aboki.pantheonsite.io/wp-json/wp/v2/';
  */
 export const findAllData = async route => {
     try {
-        const response = await fetch(apiPath + route);
+        const response = await fetch(apiPath + route + '?acf_format=standard');
         const json = await response.json();
         return json;
     } catch (error) {

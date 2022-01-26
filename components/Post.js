@@ -12,13 +12,20 @@ export default class Post extends Component {
 
         // Etats
         this.state = {
-            
+            width: 50,
+            height: 50
         }
     }
 
+    componentDidMount = () => {
+        Image.getSize(this.props.post.acf.image_de_publication, (width, height) => {
+           this.setState({width, height});
+        });
+     }
+
     render() {
         const post = this.props.post;
-        console.log(post);
+        // console.log(post);
 
         return(
             <TouchableOpacity style={styles.wrapper} activeOpacity={.5}>
@@ -31,7 +38,7 @@ export default class Post extends Component {
                         <Text style={styles.text}>{post.acf.texte_de_la_publication}</Text>
                     </View>
                     <View style={styles.side}>
-                        <View style={styles.image} />
+                        <Image source={{uri: post.acf.image_de_publication}} style={[styles.image, {aspectRatio: this.state.height !== null ? this.state.width / this.state.height : 1}]}/>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -98,9 +105,6 @@ const styles = StyleSheet.create({
 
     image: {
         borderRadius: 10,
-        width: '100%',
-        height: '100%',
-        borderWidth: 3,
-        borderColor: '#EF835E'
+        resizeMode: 'contain'
     }
 })

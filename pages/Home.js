@@ -33,6 +33,7 @@ export default class Home extends Component {
             this.setState({
                 posts: json
             });
+            // console.log(json);
         })
     }
 
@@ -49,19 +50,25 @@ export default class Home extends Component {
     render() {
         return(
             <View style={styles.container}>
-                <FlatList
-                    data={this.state.groups}
-                    renderItem={({item, index}) => <GroupIcon group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
-                    keyExtractor={item => item.id}
-                    style={styles.groupContainer}
-                    horizontal={true}
-                />
-                <FlatList
-                    data={this.state.posts}
-                    renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost}/>}
-                    keyExtractor={item => item.id}
-                    style={styles.postContainer}
-                />
+                <View style={styles.groupContainer}>
+                    <FlatList
+                        data={this.state.groups}
+                        renderItem={({item, index}) => <GroupIcon group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
+                        keyExtractor={item => item.id}
+                        horizontal={true}
+                        style={{overflow: 'visible'}}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                </View>
+                <View style={styles.postContainer}>
+                    <FlatList
+                        data={this.state.posts}
+                        renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost}/>}
+                        keyExtractor={item => item.id}
+                        style={{overflow: 'visible'}}
+                        showsVerticalScrollIndicator={false}
+                    />
+                </View>
             </View>
         )
     }
@@ -72,20 +79,20 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: "#fff",
         paddingTop: 50
     },
 
     groupContainer: {
-        height: 10,
+        height: 80,
         width: '80%',
-        backgroundColor: 'red',
+        zIndex: 2
     },
 
     postContainer: {
         height: '80%',
         width: '100%',
-        paddingVertical: 10
+        overflow: 'visible'
     }
 })

@@ -18,11 +18,11 @@ export default class GroupIcon extends Component {
 
     render() {
         const group = this.props.group;
-        console.log(group);
+        // console.log(group);
 
         return(
             <TouchableOpacity style={styles.groupIcon} activeOpacity={.7}>
-                <Text>{group.title.rendered}</Text>
+                <Image source={{uri: group.acf.photo_de_profil_du_groupe}} style={styles.image} />
             </TouchableOpacity>
         )
     }
@@ -33,7 +33,18 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
+        marginRight: 10,
+        backgroundColor: '#EF835E'
+    },
+
+    image: {
+        borderRadius: 30,
         borderColor: '#EF835E',
-        borderWidth: 3
+        borderWidth: 3,
+        backgroundColor: 'white',
+        resizeMode: 'contain',
+        height: 60,
+        width: 60,
+        resizeMode: 'cover'
     }
 })
