@@ -51,6 +51,7 @@ export default class Home extends Component {
         return(
             <View style={styles.container}>
                 <View style={styles.groupContainer}>
+                    <Text style={styles.label}>Groupes</Text>
                     <FlatList
                         data={this.state.groups}
                         renderItem={({item, index}) => <GroupIcon group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
@@ -67,6 +68,7 @@ export default class Home extends Component {
                         keyExtractor={item => item.id}
                         style={{overflow: 'visible'}}
                         showsVerticalScrollIndicator={false}
+                        ListHeaderComponent={<Text style={[styles.label, {marginLeft: '5%'}]}>Nouveaux posts</Text>}
                     />
                 </View>
             </View>
@@ -80,19 +82,28 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        backgroundColor: "#fff",
-        paddingTop: 50
+        backgroundColor: "#fff"
+    },
+
+    label: {
+        marginBottom: 10,
+        fontWeight: 'bold',
+        fontSize: 18
     },
 
     groupContainer: {
-        height: 80,
-        width: '80%',
-        zIndex: 2
+        height: 150,
+        width: '100%',
+        paddingHorizontal: '5%',
+        paddingTop: 50,
+        zIndex: 2,
+        backgroundColor: 'white'
     },
 
     postContainer: {
-        height: '80%',
+        height: '65%',
         width: '100%',
-        overflow: 'visible'
+        overflow: 'visible',
+        marginTop: 20
     }
 })

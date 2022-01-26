@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     },
 
     postContainer: {
-        width: '80%',
-        marginLeft: '10%',
+        width: '90%',
+        marginLeft: '5%',
         paddingVertical: 20,
         paddingHorizontal: 10,
         borderRadius: 20,

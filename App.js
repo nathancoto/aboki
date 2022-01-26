@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: 20,
-    width: '80%',
+    width: '90%',
     height: 63,
     backgroundColor: 'white',
     borderRadius: 25,

@@ -11,6 +11,11 @@ import Dropdown from '../assets/dropdown.svg';
 import axios from 'axios';
 import * as G from '../service/global'
 
+import * as Localization from 'expo-localization';
+// import i18n from 'i18n-js';
+import i18n from 'i18n-js'
+import { t } from '../service/i18n'
+
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
 
@@ -106,7 +111,8 @@ export default class Connexion extends Component {
     }
 
     onLangSelect = (lang) => {
-        this.setState({selectedLang: lang})
+        i18n.locale = lang.toLowerCase();
+        this.setState({selectedLang: lang});
     }
 
     renderDropdown = () => {
@@ -149,7 +155,7 @@ export default class Connexion extends Component {
                 <View style={styles.containerMail}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Mail"
+                        placeholder={i18n.t('mail')}
                         placeholderTextColor={'white'}
 
                         // Valeur à afficher par défaut dans le champ de recherche
@@ -161,7 +167,7 @@ export default class Connexion extends Component {
 
                     <TextInput
                         style={styles.input}
-                        placeholder="Mot de passe"
+                        placeholder={i18n.t('password')}
                         placeholderTextColor={'white'}
                         secureTextEntry={true}
 
@@ -176,7 +182,7 @@ export default class Connexion extends Component {
                         size={20}
                         fillColor="#EF835E"
                         unfillColor="white"
-                        text="Rester connecté"
+                        text={i18n.t('stayConnected')}
                         iconStyle={{borderColor: 'white'}}
                         textStyle={{ color: 'white', textDecorationLine: "none" }}
                         onPress={(isChecked: boolean) => {
@@ -198,7 +204,7 @@ export default class Connexion extends Component {
                         }}
                         activeOpacity={.7}
                     >
-                        <Text style={styles.buttonText}>Se connecter</Text>
+                        <Text style={styles.buttonText}>{i18n.t('connection')}</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -213,14 +219,14 @@ export default class Connexion extends Component {
                             marginRight: 5,
                             color: 'white'
                         }}>
-                            Vous n'avez pas de compte ?
+                            {i18n.t('noAccount')}
                         </Text>
                     <Text
                         style={{
                             fontWeight: 'bold',
                             color: 'white'
                         }}>
-                            Créer un compte
+                            {i18n.t('createAccount')}
                     </Text>
                 </View>
             </LinearGradient>
