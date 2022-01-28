@@ -22,7 +22,7 @@ export const findAllData = async route => {
  * let profiles = findAllProfiles();
  */
  export function findAllProfiles() {
-    let url = apiPath+'profil';
+    let url = apiPath+'profil' + '?acf_format=standard';
     return fetch(url)
         .then((response) => response.json())
         .then(data => console.log(data))
@@ -35,7 +35,7 @@ export const findAllData = async route => {
  * let groups = findAllGroups();
  */
  export function findAllGroups() {
-    let url = apiPath+'groupe';
+    let url = apiPath+'groupe' + '?acf_format=standard';
     return fetch(url)
         .then((response) => response.json())
         .then(data => console.log(data))
@@ -48,7 +48,7 @@ export const findAllData = async route => {
  * let posts = findAllPosts();
  */
  export function findAllPosts() {
-    let url = apiPath+'group_post';
+    let url = apiPath+'group_post' + '?acf_format=standard';
     return fetch(url)
         .then((response) => response.json())
         .then(data => console.log(data))
@@ -62,7 +62,7 @@ export const findAllData = async route => {
  * let profile = findProfileByID(12532);
  */
 export function findProfileByID(id) {
-    let url = apiPath+'profil/'+id;
+    let url = apiPath+'profil/'+id + '?acf_format=standard';
     return fetch(url)
         .then((response) => response.json())
         .then(data => console.log(data))
@@ -75,13 +75,16 @@ export function findProfileByID(id) {
  * import {findGroupByID} from 'fichier'
  * let group = findGroupByID(12532);
  */
- export function findGroupByID(id) {
-    let url = apiPath+'groupe/'+id;
-    return fetch(url)
-        .then((response) => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error(error))
-}
+export const findGroupByID = async id => {
+    try {
+        const response = await fetch(apiPath + 'groupe/' + id + '?acf_format=standard');
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 /** Fonction pour rechercher des posts par ID
  * @param idPost: id du post recherché
@@ -89,10 +92,14 @@ export function findProfileByID(id) {
  * import {findPostByID} from 'fichier'
  * let post = findPostByID(12532);
  */
- export function findPostByID(id) {
-    let url = apiPath+'group_post/'+id;
-    return fetch(url)
-        .then((response) => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error(error))
-}
+export const findPostByID = async id => {
+    try {
+        console.log(apiPath + 'group_post/' + id + '?acf_format=standard');
+        const response = await fetch(apiPath + 'group_post/' + id + '?acf_format=standard');
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
