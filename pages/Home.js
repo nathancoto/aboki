@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
-import {LinearGradient} from 'expo-linear-gradient';
-import { ScrollView } from 'react-native-gesture-handler';
+import {Text, View, StyleSheet, FlatList} from 'react-native'
 
 import * as G from '../service/global'
 import * as Services from '../service/Api';
@@ -23,13 +21,13 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        Services.findAllData('groupe').then(json => {
+        Services.findAllGroups().then(json => {
             this.setState({
                 groups: json
             });
         })
 
-        Services.findAllData('group_post').then(json => {
+        Services.findAllPosts().then(json => {
             this.setState({
                 posts: json
             });
