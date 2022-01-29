@@ -17,6 +17,9 @@ import HomeIcon from './assets/home-icon.svg';
 import SearchIcon from './assets/search-icon.svg';
 import MessagesIcon from './assets/messages-icon.svg';
 import ParametersIcon from './assets/parameters-icon.svg';
+import { StatusBar } from 'expo-status-bar';
+import EditParameters from './pages/EditParameters';
+import MessageDetail from './pages/MessageDetail';
 
 // Création de l'objet qui va gérer la navigation
 const Tab = createBottomTabNavigator();
@@ -25,72 +28,80 @@ const Stack = createStackNavigator();
 export default function App() {
   function MyTabBar({ state, descriptors, navigation }) {
     return (
-      <View style={{width: '100%', alignItems: 'center'}}>
-        <View style={styles.tabBarContainer}>
-          {state.routes.map((route, index) => {
-            const { options } = descriptors[route.key];
-            const label =
-              options.tabBarLabel !== undefined
-                ? options.tabBarLabel
-                : options.title !== undefined
-                ? options.title
-                : route.name;
-    
-            const isFocused = state.index === index;
-    
-            const onPress = () => {
-              const event = navigation.emit({
-                type: 'tabPress',
-                target: route.key,
-                canPreventDefault: true,
-              });
-    
-              if (!isFocused && !event.defaultPrevented) {
-                // The `merge: true` option makes sure that the params inside the tab screen are preserved
-                navigation.navigate({ name: route.name, merge: true });
-              }
-            };
-    
-            const onLongPress = () => {
-              navigation.emit({
-                type: 'tabLongPress',
-                target: route.key,
-              });
-            };
+      <>
+        <StatusBar
+          animated={true}
+          backgroundColor="white"
+          barStyle={'dark'}
+          showHideTransition={'fade'}
+          hidden={'hidden'} />
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <View style={styles.tabBarContainer}>
+            {state.routes.map((route, index) => {
+              const { options } = descriptors[route.key];
+              const label =
+                options.tabBarLabel !== undefined
+                  ? options.tabBarLabel
+                  : options.title !== undefined
+                  ? options.title
+                  : route.name;
+      
+              const isFocused = state.index === index;
+      
+              const onPress = () => {
+                const event = navigation.emit({
+                  type: 'tabPress',
+                  target: route.key,
+                  canPreventDefault: true,
+                });
+      
+                if (!isFocused && !event.defaultPrevented) {
+                  // The `merge: true` option makes sure that the params inside the tab screen are preserved
+                  navigation.navigate({ name: route.name, merge: true });
+                }
+              };
+      
+              const onLongPress = () => {
+                navigation.emit({
+                  type: 'tabLongPress',
+                  target: route.key,
+                });
+              };
 
-            const renderIcon = (label) => {
-              switch(label) {
-                case "Home":
-                  return <HomeIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
-                case "Search":
-                  return <SearchIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
-                case "Messages":
-                  return <MessagesIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
-                case "Parameters":
-                  return <ParametersIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
-                default:
-                  return <Text>undefined</Text>
+              const renderIcon = (label) => {
+                switch(label) {
+                  case "Home":
+                    return <HomeIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                  case "Search":
+                    return <SearchIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                  case "Messages":
+                    return <MessagesIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                  case "Parameters":
+                    return <ParametersIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                  default:
+                    return <Text>undefined</Text>
+                }
               }
-            }
-    
-            return (
-              <TouchableOpacity
-                accessibilityRole="button"
-                accessibilityState={isFocused ? { selected: true } : {}}
-                accessibilityLabel={options.tabBarAccessibilityLabel}
-                testID={options.tabBarTestID}
-                onPress={onPress}
-                onLongPress={onLongPress}
-                style={isFocused ? styles.tabBarElementActive : styles.tabBarElement }
-                activeOpacity={.7}
-                key={index}
-              >
-                {renderIcon(label)}
-              </TouchableOpacity>
-            );
-          })}
+      
+              return (
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  accessibilityState={isFocused ? { selected: true } : {}}
+                  accessibilityLabel={options.tabBarAccessibilityLabel}
+                  testID={options.tabBarTestID}
+                  onPress={onPress}
+                  onLongPress={onLongPress}
+                  style={isFocused ? styles.tabBarElementActive : styles.tabBarElement }
+                  activeOpacity={.8}
+                  key={index}
+                >
+                  {renderIcon(label)}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
-      </View>
+      </>
     );
   }
 
@@ -117,6 +128,8 @@ export default function App() {
       <Stack.Navigator initialRouteName='Connexion' screenOptions={{headerShown: false}} >
         <Stack.Screen name="Connexion" component={Connexion} />
         <Stack.Screen name="App" component={HomeTabs} />
+        <Stack.Screen name="MessageDetail" component={MessageDetail} />
+        <Stack.Screen name="EditParameters" component={EditParameters} />
       </Stack.Navigator>
     </NavigationContainer>
   );

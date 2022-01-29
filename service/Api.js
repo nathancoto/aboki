@@ -21,39 +21,48 @@ export const findAllData = async route => {
  * import {findAllProfiles} from 'fichier'
  * let profiles = findAllProfiles();
  */
- export function findAllProfiles() {
-    let url = apiPath+'profil' + '?acf_format=standard';
-    return fetch(url)
-        .then((response) => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error(error))
-}
+export const findAllProfiles = async () => {
+    try {
+        const response = await fetch(apiPath + 'profil/' + '?acf_format=standard');
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 /** Fonction pour rechercher tous les groupes
  * @example
  * import {findAllGroups} from 'fichier'
  * let groups = findAllGroups();
  */
- export function findAllGroups() {
-    let url = apiPath+'groupe' + '?acf_format=standard';
-    return fetch(url)
-        .then((response) => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error(error))
-}
+export const findAllGroups = async () => {
+    try {
+        const response = await fetch(apiPath + 'groupe/' + '?acf_format=standard');
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 /** Fonction pour rechercher tous les posts
  * @example
  * import {findAllPosts} from 'fichier'
  * let posts = findAllPosts();
  */
- export function findAllPosts() {
-    let url = apiPath+'group_post' + '?acf_format=standard';
-    return fetch(url)
-        .then((response) => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error(error))
-}
+export const findAllPosts = async () => {
+    try {
+        const response = await fetch(apiPath + 'group_post/' + '?acf_format=standard');
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 /** Fonction pour rechercher des profils par ID
  * @param idProfile: id du profil recherché
@@ -61,13 +70,16 @@ export const findAllData = async route => {
  * import {findProfileByID} from 'fichier'
  * let profile = findProfileByID(12532);
  */
-export function findProfileByID(id) {
-    let url = apiPath+'profil/'+id + '?acf_format=standard';
-    return fetch(url)
-        .then((response) => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error(error))
-}
+export const findProfileByID = async id => {
+    try {
+        const response = await fetch(apiPath + 'profil/' + id + '?acf_format=standard');
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 /** Fonction pour rechercher des groupes par ID
  * @param idGroup: id du groupe recherché
@@ -94,7 +106,6 @@ export const findGroupByID = async id => {
  */
 export const findPostByID = async id => {
     try {
-        console.log(apiPath + 'group_post/' + id + '?acf_format=standard');
         const response = await fetch(apiPath + 'group_post/' + id + '?acf_format=standard');
         const json = await response.json();
         return json;

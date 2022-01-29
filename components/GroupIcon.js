@@ -30,21 +30,27 @@ export default class GroupIcon extends Component {
 
 const styles = StyleSheet.create({
     groupIcon: {
+        position: 'relative',
         width: 60,
         height: 60,
         borderRadius: 30,
         marginRight: 10,
-        backgroundColor: '#EF835E'
+        backgroundColor: '#EF835E',
+        borderColor: '#EF835E',
+        borderWidth: 2
     },
 
     image: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
         borderRadius: 30,
-        borderColor: '#EF835E',
-        borderWidth: 3,
+        borderColor: '#ffffff',
+        borderWidth: 2,
         backgroundColor: 'white',
         resizeMode: 'contain',
-        height: 60,
-        width: 60,
+        height: 56,
+        width: 56,
         resizeMode: 'cover'
     }
 })

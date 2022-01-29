@@ -35,7 +35,7 @@ export default class Post extends Component {
                 }
             })
         });
-     }
+    }
 
     render() {
         const post = this.props.post;
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     },
 
     sideDown: {
-        marginVertical: 10
+        marginTop: 10
     },
 
     postHeader: {

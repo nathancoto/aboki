@@ -11,8 +11,6 @@ import Dropdown from '../assets/dropdown.svg';
 import axios from 'axios';
 import * as G from '../service/global'
 
-import * as Localization from 'expo-localization';
-// import i18n from 'i18n-js';
 import i18n from 'i18n-js'
 import { t } from '../service/i18n'
 
