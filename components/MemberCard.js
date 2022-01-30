@@ -24,7 +24,7 @@ export default class MemberCard extends Component {
         let languages = member.langues.map((language, index) => {
             if(index < 2) {
                 return (
-                    <Text>{language}</Text>
+                    <Text key={index}>{language}</Text>
                 )
             }
         });

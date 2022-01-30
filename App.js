@@ -4,6 +4,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StatusBar } from 'expo-status-bar';
+import Animated, { EasingNode } from 'react-native-reanimated';
 
 // Import des écrans
 import Connexion from './pages/Connexion'
@@ -11,22 +13,29 @@ import Home from './pages/Home'
 import Search from './pages/Search'
 import Messages from './pages/Messages'
 import Parameters from './pages/Parameters'
+import EditParameters from './pages/EditParameters';
+import MessageDetail from './pages/MessageDetail';
 
 // Import des icônes
 import HomeIcon from './assets/home-icon.svg';
 import SearchIcon from './assets/search-icon.svg';
 import MessagesIcon from './assets/messages-icon.svg';
 import ParametersIcon from './assets/parameters-icon.svg';
-import { StatusBar } from 'expo-status-bar';
-import EditParameters from './pages/EditParameters';
-import MessageDetail from './pages/MessageDetail';
 
 // Création de l'objet qui va gérer la navigation
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+let leftAnim = new Animated.Value(0);
 
 export default function App() {
   function MyTabBar({ state, descriptors, navigation }) {
+    function animation(value) {
+      Animated.timing(leftAnim, {
+        toValue: value,
+        duration: 150,
+        easing: EasingNode.linear
+      }).start();
+    }
     return (
       <>
         <StatusBar
@@ -37,6 +46,12 @@ export default function App() {
           hidden={'hidden'} />
         <View style={{width: '100%', alignItems: 'center'}}>
           <View style={styles.tabBarContainer}>
+            <Animated.View style={[styles.animationItemContainer, {left: leftAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['0%', '87.7%']
+            })}]}>
+              <View style={styles.animationItem} />
+            </Animated.View>
             {state.routes.map((route, index) => {
               const { options } = descriptors[route.key];
               const label =
@@ -54,7 +69,8 @@ export default function App() {
                   target: route.key,
                   canPreventDefault: true,
                 });
-      
+                animation(index);
+                
                 if (!isFocused && !event.defaultPrevented) {
                   // The `merge: true` option makes sure that the params inside the tab screen are preserved
                   navigation.navigate({ name: route.name, merge: true });
@@ -110,9 +126,7 @@ export default function App() {
       <Tab.Navigator
           initialRouteName='Connexion'
           screenOptions={{
-            headerShown: false,
-            animationEnabled: true,
-            animationTypeForReplace: 'push'
+            headerShown: false
           }}
           tabBar={props => <MyTabBar {...props} />}>
         <Tab.Screen name="Home" component={Home} />
@@ -180,7 +194,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 25,
     color: 'white',
-    backgroundColor: '#EF835E',
+    // backgroundColor: '#EF835E',
     flex: 1
   },
 
@@ -190,5 +204,20 @@ const styles = StyleSheet.create({
 
   tabBarIconActive: {
     color: 'white'
+  },
+
+  animationItemContainer: {
+    position: 'absolute',
+    top: 0,
+    width: '25%',
+    height: '100%',
+    overflow: 'hidden'
+  },
+
+  animationItem: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#EF835E',
+    borderRadius: 25
   }
 });
