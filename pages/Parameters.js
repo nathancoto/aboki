@@ -22,6 +22,12 @@ export default class Parameters extends Component {
         }
     }
 
+    parseUserData() {
+        this.setState({
+            userData: JSON.parse(this.state.userData)
+        });
+    }
+
     async onDisconnect() {
         await AsyncStorage.removeItem('user');
         
@@ -32,6 +38,9 @@ export default class Parameters extends Component {
     }
 
     render() {
+        if(typeof this.state.userData !== 'object') {
+            this.parseUserData();
+        }
         return(
             <View style={styles.container}>
                 <View style={styles.userContainer}>

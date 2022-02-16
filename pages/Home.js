@@ -5,6 +5,7 @@ import * as G from '../service/global'
 import * as Services from '../service/Api';
 import GroupIcon from '../components/GroupIcon';
 import Post from '../components/Post';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -18,8 +19,6 @@ export default class Home extends Component {
             groups: [],
             posts: []
         }
-
-        console.log(props);
     }
 
     componentDidMount() {

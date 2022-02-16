@@ -16,7 +16,7 @@ export default class EditParameters extends Component {
 
         // Etats
         this.state = {
-            
+            userData: props.userData
         }
     }
 
@@ -34,7 +34,7 @@ export default class EditParameters extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Eliza Myers</Text>
+                    <Text style={styles.name}>{this.state.userData.user_name}</Text>
                     <View style={{width: 45}} />
                 </View>
 
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontWeight: 'bold'
+        fontSize: 18
     },
 
     button: {
@@ -141,6 +141,8 @@ const styles = StyleSheet.create({
 
     buttonText: {
         textAlign: 'center',
-        color: 'white'
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 14
     }
 })

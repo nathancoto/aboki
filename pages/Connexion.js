@@ -33,6 +33,18 @@ export default class Connexion extends Component {
             failedLogin: false,
             needConnection: true
         }
+
+        // if(this.getData()) {
+        //     this.setState({
+        //         validating: false
+        //     });
+
+        //     this.props.setUserData(data.data);
+            
+        //     /* Redirect to accounts page */
+        //     this.props.navigation.navigate('App');
+        // }
+        this.getData();
     }
 
     onChangeMail = (text) => {
@@ -99,11 +111,33 @@ export default class Connexion extends Component {
                     isLoggedIn: true,
                     authToken: userData.data.auth_token,
                     id: userData.data.user_id,
-                    name: userData.data.user_login
+                    name: userData.data.user_login,
+                    user_name: userData.data.user_name,
+                    photo_profil: userData.data.photo_profil
                 })
             );
             return true;
         } else {
+            return false;
+        }
+    }
+
+    getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('user');
+            if(value !== null) {
+                this.setState({
+                    validating: false
+                });
+    
+                this.props.setUserData(value);
+                
+                /* Redirect to accounts page */
+                this.props.navigation.navigate('App');
+            } else {
+                // Not connected
+            }
+        } catch(e) {
             return false;
         }
     }

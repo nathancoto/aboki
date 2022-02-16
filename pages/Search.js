@@ -156,7 +156,7 @@ export default class Search extends Component {
                             data={this.state.members}
                             renderItem={({item, index}) => <MemberListCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
                             keyExtractor={item => item.id}
-                            style={{overflow: 'visible', width: "100%"}}
+                            style={styles.flatlist}
                             showsVerticalScrollIndicator={false}
                         />
                     : this.state.displayGroups == true ?
@@ -164,7 +164,7 @@ export default class Search extends Component {
                             data={this.state.groups}
                             renderItem={({item, index}) => <GroupListCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
                             keyExtractor={item => item.id}
-                            style={{overflow: 'visible', width: "100%"}}
+                            style={styles.flatlist}
                             showsVerticalScrollIndicator={false}
                         />
                     :
@@ -291,5 +291,10 @@ const styles = StyleSheet.create({
 
     groupsContainer: {
         height: 180
+    },
+
+    flatlist: {
+        width: '100%',
+        overflow: 'scroll'
     }
 })
