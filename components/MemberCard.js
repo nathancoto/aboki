@@ -22,7 +22,7 @@ export default class MemberCard extends Component {
 
     render() {
         const member = this.props.member;
-        console.log(member);
+        // console.log(member);
         var data = require('../service/languages.json');
 
         let languages = member.langues.map((language, index) => {

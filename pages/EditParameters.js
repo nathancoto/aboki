@@ -61,14 +61,24 @@ export default class EditParameters extends Component {
 
                 <View style={styles.category}>
                     <Text style={styles.title}>Apparence</Text>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.props.navigation.navigate('Param_Theme');
+                        }}
+                        activeOpacity={0.8}>
                         <Text style={styles.buttonText}>Thème</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.category}>
                     <Text style={styles.title}>Sécurité</Text>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.props.navigation.navigate('Param_Confidentialite');
+                        }}
+                        activeOpacity={0.8}>
                         <Text style={styles.buttonText}>Confidentialité</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} activeOpacity={0.8}>

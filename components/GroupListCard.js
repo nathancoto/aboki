@@ -22,7 +22,7 @@ export default class GroupListCard extends Component {
 
     render() {
         const group = this.props.group;
-        console.log(group);
+        // console.log(group);
 
         return(
             <TouchableOpacity activeOpacity={.8} style={styles.groupCard}>

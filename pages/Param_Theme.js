@@ -8,53 +8,17 @@ import * as G from '../service/global'
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
 
-// Import des drapeaux
-const flags = [
-    {
-        id: "Français",
-        img: require('../assets/flags/French.png')
-    },
-    {
-        id: "Anglais",
-        img: require('../assets/flags/United-kingdom.png')
-    },
-    {
-        id: "Allemand",
-        img: require('../assets/flags/Deutschland.png')
-    },
-    {
-        id: "Chinois",
-        img: require('../assets/flags/China.png')
-    },
-    {
-        id: "Italien",
-        img: require('../assets/flags/Italia.png')
-    },
-    {
-        id: "Portugais",
-        img: require('../assets/flags/Portugal.png')
-    },
-    {
-        id: "Russe",
-        img: require('../assets/flags/Russia.png')
-    },
-    {
-        id: "Espagnol",
-        img: require('../assets/flags/Spain.png')
-    },
-];
-
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
 
-export default class Param_Langue extends Component {
+export default class Param_Theme extends Component {
     constructor(props) {
         super(props);
 
         // Etats
         this.state = {
             userData: props.userData,
-            selectedLang: ''
+            selectedTheme: ''
         }
     }
 
@@ -64,10 +28,10 @@ export default class Param_Langue extends Component {
         });
     }
 
-    changeLang(lang) {
+    changeTheme(theme) {
         // TODO
         this.setState({
-            selectedLang: lang.langTrad
+            selectedTheme: theme
         });
     }
 
@@ -75,39 +39,6 @@ export default class Param_Langue extends Component {
         if(typeof this.state.userData !== 'object') {
             this.parseUserData();
         }
-
-        var data = require('../service/languages.json');
-
-        let languagesSelector = data.languages.map((language, index) => {
-            let langText = language.appParam;
-            let langTrad = language.id;
-            let flag;
-
-            flags.forEach((el, i) => {
-                if(el.id == langTrad) {
-                    flag = el.img;
-                }
-            });
-
-            return (
-                <TouchableOpacity
-                    style={this.state.selectedLang == langTrad ? styles.languageContainerSelected : styles.languageContainer}
-                    onPress={() => { this.changeLang({langTrad}) }}
-                    activeOpacity={0.8}
-                    key={index}>
-                    <View style={{flexDirection: 'row'}}>
-                        <Image source={flag} style={styles.flag} />
-                        <View>
-                            <Text style={[this.state.selectedLang == langTrad ? styles.langTextSelected : styles.langText, {fontWeight: 'bold'}]}>{langText}</Text>
-                            <Text style={this.state.selectedLang == langTrad ? styles.langTextSelected : styles.langText}>{langTrad}</Text>
-                        </View>
-                    </View>
-                    <View>
-                        {this.state.selectedLang == langTrad && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
-                    </View>
-                </TouchableOpacity>
-            )
-        });
 
         return(
             <View style={styles.container}>
@@ -122,12 +53,38 @@ export default class Param_Langue extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Langue de l'application</Text>
+                    <Text style={styles.name}>Thème</Text>
                     <View style={{width: 45}} />
                 </View>
 
                 <View style={{flexDirection: 'column', width: '100%'}}>
-                    {languagesSelector}
+                    <TouchableOpacity
+                        style={this.state.selectedTheme == "Default" ? styles.themeContainerSelected : styles.themeContainer}
+                        onPress={() => { this.changeTheme("Default") }}
+                        activeOpacity={0.8}>
+                        <Text style={[this.state.selectedTheme == "Default" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Défaut système</Text>
+                        <View>
+                            {this.state.selectedTheme == "Default" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={this.state.selectedTheme == "Light" ? styles.themeContainerSelected : styles.themeContainer}
+                        onPress={() => { this.changeTheme("Light") }}
+                        activeOpacity={0.8}>
+                        <Text style={[this.state.selectedTheme == "Light" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Clair</Text>
+                        <View>
+                            {this.state.selectedTheme == "Light" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={this.state.selectedTheme == "Dark" ? styles.themeContainerSelected : styles.themeContainer}
+                        onPress={() => { this.changeTheme("Dark") }}
+                        activeOpacity={0.8}>
+                        <Text style={[this.state.selectedTheme == "Dark" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Sombre</Text>
+                        <View>
+                            {this.state.selectedTheme == "Dark" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
             </View>
@@ -181,7 +138,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
 
-    languageContainer: {
+    themeContainer: {
         width: '100%',
         height: 53,
         marginVertical: 10,
@@ -190,7 +147,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
 
         shadowColor: "#000",
         shadowOffset: {
@@ -202,7 +160,7 @@ const styles = StyleSheet.create({
         elevation: 10
     },
 
-    languageContainerSelected: {
+    themeContainerSelected: {
         width: '100%',
         height: 53,
         marginVertical: 10,
@@ -211,24 +169,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
         borderColor: '#EF835E',
         borderWidth: 2
     },
 
-    flag: {
-        width: 32,
-        height: 32,
-        borderRadius: 16,
-        backgroundColor: '#EF835E',
-        marginRight: 20
-    },
-
-    langText: {
+    themeText: {
 
     },
 
-    langTextSelected: {
+    themeTextSelected: {
         color: '#EF835E'
     },
 

@@ -23,6 +23,8 @@ import SearchIcon from './assets/search-icon.svg';
 import MessagesIcon from './assets/messages-icon.svg';
 import ParametersIcon from './assets/parameters-icon.svg';
 import Param_Langue from './pages/Param_Langue';
+import Param_Theme from './pages/Param_Theme';
+import Param_Confidentialite from './pages/Param_Confidentialite';
 
 // Création de l'objet qui va gérer la navigation
 const Tab = createBottomTabNavigator();
@@ -164,6 +166,12 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Param_Langue">
           {props => (<Param_Langue {...props} userData={userData}/>)}
+        </Stack.Screen>
+        <Stack.Screen name="Param_Theme">
+          {props => (<Param_Theme {...props} userData={userData}/>)}
+        </Stack.Screen>
+        <Stack.Screen name="Param_Confidentialite">
+          {props => (<Param_Confidentialite {...props} userData={userData}/>)}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
