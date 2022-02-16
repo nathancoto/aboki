@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList} from 'react-native'
 
 import * as G from '../service/global'
+import * as Services from '../service/Api';
+
 import MemberCard from '../components/MemberCard';
 import MemberListCard from '../components/MemberListCard';
 import GroupCard from '../components/GroupCard';
@@ -17,71 +19,36 @@ export default class Search extends Component {
         // Etats
         this.state = {
             inputSearch: '',
-            members: [
-                {
-                    id: 1,
-                    image: 'https://nextbigwhat.com/wp-content/uploads/2019/02/AI-thispersondoesnotexist.jpg',
-                    name: 'Eli',
-                    surname: 'Hahnemann',
-                    age: '22',
-                    langues: [
-                        '🇩🇪',
-                        '🇦🇹',
-                        '🇫🇮'
-                    ],
-                    study: 'DUT Génie Mécanique',
-                    place: 'Dijon'
-                },
-                {
-                    id: 2,
-                    image: 'https://static.wikia.nocookie.net/inazuma-eleven/images/5/51/KazemaruwithRaimon.png/revision/latest?cb=20130525085733&path-prefix=fr',
-                    name: 'Nathan',
-                    surname: 'Swift',
-                    age: '19',
-                    langues: [
-                        '🇫🇷',
-                        '🇮🇹'
-                    ],
-                    study: 'Licence Chimie',
-                    place: 'Auxerre'
-                },
-                {
-                    id: 3,
-                    image: 'https://i.imgur.com/jt3KtM8.jpeg',
-                    name: 'Angelica',
-                    surname: 'Brown',
-                    age: '23',
-                    langues: [
-                        '🇺🇸',
-                        '🇪🇸'
-                    ],
-                    study: 'FAC de Science',
-                    place: 'Nevers'
-                }
-            ],
-            groups: [
-                {
-                    id: 1,
-                    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Logo_Crous_vectoris%C3%A9.svg/800px-Logo_Crous_vectoris%C3%A9.svg.png',
-                    name: 'Crous Dijon',
-                    nbParticipants: 147
-                },
-                {
-                    id: 2,
-                    image: 'https://iutdijon.u-bourgogne.fr/www/wp-content/uploads/2021/10/DL_LP_site_IUT.png',
-                    name: 'LP MN DDIM',
-                    nbParticipants: 14
-                },
-                {
-                    id: 3,
-                    image: 'https://www.lacanau.fr/wp-content/uploads/2020/06/Tournoi-de-tennis-945x630.jpg',
-                    name: 'Tennis Club Dijon',
-                    nbParticipants: 78
-                }
-            ],
             displayUsers: false,
             displayGroups: false
         }
+
+        this.findUsers();
+        this.findGroups();
+    }
+
+    findUsers() {
+        let users = [];
+        Services.findAllProfiles().then(json => {
+            json.forEach(element => {
+                users.push(element.acf);
+            });
+            this.setState({
+                members: users
+            });
+        })
+    }
+
+    findGroups() {
+        let groups = [];
+        Services.findAllGroups().then(json => {
+            json.forEach(element => {
+                groups.push(element.acf);
+            });
+            this.setState({
+                groups: groups
+            });
+        })
     }
 
     onChangeSearch = (text) => {

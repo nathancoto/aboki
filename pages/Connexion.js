@@ -33,17 +33,7 @@ export default class Connexion extends Component {
             failedLogin: false,
             needConnection: true
         }
-
-        // if(this.getData()) {
-        //     this.setState({
-        //         validating: false
-        //     });
-
-        //     this.props.setUserData(data.data);
-            
-        //     /* Redirect to accounts page */
-        //     this.props.navigation.navigate('App');
-        // }
+        
         this.getData();
     }
 

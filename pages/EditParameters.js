@@ -20,7 +20,16 @@ export default class EditParameters extends Component {
         }
     }
 
+    parseUserData() {
+        this.setState({
+            userData: JSON.parse(this.state.userData)
+        });
+    }
+
     render() {
+        if(typeof this.state.userData !== 'object') {
+            this.parseUserData();
+        }
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -40,8 +49,20 @@ export default class EditParameters extends Component {
 
                 <View style={styles.category}>
                     <Text style={styles.title}>Compte</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.props.navigation.navigate('Param_Langue');
+                        }}
+                        activeOpacity={0.8}>
+                        <Text style={styles.buttonText}>Langue de l'application</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.category}>
+                    <Text style={styles.title}>Apparence</Text>
                     <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Langues</Text>
+                        <Text style={styles.buttonText}>Thème</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -52,13 +73,6 @@ export default class EditParameters extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} activeOpacity={0.8}>
                         <Text style={styles.buttonText}>Notifications</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.category}>
-                    <Text style={styles.title}>Apparence</Text>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Thème</Text>
                     </TouchableOpacity>
                 </View>
 

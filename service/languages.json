@@ -1,0 +1,14 @@
+{
+    "languages": [
+        {
+            "id": "Français",
+            "appParam": "Français (France)",
+            "flag": "🇫🇷"
+        },
+        {
+            "id": "Anglais",
+            "appParam": "English",
+            "flag": "🇬🇧"
+        }
+    ]
+}

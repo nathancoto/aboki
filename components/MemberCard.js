@@ -22,19 +22,24 @@ export default class MemberCard extends Component {
 
     render() {
         const member = this.props.member;
-        // console.log(member);
+        console.log(member);
+        var data = require('../service/languages.json');
 
         let languages = member.langues.map((language, index) => {
             if(index < 2) {
+                let flag;
+                if(data.languages.find(lang => lang.id === language)) {
+                    flag = data.languages.find(lang => lang.id === language).flag;
+                }
                 return (
-                    <Text key={index}>{language}</Text>
+                    <Text key={index}>{flag !== null ? flag : language}</Text>
                 )
             }
         });
 
         return(
             <TouchableOpacity activeOpacity={.8} style={styles.memberCard}>
-                <Image source={{uri: member.image}} style={styles.image} />
+                <Image source={{uri: member.photo_de_profil}} style={styles.image} />
                 <View style={styles.nameContainer} numberOfLines={1}>
                     <Text style={[styles.text, styles.name]}>{member.name} {member.surname},</Text>
                     <Text style={styles.text}>{member.age}</Text>
@@ -46,7 +51,7 @@ export default class MemberCard extends Component {
                         : null    
                     }
                 </View>
-                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.study}</Text>
+                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.formation}</Text>
                 <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.place}</Text>
                 <TouchableOpacity style={styles.addFriendContainer} activeOpacity={0.8}>
                     <AddFriend height={15} style={styles.addFriend} />

@@ -22,15 +22,15 @@ export default class GroupListCard extends Component {
 
     render() {
         const group = this.props.group;
-        // console.log(group);
+        console.log(group);
 
         return(
             <TouchableOpacity activeOpacity={.8} style={styles.groupCard}>
                 <View style={{flexDirection: 'row'}}>
-                    <Image source={{uri: group.image}} style={styles.image} />
+                    <Image source={{uri: group.photo_de_profil_du_groupe}} style={styles.image} />
                     <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-                        <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.name}</Text>
-                        <Text style={styles.text} numberOfLines={1}>{group.nbParticipants} Participant(s)</Text>
+                        <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.nom_du_groupe}</Text>
+                        <Text style={styles.text} numberOfLines={1}>{group.nb_participants} Participant(s)</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.seeGroupContainer} activeOpacity={0.8}>

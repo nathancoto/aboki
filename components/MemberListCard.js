@@ -23,11 +23,13 @@ export default class MemberListCard extends Component {
     render() {
         const member = this.props.member;
         // console.log(member);
+        var data = require('../service/languages.json');
 
         let languages = member.langues.map((language, index) => {
             if(index < 2) {
+                let flag = data.languages.find(lang => lang.id === language).flag;
                 return (
-                    <Text key={index}>{language}</Text>
+                    <Text key={index}>{flag}</Text>
                 )
             }
         });
@@ -35,13 +37,13 @@ export default class MemberListCard extends Component {
         return(
             <TouchableOpacity activeOpacity={.8} style={styles.memberCard}>
                 <View style={{flexDirection: 'row'}}>
-                    <Image source={{uri: member.image}} style={styles.image} />
+                    <Image source={{uri: member.photo_de_profil}} style={styles.image} />
                     <View style={styles.memberDetails}>
                         <View style={styles.nameContainer} numberOfLines={1}>
                             <Text style={[styles.text, styles.name]}>{member.name} {member.surname},</Text>
                             <Text style={styles.text}>{member.age}</Text>
                         </View>
-                        <Text style={{fontSize: 10, marginVertical: 2}} numberOfLines={1}>{member.study}</Text>
+                        <Text style={{fontSize: 10, marginVertical: 2}} numberOfLines={1}>{member.formation}</Text>
                         <View style={styles.languagesContainer}>
                             {languages}
                             {member.langues.length > 2 ?
