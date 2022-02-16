@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Package pour la navigation
@@ -28,6 +29,8 @@ const Stack = createStackNavigator();
 let leftAnim = new Animated.Value(0);
 
 export default function App() {
+  const [userData, setUserData] = useState('');
+
   function MyTabBar({ state, descriptors, navigation }) {
     function animation(value) {
       Animated.timing(leftAnim, {
@@ -129,10 +132,18 @@ export default function App() {
             headerShown: false
           }}
           tabBar={props => <MyTabBar {...props} />}>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Messages" component={Messages} />
-        <Tab.Screen name="Parameters" component={Parameters} />
+        <Tab.Screen name="Home">
+          {props => (<Home {...props} userData={userData}/>)}
+        </Tab.Screen>
+        <Tab.Screen name="Search">
+          {props => (<Search {...props} userData={userData}/>)}
+        </Tab.Screen>
+        <Tab.Screen name="Messages">
+          {props => (<Messages {...props} userData={userData}/>)}
+        </Tab.Screen>
+        <Tab.Screen name="Parameters">
+          {props => (<Parameters {...props} userData={userData}/>)}
+        </Tab.Screen>
       </Tab.Navigator>
     );
   }
@@ -140,10 +151,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Connexion' screenOptions={{headerShown: false}} >
-        <Stack.Screen name="Connexion" component={Connexion} />
+        <Stack.Screen name="Connexion">
+          {props => (<Connexion {...props} setUserData={setUserData}/>)}
+        </Stack.Screen>
         <Stack.Screen name="App" component={HomeTabs} />
-        <Stack.Screen name="MessageDetail" component={MessageDetail} />
-        <Stack.Screen name="EditParameters" component={EditParameters} />
+        <Stack.Screen name="MessageDetail">
+          {props => (<MessageDetail {...props} userData={userData}/>)}
+        </Stack.Screen>
+        <Stack.Screen name="EditParameters">
+          {props => (<EditParameters {...props} userData={userData}/>)}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

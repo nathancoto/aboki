@@ -31,7 +31,7 @@ export default class Connexion extends Component {
             langs: ['FR', 'EN', 'ES', 'PT', 'DE', 'IT', 'CN', 'RU'],
             validating: false,
             failedLogin: false,
-            needConnection: false
+            needConnection: true
         }
     }
 
@@ -73,13 +73,17 @@ export default class Connexion extends Component {
 
     async checkConnection(response) {
         let data = response.data;
-
+        console.log('Data received :');
+        console.log(data);
+        
         const connected = await this.saveToStorage(data);
         if (connected){
             this.setState({
                 validating: false
             });
 
+            this.props.setUserData(data.data);
+            
             /* Redirect to accounts page */
             this.props.navigation.navigate('App');
         } else {

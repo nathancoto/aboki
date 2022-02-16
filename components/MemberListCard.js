@@ -10,7 +10,7 @@ import AddFriend from '../assets/user-plus.svg';
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
 
-export default class MemberCard extends Component {
+export default class MemberListCard extends Component {
     constructor(props) {
         super(props);
 
@@ -34,22 +34,25 @@ export default class MemberCard extends Component {
 
         return(
             <TouchableOpacity activeOpacity={.8} style={styles.memberCard}>
-                <Image source={{uri: member.image}} style={styles.image} />
-                <View style={styles.nameContainer} numberOfLines={1}>
-                    <Text style={[styles.text, styles.name]}>{member.name} {member.surname},</Text>
-                    <Text style={styles.text}>{member.age}</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Image source={{uri: member.image}} style={styles.image} />
+                    <View style={styles.memberDetails}>
+                        <View style={styles.nameContainer} numberOfLines={1}>
+                            <Text style={[styles.text, styles.name]}>{member.name} {member.surname},</Text>
+                            <Text style={styles.text}>{member.age}</Text>
+                        </View>
+                        <Text style={{fontSize: 10, marginVertical: 2}} numberOfLines={1}>{member.study}</Text>
+                        <View style={styles.languagesContainer}>
+                            {languages}
+                            {member.langues.length > 2 ?
+                                <Text style={[styles.text, styles.name]}> +{member.langues.length - 2}</Text>
+                                : null    
+                            }
+                        </View>
+                    </View>
                 </View>
-                <View style={styles.languagesContainer}>
-                    {languages}
-                    {member.langues.length > 2 ?
-                        <Text style={[styles.text, styles.name]}> +{member.langues.length - 2}</Text>
-                        : null    
-                    }
-                </View>
-                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.study}</Text>
-                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.place}</Text>
                 <TouchableOpacity style={styles.addFriendContainer} activeOpacity={0.8}>
-                    <AddFriend height={15} style={styles.addFriend} />
+                    <AddFriend height={23} style={styles.addFriend} />
                 </TouchableOpacity>
             </TouchableOpacity>
         )
@@ -59,34 +62,33 @@ export default class MemberCard extends Component {
 const styles = StyleSheet.create({
     memberCard: {
         position: 'relative',
-        width: 130,
-        height: 200,
+        width: '100%',
+        height: 58,
         padding: 10,
-        marginRight: 20,
+        marginBottom: 20,
         backgroundColor: 'white',
         borderRadius: 15,
-
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        elevation: 10
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
 
     image: {
-        width: 110,
-        height: 110,
-        borderRadius: 10
+        width: 58,
+        height: 58,
+        borderRadius: 29,
+        marginRight: 15
     },
 
     nameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginVertical: 5
+        marginVertical: 2
+    },
+
+    memberDetails: {
+
     },
 
     text: {
@@ -100,16 +102,13 @@ const styles = StyleSheet.create({
     languagesContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         marginBottom: 5
     },
 
     addFriendContainer: {
-        position: 'absolute',
-        bottom: -20,
-        right: -20,
-        width: 32,
-        height: 32,
+        width: 50,
+        height: 50,
         borderRadius: 25,
         backgroundColor: "white",
 
@@ -127,8 +126,8 @@ const styles = StyleSheet.create({
     },
 
     addFriend: {
-        width: 15,
-        height: 15,
+        width: 23,
+        height: 23,
         color: "#EF835E"
     }
 })

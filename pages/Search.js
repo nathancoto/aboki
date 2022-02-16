@@ -3,7 +3,9 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList} from 'rea
 
 import * as G from '../service/global'
 import MemberCard from '../components/MemberCard';
+import MemberListCard from '../components/MemberListCard';
 import GroupCard from '../components/GroupCard';
+import GroupListCard from '../components/GroupListCard';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -23,9 +25,9 @@ export default class Search extends Component {
                     surname: 'Hahnemann',
                     age: '22',
                     langues: [
-                        '😀',
-                        '🤣',
-                        '🥱'
+                        '🇩🇪',
+                        '🇦🇹',
+                        '🇫🇮'
                     ],
                     study: 'DUT Génie Mécanique',
                     place: 'Dijon'
@@ -37,8 +39,8 @@ export default class Search extends Component {
                     surname: 'Swift',
                     age: '19',
                     langues: [
-                        '🌴',
-                        '🎨'
+                        '🇫🇷',
+                        '🇮🇹'
                     ],
                     study: 'Licence Chimie',
                     place: 'Auxerre'
@@ -50,8 +52,8 @@ export default class Search extends Component {
                     surname: 'Brown',
                     age: '23',
                     langues: [
-                        '🦒',
-                        '👽'
+                        '🇺🇸',
+                        '🇪🇸'
                     ],
                     study: 'FAC de Science',
                     place: 'Nevers'
@@ -76,7 +78,9 @@ export default class Search extends Component {
                     name: 'Tennis Club Dijon',
                     nbParticipants: 78
                 }
-            ]
+            ],
+            displayUsers: false,
+            displayGroups: false
         }
     }
 
@@ -92,6 +96,34 @@ export default class Search extends Component {
     }
     onSelectGroup = () => {
         // TODO
+    }
+
+    displayUsers = () => {
+        if(this.state.displayUsers == true) {
+            this.setState({
+                displayUsers: false,
+                displayGroups: false
+            });
+        } else {
+            this.setState({
+                displayUsers: true,
+                displayGroups: false
+            });
+        }
+    }
+
+    displayGroups = () => {
+        if(this.state.displayGroups == true) {
+            this.setState({
+                displayUsers: false,
+                displayGroups: false
+            });
+        } else {
+            this.setState({
+                displayUsers: false,
+                displayGroups: true
+            });
+        }
     }
 
     render() {
@@ -111,35 +143,56 @@ export default class Search extends Component {
                             onFocus = {this.onFocusSearch}/>
                 </View>
                 <View style={styles.buttonWrapper}>
-                    <TouchableOpacity style={styles.buttonContainer} activeOpacity={.8}>
-                        <Text style={styles.buttonText}>Personnes</Text>
+                    <TouchableOpacity style={this.state.displayUsers == true ? styles.buttonContainerActive : styles.buttonContainer} activeOpacity={.8} onPress={this.displayUsers}>
+                        <Text style={this.state.displayUsers == true ? styles.buttonTextActive : styles.buttonText}>Personnes</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonContainer} activeOpacity={.8}>
-                        <Text style={styles.buttonText}>Groupes</Text>
+                    <TouchableOpacity style={this.state.displayGroups == true ? styles.buttonContainerActive : styles.buttonContainer} activeOpacity={.8} onPress={this.displayGroups}>
+                        <Text style={this.state.displayGroups == true ? styles.buttonTextActive : styles.buttonText}>Groupes</Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.subtitleText}>Personnes qui pourraient vous aider</Text>
-                <View style={styles.membersContainer}>
-                    <FlatList
-                        data={this.state.members}
-                        renderItem={({item, index}) => <MemberCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
-                        keyExtractor={item => item.id}
-                        horizontal={true}
-                        style={{overflow: 'visible', alignSelf: 'flex-start'}}
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
-                <Text style={styles.subtitleText}>Groupes qui pourraient vous intéresser</Text>
-                <View style={styles.groupsContainer}>
-                    <FlatList
-                        data={this.state.groups}
-                        renderItem={({item, index}) => <GroupCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
-                        keyExtractor={item => item.id}
-                        horizontal={true}
-                        style={{overflow: 'visible', alignSelf: 'flex-start'}}
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
+                {
+                    this.state.displayUsers == true ?
+                        <FlatList
+                            data={this.state.members}
+                            renderItem={({item, index}) => <MemberListCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
+                            keyExtractor={item => item.id}
+                            style={{overflow: 'visible', width: "100%"}}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    : this.state.displayGroups == true ?
+                        <FlatList
+                            data={this.state.groups}
+                            renderItem={({item, index}) => <GroupListCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
+                            keyExtractor={item => item.id}
+                            style={{overflow: 'visible', width: "100%"}}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    :
+                    <>
+                        <Text style={styles.subtitleText}>Personnes qui pourraient vous aider</Text>
+                        <View style={styles.membersContainer}>
+                            <FlatList
+                                data={this.state.members}
+                                renderItem={({item, index}) => <MemberCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
+                                keyExtractor={item => item.id}
+                                horizontal={true}
+                                style={{overflow: 'visible', alignSelf: 'flex-start'}}
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                        <Text style={styles.subtitleText}>Groupes qui pourraient vous intéresser</Text>
+                        <View style={styles.groupsContainer}>
+                            <FlatList
+                                data={this.state.groups}
+                                renderItem={({item, index}) => <GroupCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
+                                keyExtractor={item => item.id}
+                                horizontal={true}
+                                style={{overflow: 'visible', alignSelf: 'flex-start'}}
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                    </>
+                }
             </View>
         )
     }
@@ -201,8 +254,25 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
 
+    buttonContainerActive: {
+        width: '47%',
+        borderColor: '#EF835E',
+        backgroundColor: '#EF835E',
+        borderRadius: 8,
+        borderWidth: 2,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        marginHorizontal: 10
+    },
+
     buttonText: {
         color: '#EF835E',
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+
+    buttonTextActive: {
+        color: 'white',
         fontWeight: 'bold',
         textAlign: 'center'
     },

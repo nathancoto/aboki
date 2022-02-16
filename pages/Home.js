@@ -18,6 +18,8 @@ export default class Home extends Component {
             groups: [],
             posts: []
         }
+
+        console.log(props);
     }
 
     componentDidMount() {
