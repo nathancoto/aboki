@@ -22,10 +22,11 @@ export default class GroupListCard extends Component {
 
     render() {
         const group = this.props.group;
+        const id = this.props.id;
         // console.log(group);
 
         return(
-            <TouchableOpacity activeOpacity={.8} style={styles.groupCard}>
+            <TouchableOpacity activeOpacity={.8} style={styles.groupCard} onPress={() => {this.props.onSelectGroup(id)}}>
                 <View style={{flexDirection: 'row'}}>
                     <Image source={{uri: group.photo_de_profil_du_groupe}} style={styles.image} />
                     <View style={{flexDirection: 'column', justifyContent: 'center'}}>

@@ -3,42 +3,50 @@
         {
             "id": "Français",
             "appParam": "Français (France)",
-            "flag": "🇫🇷"
+            "flag": "🇫🇷",
+            "countryImg": "../assets/bg_card_country/france.png"
         },
         {
             "id": "Anglais",
             "appParam": "English",
-            "flag": "🇬🇧"
+            "flag": "🇬🇧",
+            "countryImg": "../assets/bg_card_country/royaume_uni.png"
         },
         {
             "id": "Chinois",
             "appParam": "中文 (简体)",
-            "flag": "🇨🇳"
+            "flag": "🇨🇳",
+            "countryImg": "../assets/bg_card_country/chine.png"
         },
         {
             "id": "Allemand",
             "appParam": "Deutsch",
-            "flag": "🇩🇪"
+            "flag": "🇩🇪",
+            "countryImg": "../assets/bg_card_country/allemagne.png"
         },
         {
             "id": "Italien",
             "appParam": "Italiano",
-            "flag": "🇮🇹"
+            "flag": "🇮🇹",
+            "countryImg": "../assets/bg_card_country/italie.png"
         },
         {
             "id": "Portugais",
             "appParam": "Portugês (Portugal)",
-            "flag": "🇵🇹"
+            "flag": "🇵🇹",
+            "countryImg": "../assets/bg_card_country/portugal.png"
         },
         {
             "id": "Russe",
             "appParam": "Pусский",
-            "flag": "🇷🇺"
+            "flag": "🇷🇺",
+            "countryImg": "../assets/bg_card_country/russie.png"
         },
         {
             "id": "Espagnol",
             "appParam": "Español",
-            "flag": "🇪🇸"
+            "flag": "🇪🇸",
+            "countryImg": "../assets/bg_card_country/espagne.png"
         }
     ]
 }

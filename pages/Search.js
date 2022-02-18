@@ -31,7 +31,7 @@ export default class Search extends Component {
         let users = [];
         Services.findAllProfiles().then(json => {
             json.forEach(element => {
-                users.push(element.acf);
+                users.push({id: element.id, member: element.acf});
             });
             this.setState({
                 members: users
@@ -43,7 +43,7 @@ export default class Search extends Component {
         let groups = [];
         Services.findAllGroups().then(json => {
             json.forEach(element => {
-                groups.push(element.acf);
+                groups.push({id: element.id, group: element.acf});
             });
             this.setState({
                 groups: groups
@@ -58,11 +58,12 @@ export default class Search extends Component {
         this.setState({inputSearch: ''})
     }
 
-    onSelectMember = () => {
-        // TODO
+    onSelectMember = (id) => {
+        this.props.navigation.navigate('Profil', {id: id});
     }
-    onSelectGroup = () => {
-        // TODO
+
+    onSelectGroup = (id) => {
+        this.props.navigation.navigate('Group', {id: id});
     }
 
     displayUsers = () => {
@@ -121,7 +122,7 @@ export default class Search extends Component {
                     this.state.displayUsers == true ?
                         <FlatList
                             data={this.state.members}
-                            renderItem={({item, index}) => <MemberListCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
+                            renderItem={({item, index}) => <MemberListCard member={item.member} id={item.id} index={index} onSelectMember={this.onSelectMember}/>}
                             keyExtractor={item => item.id}
                             style={styles.flatlist}
                             showsVerticalScrollIndicator={false}
@@ -129,7 +130,7 @@ export default class Search extends Component {
                     : this.state.displayGroups == true ?
                         <FlatList
                             data={this.state.groups}
-                            renderItem={({item, index}) => <GroupListCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
+                            renderItem={({item, index}) => <GroupListCard group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup}/>}
                             keyExtractor={item => item.id}
                             style={styles.flatlist}
                             showsVerticalScrollIndicator={false}
@@ -140,8 +141,8 @@ export default class Search extends Component {
                         <View style={styles.membersContainer}>
                             <FlatList
                                 data={this.state.members}
-                                renderItem={({item, index}) => <MemberCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
-                                keyExtractor={item => item.id}
+                                renderItem={({item, index}) => <MemberCard member={item.member} id={item.id} index={index} onSelectMember={this.onSelectMember}/>}
+                                keyExtractor={(item, index) => index.toString()}
                                 horizontal={true}
                                 style={{overflow: 'visible', alignSelf: 'flex-start'}}
                                 showsHorizontalScrollIndicator={false}
@@ -151,8 +152,8 @@ export default class Search extends Component {
                         <View style={styles.groupsContainer}>
                             <FlatList
                                 data={this.state.groups}
-                                renderItem={({item, index}) => <GroupCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
-                                keyExtractor={item => item.id}
+                                renderItem={({item, index}) => <GroupCard group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup}/>}
+                                keyExtractor={(item, index) => index.toString()}
                                 horizontal={true}
                                 style={{overflow: 'visible', alignSelf: 'flex-start'}}
                                 showsHorizontalScrollIndicator={false}
