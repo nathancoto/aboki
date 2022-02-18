@@ -16,11 +16,20 @@ export default class EditParameters extends Component {
 
         // Etats
         this.state = {
-            
+            userData: props.userData
         }
     }
 
+    parseUserData() {
+        this.setState({
+            userData: JSON.parse(this.state.userData)
+        });
+    }
+
     render() {
+        if(typeof this.state.userData !== 'object') {
+            this.parseUserData();
+        }
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -34,31 +43,46 @@ export default class EditParameters extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Eliza Myers</Text>
+                    <Text style={styles.name}>{this.state.userData.user_name}</Text>
                     <View style={{width: 45}} />
                 </View>
 
                 <View style={styles.category}>
                     <Text style={styles.title}>Compte</Text>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Langues</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.category}>
-                    <Text style={styles.title}>Sécurité</Text>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Confidentialité</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Notifications</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.props.navigation.navigate('Param_Langue');
+                        }}
+                        activeOpacity={0.8}>
+                        <Text style={styles.buttonText}>Langue de l'application</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.category}>
                     <Text style={styles.title}>Apparence</Text>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.props.navigation.navigate('Param_Theme');
+                        }}
+                        activeOpacity={0.8}>
                         <Text style={styles.buttonText}>Thème</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.category}>
+                    <Text style={styles.title}>Sécurité</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.props.navigation.navigate('Param_Confidentialite');
+                        }}
+                        activeOpacity={0.8}>
+                        <Text style={styles.buttonText}>Confidentialité</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+                        <Text style={styles.buttonText}>Notifications</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -128,7 +152,7 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontWeight: 'bold'
+        fontSize: 18
     },
 
     button: {
@@ -141,6 +165,8 @@ const styles = StyleSheet.create({
 
     buttonText: {
         textAlign: 'center',
-        color: 'white'
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 14
     }
 })

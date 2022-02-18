@@ -1,0 +1,44 @@
+{
+    "languages": [
+        {
+            "id": "Français",
+            "appParam": "Français (France)",
+            "flag": "🇫🇷"
+        },
+        {
+            "id": "Anglais",
+            "appParam": "English",
+            "flag": "🇬🇧"
+        },
+        {
+            "id": "Chinois",
+            "appParam": "中文 (简体)",
+            "flag": "🇨🇳"
+        },
+        {
+            "id": "Allemand",
+            "appParam": "Deutsch",
+            "flag": "🇩🇪"
+        },
+        {
+            "id": "Italien",
+            "appParam": "Italiano",
+            "flag": "🇮🇹"
+        },
+        {
+            "id": "Portugais",
+            "appParam": "Portugês (Portugal)",
+            "flag": "🇵🇹"
+        },
+        {
+            "id": "Russe",
+            "appParam": "Pусский",
+            "flag": "🇷🇺"
+        },
+        {
+            "id": "Espagnol",
+            "appParam": "Español",
+            "flag": "🇪🇸"
+        }
+    ]
+}

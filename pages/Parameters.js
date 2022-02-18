@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as G from '../service/global'
@@ -17,8 +17,15 @@ export default class Parameters extends Component {
 
         // Etats
         this.state = {
-            needConnection: false
+            needConnection: true,
+            userData: props.userData
         }
+    }
+
+    parseUserData() {
+        this.setState({
+            userData: JSON.parse(this.state.userData)
+        });
     }
 
     async onDisconnect() {
@@ -31,11 +38,16 @@ export default class Parameters extends Component {
     }
 
     render() {
+        if(typeof this.state.userData !== 'object') {
+            this.parseUserData();
+        }
         return(
             <View style={styles.container}>
                 <View style={styles.userContainer}>
-                    <View style={styles.image} />
-                    <Text style={styles.name}>Eliza Myers</Text>
+                    <View style={styles.imageContainer}>
+                        <Image source={{uri: this.state.userData.photo_profil}} style={styles.image} />
+                    </View>
+                    <Text style={styles.name}>{this.state.userData.user_name}</Text>
 
                     <TouchableOpacity style={styles.button} activeOpacity={.8}>
                         <UserIcon style={styles.icon} />
@@ -85,11 +97,22 @@ const styles = StyleSheet.create({
         marginBottom: '80%'
     },
 
-    image: {
-        backgroundColor: '#EF835E',
+    imageContainer: {
         width: 82,
         height: 82,
-        borderRadius: 41
+        borderRadius: 41,
+        borderColor: '#EF835E',
+        borderWidth: 2,
+        borderStyle: 'dashed'
+    },
+
+    image: {
+        backgroundColor: '#EF835E',
+        width: 78,
+        height: 78,
+        borderRadius: 39,
+        borderColor: 'white',
+        borderWidth: 2
     },
 
     name: {

@@ -63,7 +63,9 @@ export default class Post extends Component {
                     <View style={[styles.side, styles.sideUp]}>
                         <View style={styles.postHeader}>
                             {this.state.group.avatar !== '' ? 
-                                <Image source={{uri: this.state.group.avatar}} style={styles.headerImage}/>
+                                <View style={styles.headerImageContainer}>
+                                    <Image source={{uri: this.state.group.avatar}} style={styles.headerImage}/>
+                                </View>
                                 : <View style={styles.headerImage} />
                             }
                             <Text style={styles.title}>{this.state.group.name}</Text>
@@ -126,13 +128,23 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
 
-    headerImage: {
-        borderRadius: 15,
+    headerImageContainer: {
         width: 30,
         height: 30,
-        borderWidth: 1,
+        borderRadius: 15,
         borderColor: '#EF835E',
+        borderWidth: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
         marginRight: 5
+    },
+
+    headerImage: {
+        borderRadius: 15,
+        width: 26,
+        height: 26,
+        borderColor: 'white',
+        borderWidth: 1
     },
 
     title: {

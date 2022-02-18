@@ -2,8 +2,12 @@ import React, {Component} from 'react'
 import {Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList} from 'react-native'
 
 import * as G from '../service/global'
+import * as Services from '../service/Api';
+
 import MemberCard from '../components/MemberCard';
+import MemberListCard from '../components/MemberListCard';
 import GroupCard from '../components/GroupCard';
+import GroupListCard from '../components/GroupListCard';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -15,69 +19,36 @@ export default class Search extends Component {
         // Etats
         this.state = {
             inputSearch: '',
-            members: [
-                {
-                    id: 1,
-                    image: 'https://nextbigwhat.com/wp-content/uploads/2019/02/AI-thispersondoesnotexist.jpg',
-                    name: 'Eli',
-                    surname: 'Hahnemann',
-                    age: '22',
-                    langues: [
-                        '😀',
-                        '🤣',
-                        '🥱'
-                    ],
-                    study: 'DUT Génie Mécanique',
-                    place: 'Dijon'
-                },
-                {
-                    id: 2,
-                    image: 'https://static.wikia.nocookie.net/inazuma-eleven/images/5/51/KazemaruwithRaimon.png/revision/latest?cb=20130525085733&path-prefix=fr',
-                    name: 'Nathan',
-                    surname: 'Swift',
-                    age: '19',
-                    langues: [
-                        '🌴',
-                        '🎨'
-                    ],
-                    study: 'Licence Chimie',
-                    place: 'Auxerre'
-                },
-                {
-                    id: 3,
-                    image: 'https://i.imgur.com/jt3KtM8.jpeg',
-                    name: 'Angelica',
-                    surname: 'Brown',
-                    age: '23',
-                    langues: [
-                        '🦒',
-                        '👽'
-                    ],
-                    study: 'FAC de Science',
-                    place: 'Nevers'
-                }
-            ],
-            groups: [
-                {
-                    id: 1,
-                    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Logo_Crous_vectoris%C3%A9.svg/800px-Logo_Crous_vectoris%C3%A9.svg.png',
-                    name: 'Crous Dijon',
-                    nbParticipants: 147
-                },
-                {
-                    id: 2,
-                    image: 'https://iutdijon.u-bourgogne.fr/www/wp-content/uploads/2021/10/DL_LP_site_IUT.png',
-                    name: 'LP MN DDIM',
-                    nbParticipants: 14
-                },
-                {
-                    id: 3,
-                    image: 'https://www.lacanau.fr/wp-content/uploads/2020/06/Tournoi-de-tennis-945x630.jpg',
-                    name: 'Tennis Club Dijon',
-                    nbParticipants: 78
-                }
-            ]
+            displayUsers: false,
+            displayGroups: false
         }
+
+        this.findUsers();
+        this.findGroups();
+    }
+
+    findUsers() {
+        let users = [];
+        Services.findAllProfiles().then(json => {
+            json.forEach(element => {
+                users.push(element.acf);
+            });
+            this.setState({
+                members: users
+            });
+        })
+    }
+
+    findGroups() {
+        let groups = [];
+        Services.findAllGroups().then(json => {
+            json.forEach(element => {
+                groups.push(element.acf);
+            });
+            this.setState({
+                groups: groups
+            });
+        })
     }
 
     onChangeSearch = (text) => {
@@ -92,6 +63,34 @@ export default class Search extends Component {
     }
     onSelectGroup = () => {
         // TODO
+    }
+
+    displayUsers = () => {
+        if(this.state.displayUsers == true) {
+            this.setState({
+                displayUsers: false,
+                displayGroups: false
+            });
+        } else {
+            this.setState({
+                displayUsers: true,
+                displayGroups: false
+            });
+        }
+    }
+
+    displayGroups = () => {
+        if(this.state.displayGroups == true) {
+            this.setState({
+                displayUsers: false,
+                displayGroups: false
+            });
+        } else {
+            this.setState({
+                displayUsers: false,
+                displayGroups: true
+            });
+        }
     }
 
     render() {
@@ -111,35 +110,56 @@ export default class Search extends Component {
                             onFocus = {this.onFocusSearch}/>
                 </View>
                 <View style={styles.buttonWrapper}>
-                    <TouchableOpacity style={styles.buttonContainer} activeOpacity={.8}>
-                        <Text style={styles.buttonText}>Personnes</Text>
+                    <TouchableOpacity style={this.state.displayUsers == true ? styles.buttonContainerActive : styles.buttonContainer} activeOpacity={.8} onPress={this.displayUsers}>
+                        <Text style={this.state.displayUsers == true ? styles.buttonTextActive : styles.buttonText}>Personnes</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonContainer} activeOpacity={.8}>
-                        <Text style={styles.buttonText}>Groupes</Text>
+                    <TouchableOpacity style={this.state.displayGroups == true ? styles.buttonContainerActive : styles.buttonContainer} activeOpacity={.8} onPress={this.displayGroups}>
+                        <Text style={this.state.displayGroups == true ? styles.buttonTextActive : styles.buttonText}>Groupes</Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.subtitleText}>Personnes qui pourraient vous aider</Text>
-                <View style={styles.membersContainer}>
-                    <FlatList
-                        data={this.state.members}
-                        renderItem={({item, index}) => <MemberCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
-                        keyExtractor={item => item.id}
-                        horizontal={true}
-                        style={{overflow: 'visible', alignSelf: 'flex-start'}}
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
-                <Text style={styles.subtitleText}>Groupes qui pourraient vous intéresser</Text>
-                <View style={styles.groupsContainer}>
-                    <FlatList
-                        data={this.state.groups}
-                        renderItem={({item, index}) => <GroupCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
-                        keyExtractor={item => item.id}
-                        horizontal={true}
-                        style={{overflow: 'visible', alignSelf: 'flex-start'}}
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
+                {
+                    this.state.displayUsers == true ?
+                        <FlatList
+                            data={this.state.members}
+                            renderItem={({item, index}) => <MemberListCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
+                            keyExtractor={item => item.id}
+                            style={styles.flatlist}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    : this.state.displayGroups == true ?
+                        <FlatList
+                            data={this.state.groups}
+                            renderItem={({item, index}) => <GroupListCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
+                            keyExtractor={item => item.id}
+                            style={styles.flatlist}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    :
+                    <>
+                        <Text style={styles.subtitleText}>Personnes qui pourraient vous aider</Text>
+                        <View style={styles.membersContainer}>
+                            <FlatList
+                                data={this.state.members}
+                                renderItem={({item, index}) => <MemberCard member={item} index={index} onSelectMember={this.onSelectMember}/>}
+                                keyExtractor={item => item.id}
+                                horizontal={true}
+                                style={{overflow: 'visible', alignSelf: 'flex-start'}}
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                        <Text style={styles.subtitleText}>Groupes qui pourraient vous intéresser</Text>
+                        <View style={styles.groupsContainer}>
+                            <FlatList
+                                data={this.state.groups}
+                                renderItem={({item, index}) => <GroupCard group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
+                                keyExtractor={item => item.id}
+                                horizontal={true}
+                                style={{overflow: 'visible', alignSelf: 'flex-start'}}
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                    </>
+                }
             </View>
         )
     }
@@ -201,8 +221,25 @@ const styles = StyleSheet.create({
         marginHorizontal: 10
     },
 
+    buttonContainerActive: {
+        width: '47%',
+        borderColor: '#EF835E',
+        backgroundColor: '#EF835E',
+        borderRadius: 8,
+        borderWidth: 2,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        marginHorizontal: 10
+    },
+
     buttonText: {
         color: '#EF835E',
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+
+    buttonTextActive: {
+        color: 'white',
         fontWeight: 'bold',
         textAlign: 'center'
     },
@@ -221,5 +258,10 @@ const styles = StyleSheet.create({
 
     groupsContainer: {
         height: 180
+    },
+
+    flatlist: {
+        width: '100%',
+        overflow: 'scroll'
     }
 })

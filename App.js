@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Package pour la navigation
@@ -21,6 +22,9 @@ import HomeIcon from './assets/home-icon.svg';
 import SearchIcon from './assets/search-icon.svg';
 import MessagesIcon from './assets/messages-icon.svg';
 import ParametersIcon from './assets/parameters-icon.svg';
+import Param_Langue from './pages/Param_Langue';
+import Param_Theme from './pages/Param_Theme';
+import Param_Confidentialite from './pages/Param_Confidentialite';
 
 // Création de l'objet qui va gérer la navigation
 const Tab = createBottomTabNavigator();
@@ -28,6 +32,8 @@ const Stack = createStackNavigator();
 let leftAnim = new Animated.Value(0);
 
 export default function App() {
+  const [userData, setUserData] = useState('');
+
   function MyTabBar({ state, descriptors, navigation }) {
     function animation(value) {
       Animated.timing(leftAnim, {
@@ -129,10 +135,18 @@ export default function App() {
             headerShown: false
           }}
           tabBar={props => <MyTabBar {...props} />}>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Messages" component={Messages} />
-        <Tab.Screen name="Parameters" component={Parameters} />
+        <Tab.Screen name="Home">
+          {props => (<Home {...props} userData={userData}/>)}
+        </Tab.Screen>
+        <Tab.Screen name="Search">
+          {props => (<Search {...props} userData={userData}/>)}
+        </Tab.Screen>
+        <Tab.Screen name="Messages">
+          {props => (<Messages {...props} userData={userData}/>)}
+        </Tab.Screen>
+        <Tab.Screen name="Parameters">
+          {props => (<Parameters {...props} userData={userData}/>)}
+        </Tab.Screen>
       </Tab.Navigator>
     );
   }
@@ -140,10 +154,25 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Connexion' screenOptions={{headerShown: false}} >
-        <Stack.Screen name="Connexion" component={Connexion} />
+        <Stack.Screen name="Connexion">
+          {props => (<Connexion {...props} setUserData={setUserData}/>)}
+        </Stack.Screen>
         <Stack.Screen name="App" component={HomeTabs} />
-        <Stack.Screen name="MessageDetail" component={MessageDetail} />
-        <Stack.Screen name="EditParameters" component={EditParameters} />
+        <Stack.Screen name="MessageDetail">
+          {props => (<MessageDetail {...props} userData={userData}/>)}
+        </Stack.Screen>
+        <Stack.Screen name="EditParameters">
+          {props => (<EditParameters {...props} userData={userData}/>)}
+        </Stack.Screen>
+        <Stack.Screen name="Param_Langue">
+          {props => (<Param_Langue {...props} userData={userData}/>)}
+        </Stack.Screen>
+        <Stack.Screen name="Param_Theme">
+          {props => (<Param_Theme {...props} userData={userData}/>)}
+        </Stack.Screen>
+        <Stack.Screen name="Param_Confidentialite">
+          {props => (<Param_Confidentialite {...props} userData={userData}/>)}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

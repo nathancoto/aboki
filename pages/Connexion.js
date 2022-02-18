@@ -31,8 +31,10 @@ export default class Connexion extends Component {
             langs: ['FR', 'EN', 'ES', 'PT', 'DE', 'IT', 'CN', 'RU'],
             validating: false,
             failedLogin: false,
-            needConnection: false
+            needConnection: true
         }
+        
+        this.getData();
     }
 
     onChangeMail = (text) => {
@@ -73,13 +75,17 @@ export default class Connexion extends Component {
 
     async checkConnection(response) {
         let data = response.data;
-
+        console.log('Data received :');
+        console.log(data);
+        
         const connected = await this.saveToStorage(data);
         if (connected){
             this.setState({
                 validating: false
             });
 
+            this.props.setUserData(data.data);
+            
             /* Redirect to accounts page */
             this.props.navigation.navigate('App');
         } else {
@@ -95,11 +101,33 @@ export default class Connexion extends Component {
                     isLoggedIn: true,
                     authToken: userData.data.auth_token,
                     id: userData.data.user_id,
-                    name: userData.data.user_login
+                    name: userData.data.user_login,
+                    user_name: userData.data.user_name,
+                    photo_profil: userData.data.photo_profil
                 })
             );
             return true;
         } else {
+            return false;
+        }
+    }
+
+    getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('user');
+            if(value !== null) {
+                this.setState({
+                    validating: false
+                });
+    
+                this.props.setUserData(value);
+                
+                /* Redirect to accounts page */
+                this.props.navigation.navigate('App');
+            } else {
+                // Not connected
+            }
+        } catch(e) {
             return false;
         }
     }
