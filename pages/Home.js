@@ -6,6 +6,7 @@ import * as Services from '../service/Api';
 import GroupIcon from '../components/GroupIcon';
 import Post from '../components/Post';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -18,6 +19,7 @@ export default class Home extends Component {
         this.state = {
             groups: [],
             posts: []
+            // mode: Appearance.getColorScheme()
         }
     }
 
@@ -54,7 +56,8 @@ export default class Home extends Component {
         return(
             <View style={styles.container}>
                 <View style={styles.groupContainer}>
-                    <Text style={styles.label}>Groupes</Text>
+                    {/* <Text style={styles.label}>{this.state.mode}</Text> */}
+                    <Text style={styles.label}>{i18n.t('groups')}</Text>
                     <FlatList
                         data={this.state.groups}
                         renderItem={({item, index}) => <GroupIcon group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup}/>}
@@ -71,7 +74,7 @@ export default class Home extends Component {
                         keyExtractor={item => item.id}
                         style={{overflow: 'visible'}}
                         showsVerticalScrollIndicator={false}
-                        ListHeaderComponent={<Text style={[styles.label, {marginLeft: '5%'}]}>Nouveaux posts</Text>}
+                        ListHeaderComponent={<Text style={[styles.label, {marginLeft: '5%'}]}>{i18n.t('newPosts')}</Text>}
                     />
                 </View>
             </View>

@@ -8,6 +8,7 @@ import MemberCard from '../components/MemberCard';
 import MemberListCard from '../components/MemberListCard';
 import GroupCard from '../components/GroupCard';
 import GroupListCard from '../components/GroupListCard';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -100,7 +101,7 @@ export default class Search extends Component {
                 <View style={styles.inputContainer}>
                     <TextInput
                             style={styles.input}
-                            placeholder={'Rechercher'}
+                            placeholder={i18n.t('search')}
                             placeholderTextColor={'black'}
 
                             // Valeur à afficher par défaut dans le champ de recherche
@@ -112,10 +113,10 @@ export default class Search extends Component {
                 </View>
                 <View style={styles.buttonWrapper}>
                     <TouchableOpacity style={this.state.displayUsers == true ? styles.buttonContainerActive : styles.buttonContainer} activeOpacity={.8} onPress={this.displayUsers}>
-                        <Text style={this.state.displayUsers == true ? styles.buttonTextActive : styles.buttonText}>Personnes</Text>
+                        <Text style={this.state.displayUsers == true ? styles.buttonTextActive : styles.buttonText}>{i18n.t('users')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={this.state.displayGroups == true ? styles.buttonContainerActive : styles.buttonContainer} activeOpacity={.8} onPress={this.displayGroups}>
-                        <Text style={this.state.displayGroups == true ? styles.buttonTextActive : styles.buttonText}>Groupes</Text>
+                        <Text style={this.state.displayGroups == true ? styles.buttonTextActive : styles.buttonText}>{i18n.t('groups')}</Text>
                     </TouchableOpacity>
                 </View>
                 {
@@ -137,7 +138,7 @@ export default class Search extends Component {
                         />
                     :
                     <>
-                        <Text style={styles.subtitleText}>Personnes qui pourraient vous aider</Text>
+                        <Text style={styles.subtitleText}>{i18n.t('usersWhoHelpYou')}</Text>
                         <View style={styles.membersContainer}>
                             <FlatList
                                 data={this.state.members}
@@ -148,7 +149,7 @@ export default class Search extends Component {
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
-                        <Text style={styles.subtitleText}>Groupes qui pourraient vous intéresser</Text>
+                        <Text style={styles.subtitleText}>{i18n.t('groupsMightInterestYou')}</Text>
                         <View style={styles.groupsContainer}>
                             <FlatList
                                 data={this.state.groups}

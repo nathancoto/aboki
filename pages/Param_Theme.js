@@ -14,6 +14,7 @@ const size = G.wSC / G.numColumns - 10;
 export default class Param_Theme extends Component {
     constructor(props) {
         super(props);
+        this.getData();
 
         // Etats
         this.state = {
@@ -28,11 +29,30 @@ export default class Param_Theme extends Component {
         });
     }
 
+    getData = async () => {
+        try{
+            const theme = await AsyncStorage.getItem('selectedTheme')
+
+            if(theme !== null){
+                this.setState({selectedTheme: theme})
+            }
+        } 
+        catch(error) {
+            console.log(error);
+        }
+    }
+
+    onSave = async (theme) => {
+        try {
+            await AsyncStorage.setItem('selectedTheme', theme)
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     changeTheme(theme) {
-        // TODO
-        this.setState({
-            selectedTheme: theme
-        });
+        this.setState({selectedTheme: theme})
+        this.onSave(theme);
     }
 
     render() {

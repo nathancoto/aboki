@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, Image, FlatList, ScrollView} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as G from '../service/global'
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -31,7 +32,7 @@ export default class GroupCard extends Component {
                 style={styles.groupCard}>
                 <Image source={{uri: group.photo_de_profil_du_groupe}} style={styles.image} />
                 <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.nom_du_groupe}</Text>
-                <Text style={styles.text} numberOfLines={1}>{group.nb_participants} Participant(s)</Text>
+                <Text style={styles.text} numberOfLines={1}>{group.nb_participants} {i18n.t('members')}</Text>
             </TouchableOpacity>
         )
     }

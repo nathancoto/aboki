@@ -7,6 +7,7 @@ import { findGroupByID } from '../service/Api';
 
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -49,15 +50,15 @@ export default class Post_Detail extends Component {
         let timeDiffElement;
         
         if(timeDiff < 60) { // less than 1 min
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff)}s</Text>
+            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff)}{i18n.t('seconds')}</Text>
         } else if(timeDiff < 3600) { // less than 1 hour
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 60)}min</Text>
+            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 60)}{i18n.t('minutes')}</Text>
         } else if(timeDiff < 86400) { // less than 1 day
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 3600)}h</Text>
+            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 3600)}{i18n.t('hours')}</Text>
         } else if(timeDiff < 604800) { // less than 1 week
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 86400)}j</Text>
+            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 86400)}{i18n.t('days')}</Text>
         } else {
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 604800)} semaines</Text>
+            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 604800)}{i18n.t('weeks')}</Text>
         }
         return(
             <View style={styles.container}>

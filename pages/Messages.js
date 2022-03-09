@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList} from 'rea
 import MessagePreview from '../components/MessagePreview';
 
 import * as G from '../service/global'
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -61,7 +62,7 @@ export default class Messages extends Component {
                     <View style={styles.inputContainer}>
                         <TextInput
                                 style={styles.input}
-                                placeholder={'Rechercher'}
+                                placeholder={i18n.t('search')}
                                 placeholderTextColor={'black'}
 
                                 // Valeur à afficher par défaut dans le champ de recherche

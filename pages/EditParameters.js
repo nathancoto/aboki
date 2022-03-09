@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, Image, FlatList, ScrollView} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as G from '../service/global'
+import i18n from 'i18n-js';
 
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
@@ -48,48 +49,48 @@ export default class EditParameters extends Component {
                 </View>
 
                 <View style={styles.category}>
-                    <Text style={styles.title}>Compte</Text>
+                    <Text style={styles.title}>{i18n.t('account')}</Text>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
                             this.props.navigation.navigate('Param_Langue');
                         }}
                         activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Langue de l'application</Text>
+                        <Text style={styles.buttonText}>{i18n.t('applicationLanguageTitle')}</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.category}>
-                    <Text style={styles.title}>Apparence</Text>
+                    <Text style={styles.title}>{i18n.t('appearence')}</Text>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
                             this.props.navigation.navigate('Param_Theme');
                         }}
                         activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Thème</Text>
+                        <Text style={styles.buttonText}>{i18n.t('theme')}</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.category}>
-                    <Text style={styles.title}>Sécurité</Text>
+                    <Text style={styles.title}>{i18n.t('security')}</Text>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => {
                             this.props.navigation.navigate('Param_Confidentialite');
                         }}
                         activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Confidentialité</Text>
+                        <Text style={styles.buttonText}>{i18n.t('confidentiality')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Notifications</Text>
+                        <Text style={styles.buttonText}>{i18n.t('notifications')}</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.category}>
-                    <Text style={styles.title}>Autre</Text>
+                    <Text style={styles.title}>{i18n.t('other')}</Text>
                     <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Reporter un bug</Text>
+                        <Text style={styles.buttonText}>{i18n.t('reportBug')}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
