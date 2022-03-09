@@ -7,7 +7,7 @@ import * as G from '../service/global'
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
 
-export default class GroupCard extends Component {
+export default class GroupProfileCard extends Component {
     constructor(props) {
         super(props);
 
@@ -19,19 +19,12 @@ export default class GroupCard extends Component {
 
     render() {
         const group = this.props.group;
-        const id = this.props.id;
         // console.log(group);
 
         return(
-            <TouchableOpacity
-                activeOpacity={.8}
-                onPress={() => {
-                    this.props.onSelectGroup(id);
-                }}
-                style={styles.groupCard}>
-                <Image source={{uri: group.photo_de_profil_du_groupe}} style={styles.image} />
-                <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.nom_du_groupe}</Text>
-                <Text style={styles.text} numberOfLines={1}>{group.nb_participants} Participant(s)</Text>
+            <TouchableOpacity activeOpacity={.8} style={styles.groupCard}>
+                <Image source={{uri: group.image}} style={styles.image} />
+                <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.name}</Text>
             </TouchableOpacity>
         )
     }
@@ -39,12 +32,13 @@ export default class GroupCard extends Component {
 
 const styles = StyleSheet.create({
     groupCard: {
-        width: 130,
-        height: 180,
-        padding: 10,
+        width: 90,
+        height: 100,
+        padding: 8,
         marginRight: 20,
         backgroundColor: 'white',
         borderRadius: 15,
+        alignItems: 'center',
 
         shadowColor: "#000",
         shadowOffset: {
@@ -57,15 +51,15 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        width: 110,
-        height: 110,
+        width: 70,
+        height: 70,
         borderRadius: 10,
-        marginBottom: 10
+        marginBottom: 2
     },
 
     text: {
         fontSize: 12,
-        marginVertical: 2,
+        marginVertical: 0,
         textAlign: 'center'
     },
 

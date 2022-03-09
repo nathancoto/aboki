@@ -22,9 +22,13 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
+        let groups = [];
         Services.findAllGroups().then(json => {
+            json.forEach(element => {
+                groups.push({id: element.id, group: element.acf});
+            });
             this.setState({
-                groups: json
+                groups: groups
             });
         })
 
@@ -33,12 +37,12 @@ export default class Home extends Component {
                 posts: json
             });
             // console.log(json);
-        })
+        });
     }
 
     // Afficher la page de détail du groupe
-    onSelectGroup = (group) => {
-        this.props.navigation.navigate('DetailGroup', {group: group});
+    onSelectGroup = (ide) => {
+        this.props.navigation.navigate('Group', {id: ide});
     }
 
     // Afficher la page de détail du post
@@ -53,7 +57,7 @@ export default class Home extends Component {
                     <Text style={styles.label}>Groupes</Text>
                     <FlatList
                         data={this.state.groups}
-                        renderItem={({item, index}) => <GroupIcon group={item} index={index} onSelectGroup={this.onSelectGroup}/>}
+                        renderItem={({item, index}) => <GroupIcon group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup}/>}
                         keyExtractor={item => item.id}
                         horizontal={true}
                         style={{overflow: 'visible'}}
@@ -63,7 +67,7 @@ export default class Home extends Component {
                 <View style={styles.postContainer}>
                     <FlatList
                         data={this.state.posts}
-                        renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost}/>}
+                        renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost} onSelectGroup={this.onSelectGroup}/>}
                         keyExtractor={item => item.id}
                         style={{overflow: 'visible'}}
                         showsVerticalScrollIndicator={false}

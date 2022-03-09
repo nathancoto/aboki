@@ -4,13 +4,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as G from '../service/global'
 
-// Import des icônes
-import AddFriend from '../assets/user-plus.svg';
-
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
 
-export default class MemberCard extends Component {
+export default class Group_Member extends Component {
     constructor(props) {
         super(props);
 
@@ -22,7 +19,6 @@ export default class MemberCard extends Component {
 
     render() {
         const member = this.props.member;
-        const id = this.props.id;
         // console.log(member);
         var data = require('../service/languages.json');
 
@@ -39,14 +35,10 @@ export default class MemberCard extends Component {
         });
 
         return(
-            <TouchableOpacity
-                activeOpacity={.8}
-                style={styles.memberCard}
-                onPress={() => {this.props.onSelectMember(id)}}>
+            <TouchableOpacity activeOpacity={.8} style={styles.memberCard}>
                 <Image source={{uri: member.photo_de_profil}} style={styles.image} />
                 <View style={styles.nameContainer} numberOfLines={1}>
-                    <Text style={[styles.text, styles.name]}>{member.surname} {member.name}, </Text>
-                    <Text style={styles.text}>{member.age}</Text>
+                    <Text style={[styles.text, styles.name]} numberOfLines={1}>{member.surname} {member.name}</Text>
                 </View>
                 <View style={styles.languagesContainer}>
                     {languages}
@@ -55,11 +47,6 @@ export default class MemberCard extends Component {
                         : null    
                     }
                 </View>
-                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.formation}</Text>
-                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.place}</Text>
-                <TouchableOpacity style={styles.addFriendContainer} activeOpacity={0.8}>
-                    <AddFriend height={15} style={styles.addFriend} />
-                </TouchableOpacity>
             </TouchableOpacity>
         )
     }
@@ -68,12 +55,14 @@ export default class MemberCard extends Component {
 const styles = StyleSheet.create({
     memberCard: {
         position: 'relative',
-        width: 130,
-        height: 200,
-        padding: 10,
+        width: 76,
+        height: 100,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         marginRight: 20,
         backgroundColor: 'white',
         borderRadius: 15,
+        alignItems: 'center',
 
         shadowColor: "#000",
         shadowOffset: {
@@ -86,8 +75,8 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        width: 110,
-        height: 110,
+        width: 43,
+        height: 43,
         borderRadius: 10
     },
 
@@ -109,35 +98,6 @@ const styles = StyleSheet.create({
     languagesContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 5
+        justifyContent: 'center'
     },
-
-    addFriendContainer: {
-        position: 'absolute',
-        bottom: -20,
-        right: -20,
-        width: 32,
-        height: 32,
-        borderRadius: 25,
-        backgroundColor: "white",
-
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        elevation: 10
-    },
-
-    addFriend: {
-        width: 15,
-        height: 15,
-        color: "#EF835E"
-    }
 })
