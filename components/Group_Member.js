@@ -35,7 +35,7 @@ export default class Group_Member extends Component {
         });
 
         return(
-            <TouchableOpacity activeOpacity={.8} style={styles.memberCard}>
+            <TouchableOpacity activeOpacity={.8} style={styles.memberCard} onPress={() => {this.props.onSelectMember(member.id, this.props.navigation)}}>
                 <Image source={{uri: member.photo_de_profil}} style={styles.image} />
                 <View style={styles.nameContainer} numberOfLines={1}>
                     <Text style={[styles.text, styles.name]} numberOfLines={1}>{member.surname} {member.name}</Text>

@@ -43,7 +43,7 @@ export default class EditParameters extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>{this.state.userData.user_name}</Text>
+                    <Text style={styles.name}>{this.state.userData.surname} {this.state.userData.name}</Text>
                     <View style={{width: 45}} />
                 </View>
 

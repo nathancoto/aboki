@@ -5,9 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as G from '../service/global'
 import * as Services from '../service/Api';
 
-import HobbyCard from '../components/HobbyCard';
-import GroupProfileCard from '../components/GroupProfileCard';
 import Group_Member from '../components/Group_Member';
+import { Linking } from 'react-native';
 
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
@@ -62,6 +61,10 @@ export default class Group extends Component {
         // TODO
     }
 
+    onSelectMember(id, nav) {
+        nav.navigate('Profil', {id: id});
+    }
+
     handleScroll(event) {
         if(event.nativeEvent.contentOffset.y >= 200 && this.state.displayHeaderInfo == false) {
             this.setState({
@@ -78,7 +81,9 @@ export default class Group extends Component {
     findUsers() {
         let users = [];
         Services.findAllProfiles().then(json => {
+            // console.log(json);
             json.forEach(element => {
+                element.acf.id = element.id;
                 users.push(element.acf);
             });
             this.setState({
@@ -154,7 +159,7 @@ export default class Group extends Component {
                         </View>
                         <View style={styles.infosEl}>
                             <Link height={20} style={styles.infosIcon} />
-                            <Text style={styles.infosText}>{this.state.group.url}</Text>
+                            <Text style={styles.infosText} onPress={() => Linking.openURL('https://'+this.state.group.url)}>{this.state.group.url}</Text>
                         </View>
                     </View>
 
@@ -170,7 +175,7 @@ export default class Group extends Component {
                         <View style={styles.participantsContainer}>
                             <FlatList
                                 data={this.state.members}
-                                renderItem={({item, index}) => <Group_Member member={item} index={index}/>}
+                                renderItem={({item, index}) => <Group_Member member={item} index={index} onSelectMember={this.onSelectMember} navigation={this.props.navigation}/>}
                                 keyExtractor={(item, index) => index.toString()}
                                 horizontal={true}
                                 style={{overflow: 'visible', alignSelf: 'flex-start'}}
