@@ -16,6 +16,7 @@ import Messages from './pages/Messages'
 import Parameters from './pages/Parameters'
 import EditParameters from './pages/EditParameters';
 import MessageDetail from './pages/MessageDetail';
+import Post_Detail from './pages/Post_Detail';
 
 // Import des icônes
 import HomeIcon from './assets/home-icon.svg';
@@ -175,6 +176,8 @@ export default function App() {
         <Stack.Screen name="Param_Confidentialite">
           {props => (<Param_Confidentialite {...props} userData={userData}/>)}
         </Stack.Screen>
+        <Stack.Screen name="Post_Detail">
+          {props => (<Post_Detail {...props} userData={userData}/>)}
         <Stack.Screen name="Profil">
           {props => (<Profil {...props} userData={userData}/>)}
         </Stack.Screen>
