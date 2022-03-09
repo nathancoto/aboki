@@ -87,13 +87,14 @@ export default class Post_Detail extends Component {
                             : <View style={styles.headerImage} />
                         }
                         <Text style={styles.title}>{this.state.group.name}</Text>
+                        <Text style={styles.dots}>...</Text>
                     </View>
                     <Text style={styles.text}>{post.acf.texte_de_la_publication}</Text>
                     <View style={[styles.side, styles.sideDown]}>
                         <Image source={{uri: post.acf.image_de_publication}} style={[styles.image, {aspectRatio: this.state.height !== null ? this.state.width / this.state.height : 1}]}/>
                     </View>
-                    <View style={[styles.side, styles.sideDown, styles.date]}>
-                        {timeDiffElement}
+                    <View style={[styles.sideDown, styles.date]}>
+                    {timeDiffElement}
                     </View>
                 </View>                
             </View>
@@ -123,11 +124,6 @@ const styles = StyleSheet.create({
         marginTop: '5%',
         paddingVertical: 20,
         paddingHorizontal: 10,
-    },
-
-    side: {
-        // flex: 1,
-        // marginHorizontal: 10
     },
 
     sideUp: {
@@ -225,5 +221,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         resizeMode: 'contain',
         width: '100%'
-    }
+    },
+
+    date: {
+        alignSelf: "flex-start",
+        marginLeft: 70
+    },
+    dots: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        flex: 1,
+        paddingBottom: 14
+    },
+
 })
