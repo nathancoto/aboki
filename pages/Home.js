@@ -67,7 +67,7 @@ export default class Home extends Component {
                 <View style={styles.postContainer}>
                     <FlatList
                         data={this.state.posts}
-                        renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost} onSelectGroup={this.onSelectGroup}/>}
+                        renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost} navigation={this.props.navigation} onSelectGroup={this.onSelectGroup}/>}
                         keyExtractor={item => item.id}
                         style={{overflow: 'visible'}}
                         showsVerticalScrollIndicator={false}

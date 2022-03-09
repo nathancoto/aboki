@@ -56,9 +56,14 @@ export default class Post extends Component {
         } else {
             timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 604800)} semaines</Text>
         }
-
         return(
-            <TouchableOpacity style={styles.wrapper} activeOpacity={.5}>
+            <TouchableOpacity 
+            style={styles.wrapper} 
+            onPress={() => {
+                this.props.navigation.navigate('Post_Detail', {post:post});
+            }}
+            activeOpacity={.5}
+            >
                 <View style={styles.postContainer}>
                     <View style={[styles.side, styles.sideUp]}>
                         <View style={styles.sideHeader}>
