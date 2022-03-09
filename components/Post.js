@@ -66,14 +66,18 @@ export default class Post extends Component {
             >
                 <View style={styles.postContainer}>
                     <View style={[styles.side, styles.sideUp]}>
-                        <View style={styles.postHeader}>
-                            {this.state.group.avatar !== '' ? 
-                                <View style={styles.headerImageContainer}>
-                                    <Image source={{uri: this.state.group.avatar}} style={styles.headerImage}/>
-                                </View>
-                                : <View style={styles.headerImage} />
-                            }
-                            <Text style={styles.title}>{this.state.group.name}</Text>
+                        <View style={styles.sideHeader}>
+                            <TouchableOpacity
+                                style={styles.postHeader}
+                                onPress={() => {this.props.onSelectGroup(post.acf.groupe.ID)}}>
+                                {this.state.group.avatar !== '' ? 
+                                    <View style={styles.headerImageContainer}>
+                                        <Image source={{uri: this.state.group.avatar}} style={styles.headerImage}/>
+                                    </View>
+                                    : <View style={styles.headerImage} />
+                                }
+                                <Text style={styles.title}>{this.state.group.name}</Text>
+                            </TouchableOpacity>
                             {timeDiffElement}
                         </View>
                         <Text style={styles.text}>{post.acf.texte_de_la_publication}</Text>
@@ -126,11 +130,17 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
 
-    postHeader: {
+    sideHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%',
-        marginBottom: 10
+        justifyContent: 'space-between',
+        marginBottom: 10,
+        width: '100%'
+    },
+
+    postHeader: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
 
     headerImageContainer: {
@@ -157,8 +167,6 @@ const styles = StyleSheet.create({
     },
 
     timeDiff: {
-        position: 'absolute',
-        right: 0,
         color: 'grey'
     },
 

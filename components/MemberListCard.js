@@ -22,6 +22,7 @@ export default class MemberListCard extends Component {
 
     render() {
         const member = this.props.member;
+        const id = this.props.id;
         // console.log(member);
         var data = require('../service/languages.json');
 
@@ -35,12 +36,15 @@ export default class MemberListCard extends Component {
         });
 
         return(
-            <TouchableOpacity activeOpacity={.8} style={styles.memberCard}>
+            <TouchableOpacity
+                activeOpacity={.8}
+                style={styles.memberCard}
+                onPress={() => {this.props.onSelectMember(id)}}>
                 <View style={{flexDirection: 'row'}}>
                     <Image source={{uri: member.photo_de_profil}} style={styles.image} />
                     <View style={styles.memberDetails}>
                         <View style={styles.nameContainer} numberOfLines={1}>
-                            <Text style={[styles.text, styles.name]}>{member.name} {member.surname},</Text>
+                            <Text style={[styles.text, styles.name]}>{member.surname} {member.name}, </Text>
                             <Text style={styles.text}>{member.age}</Text>
                         </View>
                         <Text style={{fontSize: 10, marginVertical: 2}} numberOfLines={1}>{member.formation}</Text>

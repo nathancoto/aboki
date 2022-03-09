@@ -47,9 +47,14 @@ export default class Parameters extends Component {
                     <View style={styles.imageContainer}>
                         <Image source={{uri: this.state.userData.photo_profil}} style={styles.image} />
                     </View>
-                    <Text style={styles.name}>{this.state.userData.user_name}</Text>
+                    <Text style={styles.name}>{this.state.userData.surname} {this.state.userData.name}</Text>
 
-                    <TouchableOpacity style={styles.button} activeOpacity={.8}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            this.props.navigation.navigate('Profil', {isMe: true});
+                        }}
+                        activeOpacity={.8}>
                         <UserIcon style={styles.icon} />
                         <Text style={styles.buttonText}>Mon compte</Text>
                     </TouchableOpacity>

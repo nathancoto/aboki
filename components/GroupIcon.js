@@ -18,11 +18,12 @@ export default class GroupIcon extends Component {
 
     render() {
         const group = this.props.group;
+        const id = this.props.id;
         // console.log(group);
 
         return(
-            <TouchableOpacity style={styles.groupIcon} activeOpacity={.7}>
-                <Image source={{uri: group.acf.photo_de_profil_du_groupe}} style={styles.image} />
+            <TouchableOpacity style={styles.groupIcon} activeOpacity={.7} onPress={() => {this.props.onSelectGroup(id)}}>
+                <Image source={{uri: group.photo_de_profil_du_groupe}} style={styles.image} />
             </TouchableOpacity>
         )
     }

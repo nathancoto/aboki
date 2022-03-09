@@ -13,6 +13,8 @@ import * as G from '../service/global'
 
 import i18n from 'i18n-js'
 import { t } from '../service/i18n'
+import App from '../App';
+import Home from './Home';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -75,8 +77,8 @@ export default class Connexion extends Component {
 
     async checkConnection(response) {
         let data = response.data;
-        console.log('Data received :');
-        console.log(data);
+        // console.log('Data received :');
+        // console.log(data);
         
         const connected = await this.saveToStorage(data);
         if (connected){
@@ -87,7 +89,11 @@ export default class Connexion extends Component {
             this.props.setUserData(data.data);
             
             /* Redirect to accounts page */
-            this.props.navigation.navigate('App');
+            // this.props.navigator.resetTo({
+            //     title: 'App',
+            //     component: Home,
+            // })
+            this.props.navigation.replace('App');
         } else {
             this.setState({
                 failedLogin: true
@@ -96,6 +102,7 @@ export default class Connexion extends Component {
     }
 
     async saveToStorage(userData){
+        console.log(userData);
         if (userData && userData.status) {
             await AsyncStorage.setItem('user', JSON.stringify({
                     isLoggedIn: true,
@@ -103,7 +110,9 @@ export default class Connexion extends Component {
                     id: userData.data.user_id,
                     name: userData.data.user_login,
                     user_name: userData.data.user_name,
-                    photo_profil: userData.data.photo_profil
+                    photo_profil: userData.data.photo_profil,
+                    surname: userData.data.surname,
+                    name: userData.data.name
                 })
             );
             return true;
@@ -123,7 +132,11 @@ export default class Connexion extends Component {
                 this.props.setUserData(value);
                 
                 /* Redirect to accounts page */
-                this.props.navigation.navigate('App');
+                // this.props.navigator.resetTo({
+                //     title: 'App',
+                //     component: Home,
+                // })
+                this.props.navigation.replace('App');
             } else {
                 // Not connected
             }
@@ -225,7 +238,11 @@ export default class Connexion extends Component {
                                     this.onSubmit();
                                 }
                             } else {
-                                this.props.navigation.navigate('App');
+                                // this.props.navigator.resetTo({
+                                //     title: 'App',
+                                //     component: Home,
+                                // })
+                                this.props.navigation.replace('App');
                             }
                         }}
                         activeOpacity={.7}
