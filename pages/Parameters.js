@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as G from '../service/global'
+import i18n from 'i18n-js'
 
 // Import des icônes
 import ParametersIcon from '../assets/parameters.svg';
@@ -28,6 +29,17 @@ export default class Parameters extends Component {
         });
     }
 
+    getLang = async () => {
+        try {
+            const selectedLang = await AsyncStorage.getItem('selectedLang');
+            if(selectedLang !== null) {
+                i18n.locale = selectedLang.toLowerCase();
+            }
+        } catch(e) {
+            return false;
+        }
+    }
+
     async onDisconnect() {
         await AsyncStorage.removeItem('user');
         
@@ -38,6 +50,7 @@ export default class Parameters extends Component {
     }
 
     render() {
+        this.getLang();
         if(typeof this.state.userData !== 'object') {
             this.parseUserData();
         }
@@ -56,7 +69,7 @@ export default class Parameters extends Component {
                         }}
                         activeOpacity={.8}>
                         <UserIcon style={styles.icon} />
-                        <Text style={styles.buttonText}>Mon compte</Text>
+                        <Text style={styles.buttonText}>{i18n.t('myAccount')}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -66,7 +79,7 @@ export default class Parameters extends Component {
                         }}
                         activeOpacity={.8}>
                         <ParametersIcon style={styles.icon} />
-                        <Text style={styles.buttonText}>Paramètres</Text>
+                        <Text style={styles.buttonText}>{i18n.t('parameters')}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -78,7 +91,7 @@ export default class Parameters extends Component {
                         }
                     }}
                     activeOpacity={.8}>
-                    <Text style={styles.disconnectButtonText}>Déconnexion</Text>
+                    <Text style={styles.disconnectButtonText}>{i18n.t('disconnect')}</Text>
                 </TouchableOpacity>
             </View>
         )

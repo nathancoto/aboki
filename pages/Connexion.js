@@ -152,6 +152,7 @@ export default class Connexion extends Component {
     onLangSelect = (lang) => {
         i18n.locale = lang.toLowerCase();
         this.setState({selectedLang: lang});
+        AsyncStorage.setItem('selectedLang', lang);
     }
 
     renderDropdown = () => {

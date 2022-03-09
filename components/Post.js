@@ -37,6 +37,11 @@ export default class Post extends Component {
         });
     }
 
+    onSelectGroup = (ide) => {
+        console.log(ide);
+        // this.props.onSelectGroup(ide);
+    }
+
     render() {
         const post = this.props.post;
         // console.log(post);

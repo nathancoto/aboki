@@ -178,6 +178,7 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Post_Detail">
           {props => (<Post_Detail {...props} userData={userData}/>)}
+        </Stack.Screen>
         <Stack.Screen name="Profil">
           {props => (<Profil {...props} userData={userData}/>)}
         </Stack.Screen>

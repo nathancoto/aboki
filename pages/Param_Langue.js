@@ -3,10 +3,12 @@ import {Text, View, StyleSheet, Image, FlatList, ScrollView} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as G from '../service/global'
+import i18n from 'i18n-js'
 
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Import des drapeaux
 const flags = [
@@ -56,6 +58,8 @@ export default class Param_Langue extends Component {
             userData: props.userData,
             selectedLang: ''
         }
+
+        this.getLang();
     }
 
     parseUserData() {
@@ -64,11 +68,25 @@ export default class Param_Langue extends Component {
         });
     }
 
-    changeLang(lang) {
-        // TODO
+    changeLang(langi18n) {
+        i18n.locale = langi18n.toLowerCase();
         this.setState({
-            selectedLang: lang.langTrad
+            selectedLang: langi18n
         });
+        AsyncStorage.setItem('selectedLang', langi18n);
+    }
+
+    getLang = async () => {
+        try {
+            const selectedLang = await AsyncStorage.getItem('selectedLang');
+            if(selectedLang !== null) {
+                this.setState({
+                    selectedLang: selectedLang
+                });
+            }
+        } catch(e) {
+            return false;
+        }
     }
 
     render() {
@@ -81,6 +99,7 @@ export default class Param_Langue extends Component {
         let languagesSelector = data.languages.map((language, index) => {
             let langText = language.appParam;
             let langTrad = language.id;
+            let langi18n = language.i18n;
             let flag;
 
             flags.forEach((el, i) => {
@@ -91,19 +110,19 @@ export default class Param_Langue extends Component {
 
             return (
                 <TouchableOpacity
-                    style={this.state.selectedLang == langTrad ? styles.languageContainerSelected : styles.languageContainer}
-                    onPress={() => { this.changeLang({langTrad}) }}
+                    style={this.state.selectedLang == langi18n ? styles.languageContainerSelected : styles.languageContainer}
+                    onPress={() => { this.changeLang(langi18n) }}
                     activeOpacity={0.8}
                     key={index}>
                     <View style={{flexDirection: 'row'}}>
                         <Image source={flag} style={styles.flag} />
                         <View>
-                            <Text style={[this.state.selectedLang == langTrad ? styles.langTextSelected : styles.langText, {fontWeight: 'bold'}]}>{langText}</Text>
-                            <Text style={this.state.selectedLang == langTrad ? styles.langTextSelected : styles.langText}>{langTrad}</Text>
+                            <Text style={[this.state.selectedLang == langi18n ? styles.langTextSelected : styles.langText, {fontWeight: 'bold'}]}>{langText}</Text>
+                            <Text style={this.state.selectedLang == langi18n ? styles.langTextSelected : styles.langText}>{langTrad}</Text>
                         </View>
                     </View>
                     <View>
-                        {this.state.selectedLang == langTrad && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                        {this.state.selectedLang == langi18n && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
                     </View>
                 </TouchableOpacity>
             )
@@ -122,7 +141,7 @@ export default class Param_Langue extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Langue de l'application</Text>
+                    <Text style={styles.name}>{i18n.t('applicationLanguageTitle')}</Text>
                     <View style={{width: 45}} />
                 </View>
 

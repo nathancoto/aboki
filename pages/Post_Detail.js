@@ -41,24 +41,19 @@ export default class Post_Detail extends Component {
         });
     }
 
+    onSelectGroup = (ide) => {
+        this.props.navigation.navigate('Group', {id: ide});
+    }
+
     render() {
-        console.log(this.props.route.params.post);
+        // console.log(this.props.route.params.post);
         const post = this.props.route.params.post;
         let timeCreated = post.date;
-        let timeDiff = (new Date() - new Date(timeCreated)) / 1000;
-        let timeDiffElement;
+        let timeDiff = new Date(timeCreated);
+        let formatDate = <Text style={styles.timeDiff}>
+            {timeDiff.getHours()}:{(timeDiff.getMinutes()<10?'0':'') + timeDiff.getMinutes()} - {(timeDiff.getDay()<10?'0':'') + timeDiff.getDay()}/{(timeDiff.getMonth()<10?'0':'') + (timeDiff.getMonth() + 1)}/{timeDiff.getFullYear()}
+        </Text>;
         
-        if(timeDiff < 60) { // less than 1 min
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff)}s</Text>
-        } else if(timeDiff < 3600) { // less than 1 hour
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 60)}min</Text>
-        } else if(timeDiff < 86400) { // less than 1 day
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 3600)}h</Text>
-        } else if(timeDiff < 604800) { // less than 1 week
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 86400)}j</Text>
-        } else {
-            timeDiffElement = <Text style={styles.timeDiff}>{Math.round(timeDiff / 604800)} semaines</Text>
-        }
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -81,9 +76,9 @@ export default class Post_Detail extends Component {
                 <View style={styles.postContainer}>
                     <View style={styles.postHeader}>
                         {this.state.group.avatar !== '' ? 
-                            <View style={styles.headerImageContainer}>
+                            <TouchableOpacity style={styles.headerImageContainer} onPress={() => {this.onSelectGroup(this.props.route.params.post.acf.groupe.ID)}}>
                                 <Image source={{uri: this.state.group.avatar}} style={styles.headerImage}/>
-                            </View>
+                            </TouchableOpacity>
                             : <View style={styles.headerImage} />
                         }
                         <Text style={styles.title}>{this.state.group.name}</Text>
@@ -94,7 +89,7 @@ export default class Post_Detail extends Component {
                         <Image source={{uri: post.acf.image_de_publication}} style={[styles.image, {aspectRatio: this.state.height !== null ? this.state.width / this.state.height : 1}]}/>
                     </View>
                     <View style={[styles.sideDown, styles.date]}>
-                    {timeDiffElement}
+                        {formatDate}
                     </View>
                 </View>                
             </View>
@@ -121,9 +116,11 @@ const styles = StyleSheet.create({
 
     postContainer: {
         width: '100%',
-        marginTop: '5%',
         paddingVertical: 20,
         paddingHorizontal: 10,
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start'
     },
 
     sideUp: {
@@ -206,8 +203,8 @@ const styles = StyleSheet.create({
     },
 
     timeDiff: {
-        position: 'absolute',
-        right: 0,
+        fontSize: 12,
+        alignSelf: 'flex-start',
         color: 'grey'
     },
 
@@ -224,9 +221,10 @@ const styles = StyleSheet.create({
     },
 
     date: {
+        fontSize: 12,
         alignSelf: "flex-start",
-        marginLeft: 70
     },
+
     dots: {
         fontSize: 30,
         fontWeight: 'bold',
