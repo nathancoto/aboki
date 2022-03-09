@@ -21,6 +21,14 @@ export default class Parameters extends Component {
             needConnection: true,
             userData: props.userData
         }
+
+        this.getLang();
+    }
+    
+    componentDidMount() {
+        if(typeof this.state.userData !== 'object') {
+            this.parseUserData();
+        }
     }
 
     parseUserData() {
@@ -34,6 +42,9 @@ export default class Parameters extends Component {
             const selectedLang = await AsyncStorage.getItem('selectedLang');
             if(selectedLang !== null) {
                 i18n.locale = selectedLang.toLowerCase();
+                this.setState({
+                    selectedLang: selectedLang
+                });
             }
         } catch(e) {
             return false;
@@ -50,10 +61,6 @@ export default class Parameters extends Component {
     }
 
     render() {
-        this.getLang();
-        if(typeof this.state.userData !== 'object') {
-            this.parseUserData();
-        }
         return(
             <View style={styles.container}>
                 <View style={styles.userContainer}>
