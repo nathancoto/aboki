@@ -28,18 +28,28 @@ export default {
     //Group card
     members : 'Member(s)',
 
-    //Message page
-
     // Parameter Page
     myAccount: 'My account',
     parameters: 'Parameters',
     disconnect: 'Sign out',
     account: 'Account',
-    applicationLanguageTitle: 'Application language',
+    appLanguage: 'Application language',
     appearence : 'Appearence',
-    theme : 'theme',
+    theme : 'Theme',
+    default : 'Default',
+    light : 'Light',
+    dark : 'Dark',
     security : 'Security',
     confidentiality : 'Confidentiality',
+    bloked : 'Blocked',
+    blockedAccounts : 'Blocked Accounts',
+    blockedGroups: 'Blocked Groups',
+    visibleContent: 'Visible Content',
+    publicAccount: 'Public Account',
+    privateAccount: 'Private Account',
+    learnMorePrivacyAboki: 'Learn more about Aboki\'s privacy',
+    privacyPolicy: 'Privacy Policy',
+    contactUs: 'Contact us',
     notifications : 'Notifications',
     other : 'Other',
     reportBug : 'Report a bug'

@@ -7,6 +7,7 @@ import * as G from '../service/global'
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -73,7 +74,7 @@ export default class Param_Theme extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Thème</Text>
+                    <Text style={styles.name}>{i18n.t('theme')}</Text>
                     <View style={{width: 45}} />
                 </View>
 
@@ -82,7 +83,7 @@ export default class Param_Theme extends Component {
                         style={this.state.selectedTheme == "Default" ? styles.themeContainerSelected : styles.themeContainer}
                         onPress={() => { this.changeTheme("Default") }}
                         activeOpacity={0.8}>
-                        <Text style={[this.state.selectedTheme == "Default" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Défaut système</Text>
+                        <Text style={[this.state.selectedTheme == "Default" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>{i18n.t('default')}</Text>
                         <View>
                             {this.state.selectedTheme == "Default" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
                         </View>
@@ -91,7 +92,7 @@ export default class Param_Theme extends Component {
                         style={this.state.selectedTheme == "Light" ? styles.themeContainerSelected : styles.themeContainer}
                         onPress={() => { this.changeTheme("Light") }}
                         activeOpacity={0.8}>
-                        <Text style={[this.state.selectedTheme == "Light" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Clair</Text>
+                        <Text style={[this.state.selectedTheme == "Light" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>{i18n.t('light')}</Text>
                         <View>
                             {this.state.selectedTheme == "Light" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
                         </View>
@@ -100,7 +101,7 @@ export default class Param_Theme extends Component {
                         style={this.state.selectedTheme == "Dark" ? styles.themeContainerSelected : styles.themeContainer}
                         onPress={() => { this.changeTheme("Dark") }}
                         activeOpacity={0.8}>
-                        <Text style={[this.state.selectedTheme == "Dark" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Sombre</Text>
+                        <Text style={[this.state.selectedTheme == "Dark" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>{i18n.t('dark')}</Text>
                         <View>
                             {this.state.selectedTheme == "Dark" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
                         </View>

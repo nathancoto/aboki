@@ -12,6 +12,7 @@ import Lock from '../assets/lock.svg';
 import Unlock from '../assets/unlock.svg';
 import UserBlocked from '../assets/user-blocked.svg';
 import GroupBlocked from '../assets/group-blocked.svg';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -58,19 +59,19 @@ export default class Param_Confidentialite extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Confidentialité</Text>
+                    <Text style={styles.name}>{i18n.t('confidentiality')}</Text>
                     <View style={{width: 45}} />
                 </View>
 
                 <View style={styles.category}>
-                    <Text style={styles.subtitle}>Bloquer</Text>
+                    <Text style={styles.subtitle}>{i18n.t('bloked')}</Text>
                     <TouchableOpacity
                         style={styles.visibleContentContainer}
                         onPress={() => {  }}
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <UserBlocked height={22} style={styles.buttonIcon} />
-                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}]}>Comptes bloqués</Text>
+                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('blockedAccounts')}</Text>
                         </View>
                         <View>
                             <AngleRight width={20} style={styles.angleRightIcon}/>
@@ -82,7 +83,7 @@ export default class Param_Confidentialite extends Component {
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <GroupBlocked height={22} style={styles.buttonIcon} />
-                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}]}>Groupes bloqués</Text>
+                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('blockedGroups')}</Text>
                         </View>
                         <View>
                             <AngleRight width={20} style={styles.angleRightIcon}/>
@@ -91,14 +92,14 @@ export default class Param_Confidentialite extends Component {
                 </View>
 
                 <View style={styles.category}>
-                    <Text style={styles.subtitle}>Contenu visible</Text>
+                    <Text style={styles.subtitle}>{i18n.t('visibleContent')}</Text>
                     <TouchableOpacity
                         style={this.state.selectedVisibleContent == "Default" ? styles.visibleContentContainerSelected : styles.visibleContentContainer}
                         onPress={() => { this.changeVisibleContent("Default") }}
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Unlock height={22} style={this.state.selectedVisibleContent == "Default" ? styles.buttonIconSelected : styles.buttonIcon} />
-                            <Text style={[this.state.selectedVisibleContent == "Default" ? styles.visibleContentTextSelected : styles.visibleContentText, {fontWeight: 'bold'}]}>Compte public</Text>
+                            <Text style={[this.state.selectedVisibleContent == "Default" ? styles.visibleContentTextSelected : styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('publicAccount')}</Text>
                         </View>
                         <View>
                             {this.state.selectedVisibleContent == "Default" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
@@ -110,7 +111,7 @@ export default class Param_Confidentialite extends Component {
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Lock height={22} style={this.state.selectedVisibleContent == "Light" ? styles.buttonIconSelected : styles.buttonIcon} />
-                            <Text style={[this.state.selectedVisibleContent == "Light" ? styles.visibleContentTextSelected : styles.visibleContentText, {fontWeight: 'bold'}]}>Compte privé</Text>
+                            <Text style={[this.state.selectedVisibleContent == "Light" ? styles.visibleContentTextSelected : styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('privateAccount')}</Text>
                         </View>
                         <View>
                             {this.state.selectedVisibleContent == "Light" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
@@ -120,19 +121,19 @@ export default class Param_Confidentialite extends Component {
 
                 <View style={styles.footer}>
                     <View style={styles.footerBorder} />
-                    <Text style={styles.footerTitle}>En savoir plus sur la confidentialité sur Aboki</Text>
+                    <Text style={styles.footerTitle}>{i18n.t('learnMorePrivacyAboki')}</Text>
                     <TouchableOpacity
                         style={styles.footerButton}
                         onPress={() => {  }}
                         activeOpacity={0.8}>
-                            <Text>Politique de confidentialité</Text>
+                            <Text>{i18n.t('privacyPolicy')}</Text>
                             <AngleRight width={16} style={styles.angleRightIcon}/>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.footerButton}
                         onPress={() => {  }}
                         activeOpacity={0.8}>
-                            <Text>Nous contacter</Text>
+                            <Text>{i18n.t('contactUs')}</Text>
                             <AngleRight width={16} style={styles.angleRightIcon}/>
                     </TouchableOpacity>
                 </View>

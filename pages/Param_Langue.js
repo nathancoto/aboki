@@ -7,6 +7,7 @@ import * as G from '../service/global'
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
+import i18n from 'i18n-js';
 
 // Import des drapeaux
 const flags = [
@@ -122,7 +123,7 @@ export default class Param_Langue extends Component {
                             <GoBack style={styles.backButtonIcon} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Langue de l'application</Text>
+                    <Text style={styles.name}>{i18n.t('appLanguage')}</Text>
                     <View style={{width: 45}} />
                 </View>
 

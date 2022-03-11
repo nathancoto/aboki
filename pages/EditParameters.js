@@ -56,7 +56,7 @@ export default class EditParameters extends Component {
                             this.props.navigation.navigate('Param_Langue');
                         }}
                         activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>{i18n.t('applicationLanguageTitle')}</Text>
+                        <Text style={styles.buttonText}>{i18n.t('appLanguage')}</Text>
                     </TouchableOpacity>
                 </View>
 
