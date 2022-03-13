@@ -41,24 +41,24 @@ export default class MemberCard extends Component {
         return(
             <TouchableOpacity
                 activeOpacity={.8}
-                style={styles.memberCard}
+                style={[styles.memberCard, this.props.appTheme == "Dark" ? darkTheme.memberCard : null]}
                 onPress={() => {this.props.onSelectMember(id)}}>
-                <Image source={{uri: member.photo_de_profil}} style={styles.image} />
-                <View style={styles.nameContainer} numberOfLines={1}>
-                    <Text style={[styles.text, styles.name]}>{member.surname} {member.name}, </Text>
-                    <Text style={styles.text}>{member.age}</Text>
+                <Image source={{uri: member.photo_de_profil}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
+                <View style={[styles.nameContainer, this.props.appTheme == "Dark" ? darkTheme.nameContainer : null]} numberOfLines={1}>
+                    <Text style={[styles.text, styles.name, this.props.appTheme == "Dark" ? darkTheme.text : null]}>{member.surname} {member.name}, </Text>
+                    <Text style={[styles.text, this.props.appTheme == "Dark" ? darkTheme.text : null]}>{member.age}</Text>
                 </View>
-                <View style={styles.languagesContainer}>
+                <View style={[styles.languagesContainer, this.props.appTheme == "Dark" ? darkTheme.postContainer : null]}>
                     {languages}
                     {member.langues.length > 2 ?
-                        <Text style={[styles.text, styles.name]}> +{member.langues.length - 2}</Text>
+                        <Text style={[styles.text, styles.name, this.props.appTheme == "Dark" ? darkTheme.text : null]}> +{member.langues.length - 2}</Text>
                         : null    
                     }
                 </View>
-                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.formation}</Text>
-                <Text style={{fontSize: 10, textAlign: 'center'}} numberOfLines={1}>{member.place}</Text>
-                <TouchableOpacity style={styles.addFriendContainer} activeOpacity={0.8}>
-                    <AddFriend height={15} style={styles.addFriend} />
+                <Text style={[{fontSize: 10, textAlign: 'center'}, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{member.formation}</Text>
+                <Text style={[{fontSize: 10, textAlign: 'center'}, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{member.place}</Text>
+                <TouchableOpacity style={[styles.addFriendContainer, this.props.appTheme == "Dark" ? darkTheme.addFriendContainer : null]} activeOpacity={0.8}>
+                    <AddFriend height={15} style={[styles.addFriend, this.props.appTheme == "Dark" ? darkTheme.addFriend : null]} />
                 </TouchableOpacity>
             </TouchableOpacity>
         )
@@ -138,6 +138,42 @@ const styles = StyleSheet.create({
     addFriend: {
         width: 15,
         height: 15,
+        color: "#EF835E"
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    memberCard: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "#fff",
+    },
+
+    image: {
+        
+    },
+
+    nameContainer: {
+        
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    name: {
+        
+    },
+
+    languagesContainer: {
+        
+    },
+
+    addFriendContainer: {
+        backgroundColor: "#0d0f15",
+        shadowColor: "#fff",
+    },
+
+    addFriend: {
         color: "#EF835E"
     }
 })

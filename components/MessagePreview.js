@@ -24,21 +24,21 @@ export default class MessagePreview extends Component {
 
         return(
             <TouchableOpacity
-                style={styles.messageContainer}
+                style={[styles.messageContainer, this.props.appTheme == "Dark" ? darkTheme.messageContainer : null]}
                 onPress={() => {
                     this.props.onSelectMessage(message)
                 }}
                 activeOpacity={.8}>
-                <Image source={{uri: message.image}} style={styles.image} />
+                <Image source={{uri: message.image}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
                 <View style={styles.details}>
-                    <Text style={[styles.text, styles.title]} numberOfLines={1}>{message.name}</Text>
-                    <View style={styles.messageContent}>
-                        <Text style={[styles.text, message.read == false ? styles.noRead : styles.text]} numberOfLines={1}>{message.message}</Text>
-                        <Text style={[styles.text, message.read == false ? styles.noRead : styles.text]} numberOfLines={1}> - {message.timeDiff}</Text>
+                    <Text style={[styles.text, styles.title, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{message.name}</Text>
+                    <View style={[styles.messageContent, this.props.appTheme == "Dark" ? darkTheme.messageContent : null]}>
+                        <Text style={[styles.text, message.read == false ? styles.noRead : styles.text, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{message.message}</Text>
+                        <Text style={[styles.text, message.read == false ? styles.noRead : styles.text, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}> - {message.timeDiff}</Text>
                     </View>
                 </View>
                 {!message.read ?
-                    <View style={styles.noReadNotification} />
+                    <View style={[styles.noReadNotification, this.props.appTheme == "Dark" ? darkTheme.noReadNotification : null]} />
                     : null
                 }
             </TouchableOpacity>
@@ -94,6 +94,40 @@ const styles = StyleSheet.create({
         width: 14,
         height: 14,
         borderRadius: 7,
+        backgroundColor: '#EF835E'
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    messageContainer: {
+        
+    },
+
+    image: {
+        
+    },
+
+    details: {
+        
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    noRead: {
+        
+    },
+
+    title: {
+        
+    },
+
+    messageContent: {
+        
+    },
+
+    noReadNotification: {
         backgroundColor: '#EF835E'
     }
 })

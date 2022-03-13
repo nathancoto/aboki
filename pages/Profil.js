@@ -25,7 +25,11 @@ export default class Profil extends Component {
         this.state = {
             userData: props.userData,
             displayHeaderInfo: false,
-            member: {},
+            member: {
+                centres_dinteret: [],
+                langues : [],
+                groupes: []
+            },
             languages: [],
             hobbies: [],
             groups: []
@@ -78,109 +82,125 @@ export default class Profil extends Component {
         }
 
         return(
-            <View style={styles.container}>
-                <View style={styles.headerBg} />
-                <View style={styles.header}>
-                    <View style={styles.headerButtons}>
+            <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
+                <View style={[styles.headerBg, this.props.appTheme == "Dark" ? darkTheme.headerBg : null]} />
+                <View style={[styles.header, this.props.appTheme == "Dark" ? darkTheme.header : null]}>
+                    <View style={[styles.headerButtons, this.props.appTheme == "Dark" ? darkTheme.headerButtons : null]}>
                         <TouchableOpacity
-                            style={styles.headerButtonContainer}
+                            style={[styles.headerButtonContainer, this.props.appTheme == "Dark" ? darkTheme.headerButtonContainer : null]}
                             onPress={() => {
                                 this.props.navigation.goBack();
                             }}
                             activeOpacity={0.8}>
-                            <View style={styles.headerButton}>
-                                <GoBack style={styles.headerIcon} />
+                            <View style={[styles.headerButton, this.props.appTheme == "Dark" ? darkTheme.headerButton : null]}>
+                                <GoBack style={[styles.headerIcon, this.props.appTheme == "Dark" ? darkTheme.headerIcon : null]} />
                             </View>
                         </TouchableOpacity>
                         {this.state.displayHeaderInfo == true ?
-                            <View style={styles.headerInfos}>
-                                <Image source={{uri: this.state.member.photo_de_profil}} style={styles.headerImage} />
-                                <Text style={styles.headerName}>{this.state.member.surname} {this.state.member.name}</Text>
+                            <View style={[styles.headerInfos, this.props.appTheme == "Dark" ? darkTheme.headerInfos : null]}>
+                                <Image source={{uri: this.state.member.photo_de_profil}} style={[styles.headerImage, this.props.appTheme == "Dark" ? darkTheme.headerImage : null]} />
+                                <Text style={[styles.headerName, this.props.appTheme == "Dark" ? darkTheme.headerName : null]}>{this.state.member.surname} {this.state.member.name}</Text>
                             </View>
                             : <View style={{width: 45}} />
                         }
                         <TouchableOpacity
-                            style={styles.headerButtonContainer}
+                            style={[styles.headerButtonContainer, this.props.appTheme == "Dark" ? darkTheme.headerButtonContainer : null]}
                             onPress={() => {
                                 this.editProfile();
                             }}
                             activeOpacity={0.8}>
-                            <View style={styles.headerButton}>
-                                <Edit style={styles.headerIcon} />
+                            <View style={[styles.headerButton, this.props.appTheme == "Dark" ? darkTheme.headerButton : null]}>
+                                <Edit style={[styles.headerIcon, this.props.appTheme == "Dark" ? darkTheme.headerIcon : null]} />
                             </View>
                         </TouchableOpacity>
                     </View>
                 </View>
 
-                <ScrollView style={styles.contentContainer} onScroll={this.handleScroll} scrollEventThrottle={16}>
-                    <View style={styles.photoNameBg} />
-                    <View style={styles.photoName}>
-                        <View style={styles.imageWrapper}>
-                            <Image source={{uri: this.state.member.photo_de_profil}} style={styles.image} />
+                <ScrollView style={[styles.contentContainer, this.props.appTheme == "Dark" ? darkTheme.contentContainer : null]} onScroll={this.handleScroll} scrollEventThrottle={16}>
+                    <View style={[styles.photoNameBg, this.props.appTheme == "Dark" ? darkTheme.photoNameBg : null]} />
+                    <View style={[styles.photoName, this.props.appTheme == "Dark" ? darkTheme.photoName : null]}>
+                        <View style={[styles.imageWrapper, this.props.appTheme == "Dark" ? darkTheme.imageWrapper : null]}>
+                            <Image source={{uri: this.state.member.photo_de_profil}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
                         </View>
-                        <Text style={styles.name}>{this.state.member.surname} {this.state.member.name}, {this.state.member.age}</Text>
-                        <Text style={styles.role}>Etudiant(e)</Text>
+                        <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>{this.state.member.surname} {this.state.member.name}, {this.state.member.age}</Text>
+                        <Text style={[styles.role, this.props.appTheme == "Dark" ? darkTheme.role : null]}>Etudiant(e)</Text>
                     </View>
 
-                    <View style={styles.study}>
-                        <View style={styles.studyEl}>
-                            <School height={20} style={styles.studyIcon} />
-                            <Text style={styles.studyText}>{this.state.member.formation}</Text>
+                    <View style={[styles.study, this.props.appTheme == "Dark" ? darkTheme.study : null]}>
+                        <View style={[styles.studyEl, this.props.appTheme == "Dark" ? darkTheme.studyEl : null]}>
+                            <School height={20} style={[styles.studyIcon, this.props.appTheme == "Dark" ? darkTheme.studyIcon : null]} />
+                            <Text style={[styles.studyText, this.props.appTheme == "Dark" ? darkTheme.studyText : null]}>{this.state.member.formation}</Text>
                         </View>
-                        <View style={styles.studyEl}>
-                            <Location height={20} style={styles.studyIcon} />
-                            <Text style={styles.studyText}>{this.state.member.place}</Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.presentation}>
-                        <Text style={styles.presentationTitle}>Présentation</Text>
-                        <Text style={styles.presentationText}>{this.state.member.bio}</Text>
-                    </View>
-
-                    <View style={styles.languages}>
-                        <Text style={styles.languagesTitle}>Langue(s) parlée(s)</Text>
-                        <View style={styles.languagesContainer}>
-                            <FlatList
-                                data={this.state.member.langues}
-                                renderItem={({item, index}) => <LanguageCard language={item} index={index}/>}
-                                keyExtractor={(item, index) => index.toString()}
-                                horizontal={true}
-                                style={{overflow: 'visible', alignSelf: 'flex-start'}}
-                                showsHorizontalScrollIndicator={false}
-                            />
+                        <View style={[styles.studyEl, this.props.appTheme == "Dark" ? darkTheme.studyEl : null]}>
+                            <Location height={20} style={[styles.studyIcon, this.props.appTheme == "Dark" ? darkTheme.studyIcon : null]} />
+                            <Text style={[styles.studyText, this.props.appTheme == "Dark" ? darkTheme.studyText : null]}>{this.state.member.place}</Text>
                         </View>
                     </View>
 
-                    <View style={styles.hobbies}>
-                        <Text style={styles.hobbiesTitle}>Centres d'intérêts</Text>
-                        <View style={styles.hobbiesContainer}>
-                            <FlatList
-                                data={this.state.member.centres_dinteret}
-                                renderItem={({item, index}) => <HobbyCard hobby={item} index={index}/>}
-                                keyExtractor={(item, index) => index.toString()}
-                                horizontal={true}
-                                style={{overflow: 'visible', alignSelf: 'flex-start'}}
-                                showsHorizontalScrollIndicator={false}
-                            />
+                    <View style={[styles.presentation, this.props.appTheme == "Dark" ? darkTheme.presentation : null]}>
+                        <Text style={[styles.presentationTitle, this.props.appTheme == "Dark" ? darkTheme.presentationTitle : null]}>Présentation</Text>
+                        <Text style={[styles.presentationText, this.props.appTheme == "Dark" ? darkTheme.presentationText : null]}>{this.state.member.bio}</Text>
+                    </View>
+
+                    <View style={[styles.languages, this.props.appTheme == "Dark" ? darkTheme.languages : null]}>
+                        <Text style={[styles.languagesTitle, this.props.appTheme == "Dark" ? darkTheme.languagesTitle : null]}>Langue(s) parlée(s)</Text>
+                        <View style={[styles.languagesContainer, this.props.appTheme == "Dark" ? darkTheme.languagesContainer : null]}>
+                            {
+                                this.state.member.langues.length > 0 ?
+                                    <FlatList
+                                        data={this.state.member.langues}
+                                        renderItem={({item, index}) => <LanguageCard language={item} index={index} appTheme={this.props.appTheme}/>}
+                                        keyExtractor={(item, index) => index.toString()}
+                                        horizontal={true}
+                                        style={{overflow: 'visible', alignSelf: 'flex-start'}}
+                                        showsHorizontalScrollIndicator={false}
+                                    />
+                                    :
+                                    <Text style={this.props.appTheme == "Dark" ? darkTheme.text : null}>Cette personne n'a pas renseigné de langues.</Text>
+                            }
                         </View>
                     </View>
 
-                    <View style={styles.groups}>
-                        <Text style={styles.groupsTitle}>Groupes</Text>
-                        <View style={styles.groupsContainer}>
-                            <FlatList
-                                data={this.state.groups}
-                                renderItem={({item, index}) => <GroupProfileCard group={item} index={index}/>}
-                                keyExtractor={(item, index) => index.toString()}
-                                horizontal={true}
-                                style={{overflow: 'visible', alignSelf: 'flex-start'}}
-                                showsHorizontalScrollIndicator={false}
-                            />
+                    <View style={[styles.hobbies, this.props.appTheme == "Dark" ? darkTheme.hobbies : null]}>
+                        <Text style={[styles.hobbiesTitle, this.props.appTheme == "Dark" ? darkTheme.hobbiesTitle : null]}>Centres d'intérêts</Text>
+                        <View style={[styles.hobbiesContainer, this.props.appTheme == "Dark" ? darkTheme.hobbiesContainer : null]}>
+                            {
+                                this.state.member.centres_dinteret.length > 0 ?
+                                    <FlatList
+                                        data={this.state.member.centres_dinteret}
+                                        renderItem={({item, index}) => <HobbyCard hobby={item} index={index} appTheme={this.props.appTheme}/>}
+                                        keyExtractor={(item, index) => index.toString()}
+                                        horizontal={true}
+                                        style={{overflow: 'visible', alignSelf: 'flex-start'}}
+                                        showsHorizontalScrollIndicator={false}
+                                    />
+                                :
+                                     <Text style={this.props.appTheme == "Dark" ? darkTheme.text : null}>Cette personne n'a pas renseigné de centres d'intérêts.</Text>
+
+                            }
                         </View>
                     </View>
 
-                    <View style={styles.marginBottom} />
+                    <View style={[styles.groups, this.props.appTheme == "Dark" ? darkTheme.groups : null]}>
+                        <Text style={[styles.groupsTitle, this.props.appTheme == "Dark" ? darkTheme.groupsTitle : null]}>Groupes</Text>
+                        <View style={[styles.groupsContainer, this.props.appTheme == "Dark" ? darkTheme.groupsContainer : null]}>
+                            {
+                                this.state.groups.length > 0 ?
+                                    <FlatList
+                                        data={this.state.groups}
+                                        renderItem={({item, index}) => <GroupProfileCard group={item} index={index} appTheme={this.props.appTheme}/>}
+                                        keyExtractor={(item, index) => index.toString()}
+                                        horizontal={true}
+                                        style={{overflow: 'visible', alignSelf: 'flex-start'}}
+                                        showsHorizontalScrollIndicator={false}
+                                    />
+                                :
+                                    <Text style={this.props.appTheme == "Dark" ? darkTheme.text : null}>Cette personne n'a pas rejoint de groupe.</Text>
+                            }
+                        </View>
+                    </View>
+
+                    <View style={[styles.marginBottom, this.props.appTheme == "Dark" ? darkTheme.marginBottom : null]} />
                 </ScrollView>
 
             </View>
@@ -399,5 +419,135 @@ const styles = StyleSheet.create({
 
     marginBottom: {
         height: 50
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: "#0d0f15",
+    },
+
+    headerBg: {
+        backgroundColor: '#EF835E',
+    },
+
+    header: {
+        
+    },
+
+    headerButtons: {
+
+    },
+
+    headerButtonContainer: {
+        shadowColor: "#fff",
+    },
+
+    headerButton: {
+        backgroundColor: '#0d0f15',
+    },
+
+    headerIcon: {
+        color: '#EF835E'
+    },
+
+    headerInfos: {
+
+    },
+
+    headerImage: {
+        
+    },
+
+    headerName: {
+        color: '#0d0f15',
+    },
+
+    contentContainer: {
+        
+    },
+
+    photoNameBg: {
+        backgroundColor: '#EF835E',
+    },
+
+    photoName: {
+        
+    },
+
+    imageWrapper: {
+        borderColor: '#EF835E',
+    },
+
+    image: {
+        backgroundColor: '#0d0f15',
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    name: {
+        color: '#EF835E',
+    },
+
+    role: {
+        color: '#EF835E',
+    },
+
+    study: {
+        borderColor: '#EF835E',
+    },
+
+    studyEl: {
+        
+    },
+
+    studyIcon: {
+        color: '#EF835E',
+    },
+
+    studyText: {
+        color: 'white'
+    },
+
+    presentation: {
+        
+    },
+
+    presentationTitle: {
+        color: 'white'
+    },
+
+    presentationText: {
+        color: 'white'
+    },
+
+    languages: {
+        
+    },
+
+    languagesTitle: {
+        color: 'white'
+    },
+
+    hobbies: {
+        
+    },
+
+    hobbiesTitle: {
+        color: 'white'
+    },
+
+    groups: {
+        
+    },
+
+    groupsTitle: {
+        color: 'white'
+    },
+
+    marginBottom: {
+        
     }
 })

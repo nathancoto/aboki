@@ -102,7 +102,6 @@ export default class Connexion extends Component {
     }
 
     async saveToStorage(userData){
-        console.log(userData);
         if (userData && userData.status) {
             await AsyncStorage.setItem('user', JSON.stringify({
                     isLoggedIn: true,
@@ -112,7 +111,8 @@ export default class Connexion extends Component {
                     user_name: userData.data.user_name,
                     photo_profil: userData.data.photo_profil,
                     surname: userData.data.surname,
-                    name: userData.data.name
+                    name: userData.data.name,
+                    mail: userData.data.mail
                 })
             );
             return true;
@@ -122,6 +122,15 @@ export default class Connexion extends Component {
     }
 
     getData = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('selectedTheme');
+            if(theme !== null) {
+                this.props.setAppTheme(theme);
+            }
+        } catch(e) {
+            return false;
+        }
+
         try {
             const value = await AsyncStorage.getItem('user');
             if(value !== null) {

@@ -29,21 +29,21 @@ export default class Group_Member extends Component {
                     flag = data.languages.find(lang => lang.id === language).flag;
                 }
                 return (
-                    <Text key={index}>{flag !== null ? flag : language}</Text>
+                    <Text key={index} style={this.props.appTheme == "Dark" ? darkTheme.text : null}>{flag !== null ? flag : language}</Text>
                 )
             }
         });
 
         return(
-            <TouchableOpacity activeOpacity={.8} style={styles.memberCard} onPress={() => {this.props.onSelectMember(member.id, this.props.navigation)}}>
-                <Image source={{uri: member.photo_de_profil}} style={styles.image} />
-                <View style={styles.nameContainer} numberOfLines={1}>
-                    <Text style={[styles.text, styles.name]} numberOfLines={1}>{member.surname} {member.name}</Text>
+            <TouchableOpacity activeOpacity={.8} style={[styles.memberCard, this.props.appTheme == "Dark" ? darkTheme.memberCard : null]} onPress={() => {this.props.onSelectMember(member.id, this.props.navigation)}}>
+                <Image source={{uri: member.photo_de_profil}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
+                <View style={[styles.nameContainer, this.props.appTheme == "Dark" ? darkTheme.nameContainer : null]} numberOfLines={1}>
+                    <Text style={[styles.text, styles.name, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{member.surname} {member.name}</Text>
                 </View>
-                <View style={styles.languagesContainer}>
+                <View style={[styles.languagesContainer, this.props.appTheme == "Dark" ? darkTheme.languagesContainer : null]}>
                     {languages}
                     {member.langues.length > 2 ?
-                        <Text style={[styles.text, styles.name]}> +{member.langues.length - 2}</Text>
+                        <Text style={[styles.text, styles.name, this.props.appTheme == "Dark" ? darkTheme.text : null]}> +{member.langues.length - 2}</Text>
                         : null    
                     }
                 </View>
@@ -99,5 +99,32 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+})
+
+const darkTheme = StyleSheet.create({
+    memberCard: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "#fff",
+    },
+
+    image: {
+        
+    },
+
+    nameContainer: {
+        
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    name: {
+        
+    },
+
+    languagesContainer: {
+        
     },
 })

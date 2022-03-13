@@ -36,6 +36,7 @@ let leftAnim = new Animated.Value(0);
 
 export default function App() {
   const [userData, setUserData] = useState('');
+  const [appTheme, setAppTheme] = useState('');
 
   function MyTabBar({ state, descriptors, navigation }) {
     function animation(value) {
@@ -54,7 +55,7 @@ export default function App() {
           showHideTransition={'fade'}
           hidden={'hidden'} />
         <View style={{width: '100%', alignItems: 'center'}}>
-          <View style={styles.tabBarContainer}>
+          <View style={[styles.tabBarContainer, appTheme == "Dark" ? darkTheme.tabBarContainer : null]}>
             <Animated.View style={[styles.animationItemContainer, {left: leftAnim.interpolate({
               inputRange: [0, 1],
               outputRange: ['0%', '87.7%']
@@ -96,13 +97,13 @@ export default function App() {
               const renderIcon = (label) => {
                 switch(label) {
                   case "Home":
-                    return <HomeIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                    return <HomeIcon height={17} style={isFocused ? (appTheme == "Dark" ? darkTheme.tabBarIconActive : styles.tabBarIconActive) : (appTheme == "Dark" ? darkTheme.tabBarIcon : styles.tabBarIcon)} />
                   case "Search":
-                    return <SearchIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                    return <SearchIcon height={17} style={isFocused ? (appTheme == "Dark" ? darkTheme.tabBarIconActive : styles.tabBarIconActive) : (appTheme == "Dark" ? darkTheme.tabBarIcon : styles.tabBarIcon)} />
                   case "Messages":
-                    return <MessagesIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                    return <MessagesIcon height={17} style={isFocused ? (appTheme == "Dark" ? darkTheme.tabBarIconActive : styles.tabBarIconActive) : (appTheme == "Dark" ? darkTheme.tabBarIcon : styles.tabBarIcon)} />
                   case "Parameters":
-                    return <ParametersIcon height={17} style={isFocused ? styles.tabBarIconActive : styles.tabBarIcon} />
+                    return <ParametersIcon height={17} style={isFocused ? (appTheme == "Dark" ? darkTheme.tabBarIconActive : styles.tabBarIconActive) : (appTheme == "Dark" ? darkTheme.tabBarIcon : styles.tabBarIcon)} />
                   default:
                     return <Text>undefined</Text>
                 }
@@ -116,7 +117,7 @@ export default function App() {
                   testID={options.tabBarTestID}
                   onPress={onPress}
                   onLongPress={onLongPress}
-                  style={isFocused ? styles.tabBarElementActive : styles.tabBarElement }
+                  style={isFocused ? (appTheme == "Dark" ? darkTheme.tabBarElementActive : styles.tabBarElementActive) : ((appTheme == "Dark" ? darkTheme.tabBarElement : styles.tabBarElement))}
                   activeOpacity={.8}
                   key={index}
                 >
@@ -139,16 +140,16 @@ export default function App() {
           }}
           tabBar={props => <MyTabBar {...props} />}>
         <Tab.Screen name="Home">
-          {props => (<Home {...props} userData={userData}/>)}
+          {props => (<Home {...props} userData={userData} appTheme={appTheme}/>)}
         </Tab.Screen>
         <Tab.Screen name="Search">
-          {props => (<Search {...props} userData={userData}/>)}
+          {props => (<Search {...props} userData={userData} appTheme={appTheme}/>)}
         </Tab.Screen>
         <Tab.Screen name="Messages">
-          {props => (<Messages {...props} userData={userData}/>)}
+          {props => (<Messages {...props} userData={userData} appTheme={appTheme}/>)}
         </Tab.Screen>
         <Tab.Screen name="Parameters">
-          {props => (<Parameters {...props} userData={userData}/>)}
+          {props => (<Parameters {...props} userData={userData} appTheme={appTheme}/>)}
         </Tab.Screen>
       </Tab.Navigator>
     );
@@ -158,32 +159,32 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Connexion' screenOptions={{headerShown: false}} >
         <Stack.Screen name="Connexion">
-          {props => (<Connexion {...props} setUserData={setUserData}/>)}
+          {props => (<Connexion {...props} setUserData={setUserData} setAppTheme={setAppTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="App" component={HomeTabs} />
         <Stack.Screen name="MessageDetail">
-          {props => (<MessageDetail {...props} userData={userData}/>)}
+          {props => (<MessageDetail {...props} userData={userData} appTheme={appTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="EditParameters">
-          {props => (<EditParameters {...props} userData={userData}/>)}
+          {props => (<EditParameters {...props} userData={userData} appTheme={appTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="Param_Langue">
-          {props => (<Param_Langue {...props} userData={userData}/>)}
+          {props => (<Param_Langue {...props} userData={userData} appTheme={appTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="Param_Theme">
-          {props => (<Param_Theme {...props} userData={userData}/>)}
+          {props => (<Param_Theme {...props} userData={userData} setAppTheme={setAppTheme} appTheme={appTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="Param_Confidentialite">
-          {props => (<Param_Confidentialite {...props} userData={userData}/>)}
+          {props => (<Param_Confidentialite {...props} userData={userData} appTheme={appTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="Post_Detail">
-          {props => (<Post_Detail {...props} userData={userData}/>)}
+          {props => (<Post_Detail {...props} userData={userData} appTheme={appTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="Profil">
-          {props => (<Profil {...props} userData={userData}/>)}
+          {props => (<Profil {...props} userData={userData} appTheme={appTheme}/>)}
         </Stack.Screen>
         <Stack.Screen name="Group">
-          {props => (<Group {...props} userData={userData}/>)}
+          {props => (<Group {...props} userData={userData} appTheme={appTheme}/>)}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
@@ -245,6 +246,79 @@ const styles = StyleSheet.create({
 
   tabBarIconActive: {
     color: 'white'
+  },
+
+  animationItemContainer: {
+    position: 'absolute',
+    top: 0,
+    width: '25%',
+    height: '100%',
+    overflow: 'hidden'
+  },
+
+  animationItem: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#EF835E',
+    borderRadius: 25
+  }
+});
+
+const darkTheme = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0d0f15',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  tabBarContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 20,
+    width: '90%',
+    height: 63,
+    backgroundColor: '#0d0f15',
+    borderRadius: 25,
+
+    shadowColor: "#fff",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 10,
+  },
+
+  tabBarElement: {
+    height: '100%',
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#EF835E',
+    flex: 1
+  },
+
+  tabBarElementActive: {
+    height: '100%',
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    color: '#0d0f15',
+    // backgroundColor: '#EF835E',
+    flex: 1
+  },
+
+  tabBarIcon: {
+    color: '#EF835E'
+  },
+
+  tabBarIconActive: {
+    color: '#0d0f15'
   },
 
   animationItemContainer: {

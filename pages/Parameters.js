@@ -62,43 +62,43 @@ export default class Parameters extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <View style={styles.userContainer}>
-                    <View style={styles.imageContainer}>
-                        <Image source={{uri: this.state.userData.photo_profil}} style={styles.image} />
+            <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
+                <View style={[styles.userContainer, this.props.appTheme == "Dark" ? darkTheme.userContainer : null]}>
+                    <View style={[styles.imageContainer, this.props.appTheme == "Dark" ? darkTheme.imageContainer : null]}>
+                        <Image source={{uri: this.state.userData.photo_profil}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
                     </View>
-                    <Text style={styles.name}>{this.state.userData.surname} {this.state.userData.name}</Text>
+                    <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>{this.state.userData.surname} {this.state.userData.name}</Text>
 
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, this.props.appTheme == "Dark" ? darkTheme.button : null]}
                         onPress={() => {
                             this.props.navigation.navigate('Profil', {isMe: true});
                         }}
                         activeOpacity={.8}>
-                        <UserIcon style={styles.icon} />
-                        <Text style={styles.buttonText}>{i18n.t('myAccount')}</Text>
+                        <UserIcon style={[styles.icon, this.props.appTheme == "Dark" ? darkTheme.icon : null]} />
+                        <Text style={[styles.buttonText, this.props.appTheme == "Dark" ? darkTheme.buttonText : null]}>{i18n.t('myAccount')}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, this.props.appTheme == "Dark" ? darkTheme.button : null]}
                         onPress={() => {
                             this.props.navigation.navigate('EditParameters');
                         }}
                         activeOpacity={.8}>
-                        <ParametersIcon style={styles.icon} />
-                        <Text style={styles.buttonText}>{i18n.t('parameters')}</Text>
+                        <ParametersIcon style={[styles.icon, this.props.appTheme == "Dark" ? darkTheme.icon : null]} />
+                        <Text style={[styles.buttonText, this.props.appTheme == "Dark" ? darkTheme.buttonText : null]}>{i18n.t('parameters')}</Text>
                     </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity
-                    style={styles.disconnectButton}
+                    style={[styles.disconnectButton, this.props.appTheme == "Dark" ? darkTheme.disconnectButton : null]}
                     onPress={() => {
                         if(this.state.needConnection) {
                             this.onDisconnect();
                         }
                     }}
                     activeOpacity={.8}>
-                    <Text style={styles.disconnectButtonText}>{i18n.t('disconnect')}</Text>
+                    <Text style={[styles.disconnectButtonText, this.props.appTheme == "Dark" ? darkTheme.disconnectButtonText : null]}>{i18n.t('disconnect')}</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -185,5 +185,48 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center'
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: "#0d0f15",
+    },
+
+    userContainer: {
+
+    },
+
+    imageContainer: {
+        borderColor: '#EF835E',
+    },
+
+    image: {
+        backgroundColor: '#EF835E',
+        borderColor: '#0d0f15',
+    },
+
+    name: {
+        color: 'white'
+    },
+
+    button: {
+        borderColor: '#EF835E',
+    },
+
+    icon: {
+        color: '#EF835E',
+    },
+
+    buttonText: {
+        color: '#EF835E',
+    },
+
+    disconnectButton: {
+        backgroundColor: '#EF835E',
+    },
+
+    disconnectButtonText: {
+        color: '#0d0f15',
     }
 })
