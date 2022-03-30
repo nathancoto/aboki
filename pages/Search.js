@@ -51,8 +51,44 @@ export default class Search extends Component {
         })
     }
 
+    findWithText(text) {
+        let users = [];
+        Services.findAllProfiles().then(json => {
+            json.forEach(element => {
+                if(element.name == text)
+                    users.push({id: element.id, member: element.acf});
+            });
+        });
+
+        let groups = [];
+        Services.findAllGroups().then(json => {
+            json.forEach(element => {
+                if(element.name == text)
+                    groups.push({id: element.id, group: element.acf});
+            });
+        })
+
+        if(this.state.displayUsers == false && this.state.displayUsers == false){
+            let usersAndGroups = users.concat(groups);
+            this.setState({
+                usersAndGroups: usersAndGroups
+            });
+        }
+        else if(this.state.displayUsers == true){
+            this.setState({
+                members: users
+            });
+        }
+        else if(this.state.displayGroups == true){
+            this.setState({
+                groups: groups
+            });
+        }
+    }
+
     onChangeSearch = (text) => {
-        this.setState({inputSearch:text})
+        this.setState({inputSearch:text});
+        findWithText(text);
     }
     onFocusSearch = () => {
         this.setState({inputSearch: ''})
@@ -130,6 +166,14 @@ export default class Search extends Component {
                     : this.state.displayGroups == true ?
                         <FlatList
                             data={this.state.groups}
+                            renderItem={({item, index}) => <GroupListCard group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup} appTheme={this.props.appTheme}/>}
+                            keyExtractor={(item, index) => index.toString()}
+                            style={styles.flatlist}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    : this.state.displayUsers == false && this.state.displayUsers == false ?
+                        <FlatList
+                            data={this.state.usersAndGroups}
                             renderItem={({item, index}) => <GroupListCard group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup} appTheme={this.props.appTheme}/>}
                             keyExtractor={(item, index) => index.toString()}
                             style={styles.flatlist}
