@@ -4,49 +4,57 @@
             "id": "Français",
             "appParam": "Français (France)",
             "flag": "🇫🇷",
-            "countryImg": "../assets/bg_card_country/france.png"
+            "countryImg": "../assets/bg_card_country/france.png",
+            "i18n": "fr"
         },
         {
             "id": "Anglais",
             "appParam": "English",
             "flag": "🇬🇧",
-            "countryImg": "../assets/bg_card_country/royaume_uni.png"
+            "countryImg": "../assets/bg_card_country/royaume_uni.png",
+            "i18n": "en"
         },
         {
             "id": "Chinois",
             "appParam": "中文 (简体)",
             "flag": "🇨🇳",
-            "countryImg": "../assets/bg_card_country/chine.png"
+            "countryImg": "../assets/bg_card_country/chine.png",
+            "i18n": "cn"
         },
         {
             "id": "Allemand",
             "appParam": "Deutsch",
             "flag": "🇩🇪",
-            "countryImg": "../assets/bg_card_country/allemagne.png"
+            "countryImg": "../assets/bg_card_country/allemagne.png",
+            "i18n": "de"
         },
         {
             "id": "Italien",
             "appParam": "Italiano",
             "flag": "🇮🇹",
-            "countryImg": "../assets/bg_card_country/italie.png"
+            "countryImg": "../assets/bg_card_country/italie.png",
+            "i18n": "it"
         },
         {
             "id": "Portugais",
             "appParam": "Portugês (Portugal)",
             "flag": "🇵🇹",
-            "countryImg": "../assets/bg_card_country/portugal.png"
+            "countryImg": "../assets/bg_card_country/portugal.png",
+            "i18n": "pt"
         },
         {
             "id": "Russe",
             "appParam": "Pусский",
             "flag": "🇷🇺",
-            "countryImg": "../assets/bg_card_country/russie.png"
+            "countryImg": "../assets/bg_card_country/russie.png",
+            "i18n": "ru"
         },
         {
             "id": "Espagnol",
             "appParam": "Español",
             "flag": "🇪🇸",
-            "countryImg": "../assets/bg_card_country/espagne.png"
+            "countryImg": "../assets/bg_card_country/espagne.png",
+            "i18n": "es"
         }
     ]
 }

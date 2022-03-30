@@ -26,16 +26,16 @@ export default class GroupListCard extends Component {
         // console.log(group);
 
         return(
-            <TouchableOpacity activeOpacity={.8} style={styles.groupCard} onPress={() => {this.props.onSelectGroup(id)}}>
+            <TouchableOpacity activeOpacity={.8} style={[styles.groupCard, this.props.appTheme == "Dark" ? darkTheme.groupCard : null]} onPress={() => {this.props.onSelectGroup(id)}}>
                 <View style={{flexDirection: 'row'}}>
-                    <Image source={{uri: group.photo_de_profil_du_groupe}} style={styles.image} />
+                    <Image source={{uri: group.photo_de_profil_du_groupe}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
                     <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-                        <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.nom_du_groupe}</Text>
-                        <Text style={styles.text} numberOfLines={1}>{group.nb_participants} Participant(s)</Text>
+                        <Text style={[styles.text, styles.title, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{group.nom_du_groupe}</Text>
+                        <Text style={[styles.text, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{group.nb_participants} Participant(s)</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.seeGroupContainer} activeOpacity={0.8}>
-                    <SeeGroup height={23} style={styles.seeGroup} />
+                <TouchableOpacity style={[styles.seeGroupContainer, this.props.appTheme == "Dark" ? darkTheme.seeGroupContainer : null]} activeOpacity={0.8}>
+                    <SeeGroup height={23} style={[styles.seeGroup, this.props.appTheme == "Dark" ? darkTheme.seeGroup : null]} />
                 </TouchableOpacity>
             </TouchableOpacity>
         )
@@ -94,6 +94,33 @@ const styles = StyleSheet.create({
     seeGroup: {
         width: 23,
         height: 23,
+        color: "#EF835E"
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    groupCard: {
+        backgroundColor: '#0d0f15',
+    },
+
+    image: {
+        
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    title: {
+        
+    },
+
+    seeGroupContainer: {
+        backgroundColor: "#0d0f15",
+        shadowColor: "#fff",
+    },
+
+    seeGroup: {
         color: "#EF835E"
     }
 })

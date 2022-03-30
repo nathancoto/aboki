@@ -22,9 +22,9 @@ export default class GroupProfileCard extends Component {
         // console.log(group);
 
         return(
-            <TouchableOpacity activeOpacity={.8} style={styles.groupCard}>
-                <Image source={{uri: group.image}} style={styles.image} />
-                <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.name}</Text>
+            <TouchableOpacity activeOpacity={.8} style={[styles.groupCard, this.props.appTheme == "Dark" ? darkTheme.groupCard : null]}>
+                <Image source={{uri: group.image}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
+                <Text style={[styles.text, styles.title, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{group.name}</Text>
             </TouchableOpacity>
         )
     }
@@ -65,5 +65,24 @@ const styles = StyleSheet.create({
 
     title: {
         fontWeight: 'bold'
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    groupCard: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "#fff",
+    },
+
+    image: {
+        
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    title: {
+        
     }
 })

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Text, View, StyleSheet, Image, FlatList, ScrollView} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as G from '../service/global'
 
@@ -14,6 +15,7 @@ const size = G.wSC / G.numColumns - 10;
 export default class Param_Theme extends Component {
     constructor(props) {
         super(props);
+        this.getData();
 
         // Etats
         this.state = {
@@ -28,11 +30,31 @@ export default class Param_Theme extends Component {
         });
     }
 
+    getData = async () => {
+        try{
+            const theme = await AsyncStorage.getItem('selectedTheme')
+
+            if(theme !== null){
+                this.setState({selectedTheme: theme})
+            }
+        } 
+        catch(error) {
+            console.log(error);
+        }
+    }
+
+    onSave = async (theme) => {
+        try {
+            await AsyncStorage.setItem('selectedTheme', theme)
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     changeTheme(theme) {
-        // TODO
-        this.setState({
-            selectedTheme: theme
-        });
+        this.setState({selectedTheme: theme});
+        this.onSave(theme);
+        this.props.setAppTheme(theme);
     }
 
     render() {
@@ -41,48 +63,48 @@ export default class Param_Theme extends Component {
         }
 
         return(
-            <View style={styles.container}>
-                <View style={styles.header}>
+            <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
+                <View style={[styles.header, this.props.appTheme == "Dark" ? darkTheme.header : null]}>
                     <TouchableOpacity
-                        style={styles.backButtonContainer}
+                        style={[styles.backButtonContainer, this.props.appTheme == "Dark" ? darkTheme.backButtonContainer : null]}
                         onPress={() => {
                             this.props.navigation.goBack();
                         }}
                         activeOpacity={0.8}>
-                        <View style={styles.backButton}>
-                            <GoBack style={styles.backButtonIcon} />
+                        <View style={[styles.backButton, this.props.appTheme == "Dark" ? darkTheme.backButton : null]}>
+                            <GoBack style={[styles.backButtonIcon, this.props.appTheme == "Dark" ? darkTheme.backButtonIcon : null]} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>Thème</Text>
+                    <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>Thème</Text>
                     <View style={{width: 45}} />
                 </View>
 
                 <View style={{flexDirection: 'column', width: '100%'}}>
                     <TouchableOpacity
-                        style={this.state.selectedTheme == "Default" ? styles.themeContainerSelected : styles.themeContainer}
+                        style={this.state.selectedTheme == "Default" ? (this.props.appTheme == "Dark" ? darkTheme.themeContainerSelected : styles.themeContainerSelected) : (this.props.appTheme == "Dark" ? darkTheme.themeContainer : styles.themeContainer)}
                         onPress={() => { this.changeTheme("Default") }}
                         activeOpacity={0.8}>
-                        <Text style={[this.state.selectedTheme == "Default" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Défaut système</Text>
+                        <Text style={[this.state.selectedTheme == "Default" ? (this.props.appTheme == "Dark" ? darkTheme.themeTextSelected : styles.themeTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.themeText : styles.themeText), {fontWeight: 'bold'}]}>Défaut système</Text>
                         <View>
-                            {this.state.selectedTheme == "Default" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                            {this.state.selectedTheme == "Default" && <View style={[styles.checkIconContainer, this.props.appTheme == "Dark" ? darkTheme.checkIconContainer : null]}><Check width={17} style={[styles.checkIcon, this.props.appTheme == "Dark" ? darkTheme.checkIcon : null]}/></View>}
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={this.state.selectedTheme == "Light" ? styles.themeContainerSelected : styles.themeContainer}
+                        style={this.state.selectedTheme == "Light" ? (this.props.appTheme == "Dark" ? darkTheme.themeContainerSelected : styles.themeContainerSelected) : (this.props.appTheme == "Dark" ? darkTheme.themeContainer : styles.themeContainer)}
                         onPress={() => { this.changeTheme("Light") }}
                         activeOpacity={0.8}>
-                        <Text style={[this.state.selectedTheme == "Light" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Clair</Text>
+                        <Text style={[this.state.selectedTheme == "Light" ? (this.props.appTheme == "Dark" ? darkTheme.themeTextSelected : styles.themeTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.themeText : styles.themeText), {fontWeight: 'bold'}]}>Clair</Text>
                         <View>
-                            {this.state.selectedTheme == "Light" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                            {this.state.selectedTheme == "Light" && <View style={[styles.checkIconContainer, this.props.appTheme == "Dark" ? darkTheme.checkIconContainer : null]}><Check width={17} style={[styles.checkIcon, this.props.appTheme == "Dark" ? darkTheme.checkIcon : null]}/></View>}
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={this.state.selectedTheme == "Dark" ? styles.themeContainerSelected : styles.themeContainer}
+                        style={this.state.selectedTheme == "Dark" ? (this.props.appTheme == "Dark" ? darkTheme.themeContainerSelected : styles.themeContainerSelected) : (this.props.appTheme == "Dark" ? darkTheme.themeContainer : styles.themeContainer)}
                         onPress={() => { this.changeTheme("Dark") }}
                         activeOpacity={0.8}>
-                        <Text style={[this.state.selectedTheme == "Dark" ? styles.themeTextSelected : styles.themeText, {fontWeight: 'bold'}]}>Sombre</Text>
+                        <Text style={[this.state.selectedTheme == "Dark" ? (this.props.appTheme == "Dark" ? darkTheme.themeTextSelected : styles.themeTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.themeText : styles.themeText), {fontWeight: 'bold'}]}>Sombre</Text>
                         <View>
-                            {this.state.selectedTheme == "Dark" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                            {this.state.selectedTheme == "Dark" && <View style={[styles.checkIconContainer, this.props.appTheme == "Dark" ? darkTheme.checkIconContainer : null]}><Check width={17} style={[styles.checkIcon, this.props.appTheme == "Dark" ? darkTheme.checkIcon : null]}/></View>}
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -196,5 +218,84 @@ const styles = StyleSheet.create({
         color: 'white',
         width: 17,
         height: 17
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: "#0d0f15",
+    },
+
+    header: {
+        
+    },
+
+    backButtonContainer: {
+        
+    },
+
+    backButton: {
+        backgroundColor: '#EF835E',
+    },
+
+    backButtonIcon: {
+        color: '#0d0f15'
+    },
+
+    name: {
+        color: 'white'
+    },
+
+    themeContainer: {
+        width: '100%',
+        height: 53,
+        marginVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#0d0f15',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+
+        shadowColor: "#fff",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 10
+    },
+
+    themeContainerSelected: {
+        width: '100%',
+        height: 53,
+        marginVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#0d0f15',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderColor: '#EF835E',
+        borderWidth: 2
+    },
+
+    themeText: {
+        color: 'white'
+    },
+
+    themeTextSelected: {
+        color: '#EF835E'
+    },
+
+    checkIconContainer: {
+        backgroundColor: '#EF835E',
+    },
+
+    checkIcon: {
+        color: '#0d0f15',
     }
 })

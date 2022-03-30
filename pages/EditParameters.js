@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, Image, FlatList, ScrollView} from 'react-native'
+import {Text, View, StyleSheet, Image, FlatList, ScrollView, Linking} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as G from '../service/global'
@@ -19,11 +19,19 @@ export default class EditParameters extends Component {
             userData: props.userData
         }
     }
-
+    
     parseUserData() {
         this.setState({
             userData: JSON.parse(this.state.userData)
         });
+    }
+
+    openParams() {
+        Linking.openURL('app-settings:');
+    }
+
+    reportBug() {
+        Linking.openURL('https://forms.gle/By15Yx8rj885FBue6');
     }
 
     render() {
@@ -31,65 +39,65 @@ export default class EditParameters extends Component {
             this.parseUserData();
         }
         return(
-            <View style={styles.container}>
-                <View style={styles.header}>
+            <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
+                <View style={[styles.header, this.props.appTheme == "Dark" ? darkTheme.header : null]}>
                     <TouchableOpacity
-                        style={styles.backButtonContainer}
+                        style={[styles.backButtonContainer, this.props.appTheme == "Dark" ? darkTheme.backButtonContainer : null]}
                         onPress={() => {
                             this.props.navigation.goBack();
                         }}
                         activeOpacity={0.8}>
-                        <View style={styles.backButton}>
-                            <GoBack style={styles.backButtonIcon} />
+                        <View style={[styles.backButton, this.props.appTheme == "Dark" ? darkTheme.backButton : null]}>
+                            <GoBack style={[styles.backButtonIcon, this.props.appTheme == "Dark" ? darkTheme.backButtonIcon : null]} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>{this.state.userData.user_name}</Text>
+                    <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>{this.state.userData.surname} {this.state.userData.name}</Text>
                     <View style={{width: 45}} />
                 </View>
 
-                <View style={styles.category}>
-                    <Text style={styles.title}>Compte</Text>
+                <View style={[styles.category, this.props.appTheme == "Dark" ? darkTheme.category : null]}>
+                    <Text style={[styles.title, this.props.appTheme == "Dark" ? darkTheme.title : null]}>Compte</Text>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, this.props.appTheme == "Dark" ? darkTheme.button : null]}
                         onPress={() => {
                             this.props.navigation.navigate('Param_Langue');
                         }}
                         activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Langue de l'application</Text>
+                        <Text style={[styles.buttonText, this.props.appTheme == "Dark" ? darkTheme.buttonText : null]}>Langue de l'application</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.category}>
-                    <Text style={styles.title}>Apparence</Text>
+                <View style={[styles.category, this.props.appTheme == "Dark" ? darkTheme.category : null]}>
+                    <Text style={[styles.title, this.props.appTheme == "Dark" ? darkTheme.title : null]}>Apparence</Text>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, this.props.appTheme == "Dark" ? darkTheme.button : null]}
                         onPress={() => {
                             this.props.navigation.navigate('Param_Theme');
                         }}
                         activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Thème</Text>
+                        <Text style={[styles.buttonText, this.props.appTheme == "Dark" ? darkTheme.buttonText : null]}>Thème</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.category}>
-                    <Text style={styles.title}>Sécurité</Text>
+                <View style={[styles.category, this.props.appTheme == "Dark" ? darkTheme.category : null]}>
+                    <Text style={[styles.title, this.props.appTheme == "Dark" ? darkTheme.title : null]}>Sécurité</Text>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, this.props.appTheme == "Dark" ? darkTheme.button : null]}
                         onPress={() => {
                             this.props.navigation.navigate('Param_Confidentialite');
                         }}
                         activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Confidentialité</Text>
+                        <Text style={[styles.buttonText, this.props.appTheme == "Dark" ? darkTheme.buttonText : null]}>Confidentialité</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Notifications</Text>
+                    <TouchableOpacity style={[styles.button, this.props.appTheme == "Dark" ? darkTheme.button : null]} activeOpacity={0.8} onPress={this.openParams}>
+                        <Text style={[styles.buttonText, this.props.appTheme == "Dark" ? darkTheme.buttonText : null]}>Notifications</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.category}>
-                    <Text style={styles.title}>Autre</Text>
-                    <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                        <Text style={styles.buttonText}>Reporter un bug</Text>
+                <View style={[styles.category, this.props.appTheme == "Dark" ? darkTheme.category : null]}>
+                    <Text style={[styles.title, this.props.appTheme == "Dark" ? darkTheme.title : null]}>Autre</Text>
+                    <TouchableOpacity style={[styles.button, this.props.appTheme == "Dark" ? darkTheme.button : null]} activeOpacity={0.8} onPress={this.reportBug}>
+                        <Text style={[styles.buttonText, this.props.appTheme == "Dark" ? darkTheme.buttonText : null]}>Reporter un bug</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -168,5 +176,47 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         fontSize: 14
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: "#0d0f15",
+    },
+
+    header: {
+        
+    },
+
+    backButtonContainer: {
+
+    },
+
+    backButton: {
+        backgroundColor: '#EF835E',
+    },
+
+    backButtonIcon: {
+        color: '#0d0f15'
+    },
+
+    name: {
+        color: 'white'
+    },
+
+    category: {
+        
+    },
+
+    title: {
+        color: 'white'
+    },
+
+    button: {
+        backgroundColor: '#EF835E',
+    },
+
+    buttonText: {
+        color: '#0d0f15',
     }
 })
