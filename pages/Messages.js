@@ -4,6 +4,7 @@ import MessagePreview from '../components/MessagePreview';
 
 import axios from 'axios';
 import * as G from '../service/global'
+import i18n from 'i18n-js';
 import * as Services from '../service/Api';
 
 // Largeur des items
@@ -98,7 +99,7 @@ export default class Messages extends Component {
                     <View style={[styles.inputContainer, this.props.appTheme == "Dark" ? darkTheme.inputContainer : null]}>
                         <TextInput
                                 style={styles.input}
-                                placeholder={'Rechercher'}
+                                placeholder={i18n.t('search')}
                                 placeholderTextColor={this.props.appTheme == "Dark" ? 'white' : 'black'}
 
                                 // Valeur à afficher par défaut dans le champ de recherche

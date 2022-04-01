@@ -8,6 +8,7 @@ import MemberCard from '../components/MemberCard';
 import MemberListCard from '../components/MemberListCard';
 import GroupCard from '../components/GroupCard';
 import GroupListCard from '../components/GroupListCard';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -102,7 +103,7 @@ export default class Search extends Component {
                 <View style={[styles.inputContainer, this.props.appTheme == "Dark" ? darkTheme.inputContainer : null]}>
                     <TextInput
                             style={[styles.input, this.props.appTheme == "Dark" ? darkTheme.input : null]}
-                            placeholder={'Rechercher'}
+                            placeholder={i18n.t('search')}
                             placeholderTextColor={this.props.appTheme == "Dark" ? 'white' : 'black'}
 
                             // Valeur à afficher par défaut dans le champ de recherche
@@ -114,10 +115,10 @@ export default class Search extends Component {
                 </View>
                 <View style={[styles.buttonWrapper, this.props.appTheme == "Dark" ? darkTheme.buttonWrapper : null]}>
                     <TouchableOpacity style={this.state.displayUsers == true ? (this.props.appTheme == "Dark" ? darkTheme.buttonContainerActive : styles.buttonContainerActive) : (this.props.appTheme == "Dark" ? darkTheme.buttonContainer : styles.buttonContainer)} activeOpacity={.8} onPress={this.displayUsers}>
-                        <Text style={this.state.displayUsers == true ? (this.props.appTheme == "Dark" ? darkTheme.buttonTextActive : styles.buttonTextActive) : (this.props.appTheme == "Dark" ? darkTheme.buttonText : styles.buttonText)}>Personnes</Text>
+                        <Text style={this.state.displayUsers == true ? (this.props.appTheme == "Dark" ? darkTheme.buttonTextActive : styles.buttonTextActive) : (this.props.appTheme == "Dark" ? darkTheme.buttonText : styles.buttonText)}>{i18n.t('users')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={this.state.displayGroups == true ? (this.props.appTheme == "Dark" ? darkTheme.buttonContainerActive : styles.buttonContainerActive) : (this.props.appTheme == "Dark" ? darkTheme.buttonContainer : styles.buttonContainer)} activeOpacity={.8} onPress={this.displayGroups}>
-                        <Text style={this.state.displayGroups == true ? (this.props.appTheme == "Dark" ? darkTheme.buttonTextActive : styles.buttonTextActive) : (this.props.appTheme == "Dark" ? darkTheme.buttonText : styles.buttonText)}>Groupes</Text>
+                        <Text style={this.state.displayGroups == true ? (this.props.appTheme == "Dark" ? darkTheme.buttonTextActive : styles.buttonTextActive) : (this.props.appTheme == "Dark" ? darkTheme.buttonText : styles.buttonText)}>{i18n.t('groups')}</Text>
                     </TouchableOpacity>
                 </View>
                 {
@@ -156,7 +157,7 @@ export default class Search extends Component {
                     </View>
                     :
                     <>
-                        <Text style={[styles.subtitleText, this.props.appTheme == "Dark" ? darkTheme.subtitleText : null]}>Personnes qui pourraient vous aider</Text>
+                        <Text style={[styles.subtitleText, this.props.appTheme == "Dark" ? darkTheme.subtitleText : null]}>{i18n.t('usersWhoHelpYou')}</Text>
                         <View style={[styles.membersContainer, this.props.appTheme == "Dark" ? darkTheme.membersContainer : null]}>
                             <FlatList
                                 data={this.state.members}
@@ -167,7 +168,7 @@ export default class Search extends Component {
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
-                        <Text style={[styles.subtitleText, this.props.appTheme == "Dark" ? darkTheme.subtitleText : null]}>Groupes qui pourraient vous intéresser</Text>
+                        <Text style={[styles.subtitleText, this.props.appTheme == "Dark" ? darkTheme.subtitleText : null]}>{i18n.t('groupsMightInterestYou')}</Text>
                         <View style={[styles.groupsContainer, this.props.appTheme == "Dark" ? darkTheme.groupsContainer : null]}>
                             <FlatList
                                 data={this.state.groups}

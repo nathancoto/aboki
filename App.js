@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Appearance } from 'react-native';
 
 // Package pour la navigation
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
@@ -35,6 +35,12 @@ const Stack = createStackNavigator();
 let leftAnim = new Animated.Value(0);
 
 export default function App() {
+  // const [theme,setTheme] = useState(Appearance.getColorScheme());
+  // console.log(theme)
+  // console.log("oui", Appearance.getColorScheme())
+  // Appearance.addChangeListener((scheme)=>{
+  //   console.log(scheme)
+  // })
   const [userData, setUserData] = useState('');
   const [appTheme, setAppTheme] = useState('');
 
@@ -156,7 +162,7 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={DarkTheme}>
       <Stack.Navigator initialRouteName='Connexion' screenOptions={{headerShown: false}} >
         <Stack.Screen name="Connexion">
           {props => (<Connexion {...props} setUserData={setUserData} setAppTheme={setAppTheme}/>)}

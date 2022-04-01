@@ -3,10 +3,12 @@ import * as Localization  from 'expo-localization'
 
 import en from '../translations/en';
 import fr from '../translations/fr';
+import es from '../translations/es';
 
 i18n.translations = {
     en,
-    fr
+    fr,
+    es
 }
 
 const getLanguage = async() => {

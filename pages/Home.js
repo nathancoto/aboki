@@ -6,6 +6,7 @@ import * as Services from '../service/Api';
 import GroupIcon from '../components/GroupIcon';
 import Post from '../components/Post';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;
@@ -18,6 +19,7 @@ export default class Home extends Component {
         this.state = {
             groups: [],
             posts: []
+            // mode: Appearance.getColorScheme()
         }
     }
 
@@ -54,7 +56,7 @@ export default class Home extends Component {
         return(
             <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
                 <View style={[styles.groupContainer, this.props.appTheme == "Dark" ? darkTheme.groupContainer : null]}>
-                    <Text style={[styles.label, this.props.appTheme == "Dark" ? darkTheme.label : null]}>Groupes</Text>
+                    <Text style={[styles.label, this.props.appTheme == "Dark" ? darkTheme.label : null]}>{i18n.t('groups')}</Text>
                     <FlatList
                         data={this.state.groups}
                         renderItem={({item, index}) => <GroupIcon group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup} appTheme={this.props.appTheme}/>}
@@ -71,7 +73,7 @@ export default class Home extends Component {
                         keyExtractor={(item, index) => index.toString()}
                         style={{overflow: 'visible'}}
                         showsVerticalScrollIndicator={false}
-                        ListHeaderComponent={<Text style={[styles.label, {marginLeft: '5%'}, this.props.appTheme == "Dark" ? darkTheme.label : null]}>Nouveaux posts</Text>}
+                        ListHeaderComponent={<Text style={[styles.label, {marginLeft: '5%'}, this.props.appTheme == "Dark" ? darkTheme.label : null]}>{i18n.t('newPosts')}</Text>}
                     />
                 </View>
             </View>

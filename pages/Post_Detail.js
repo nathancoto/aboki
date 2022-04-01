@@ -7,6 +7,7 @@ import { findGroupByID } from '../service/Api';
 
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
+import i18n from 'i18n-js';
 
 // Largeur des items
 const size = G.wSC / G.numColumns - 10;

@@ -8,6 +8,7 @@ import i18n from 'i18n-js'
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
+import i18n from 'i18n-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Import des drapeaux
@@ -145,7 +146,7 @@ export default class Param_Langue extends Component {
                             <GoBack style={[styles.backButtonIcon, this.props.appTheme == "Dark" ? darkTheme.backButtonIcon : null]} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>{i18n.t('applicationLanguageTitle')}</Text>
+                    <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>{i18n.t('appLanguage')}</Text>
                     <View style={{width: 45}} />
                 </View>
 
