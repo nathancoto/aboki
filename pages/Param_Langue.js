@@ -8,7 +8,6 @@ import i18n from 'i18n-js'
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
 import Check from '../assets/check.svg';
-import i18n from 'i18n-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Import des drapeaux
@@ -109,28 +108,46 @@ export default class Param_Langue extends Component {
                 }
             });
 
-            return (
-                <TouchableOpacity
-                    style={this.state.selectedLang == langi18n ? (this.props.appTheme == "Dark" ? darkTheme.languageContainerSelected : styles.languageContainerSelected) : (this.props.appTheme == "Dark" ? darkTheme.languageContainer : styles.languageContainer)}
-                    onPress={() => { this.changeLang(langi18n) }}
-                    activeOpacity={0.8}
-                    key={index}>
-                    <View style={{flexDirection: 'row'}}>
-                        <Image source={flag} style={[styles.flag, this.props.appTheme == "Dark" ? darkTheme.flag : null]} />
-                        <View>
-                            <Text style={[this.state.selectedLang == langi18n ? (this.props.appTheme == "Dark" ? darkTheme.langTextSelected : styles.langTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.langText : styles.langText), {fontWeight: 'bold'}]}>{langText}</Text>
-                            <Text style={this.state.selectedLang == langi18n ? (this.props.appTheme == "Dark" ? darkTheme.langTextSelected : styles.langTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.langText : styles.langText)}>{langTrad}</Text>
-                        </View>
-                    </View>
-                    <View>
-                        {this.state.selectedLang == langi18n &&
-                            <View style={[styles.checkIconContainer, this.props.appTheme == "Dark" ? darkTheme.checkIconContainer : null]}>
-                                <Check width={17} style={[styles.checkIcon, this.props.appTheme == "Dark" ? darkTheme.checkIcon : null]}/>
+            if(language.available == true) {
+                return (
+                    <TouchableOpacity
+                        style={this.state.selectedLang == langi18n ? (this.props.appTheme == "Dark" ? darkTheme.languageContainerSelected : styles.languageContainerSelected) : (this.props.appTheme == "Dark" ? darkTheme.languageContainer : styles.languageContainer)}
+                        onPress={() => { this.changeLang(langi18n) }}
+                        activeOpacity={0.8}
+                        key={index}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image source={flag} style={[styles.flag, this.props.appTheme == "Dark" ? darkTheme.flag : null]} />
+                            <View>
+                                <Text style={[this.state.selectedLang == langi18n ? (this.props.appTheme == "Dark" ? darkTheme.langTextSelected : styles.langTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.langText : styles.langText), {fontWeight: 'bold'}]}>{langText}</Text>
+                                <Text style={this.state.selectedLang == langi18n ? (this.props.appTheme == "Dark" ? darkTheme.langTextSelected : styles.langTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.langText : styles.langText)}>{langTrad}</Text>
                             </View>
-                        }
-                    </View>
-                </TouchableOpacity>
-            )
+                        </View>
+                        <View>
+                            {this.state.selectedLang == langi18n &&
+                                <View style={[styles.checkIconContainer, this.props.appTheme == "Dark" ? darkTheme.checkIconContainer : null]}>
+                                    <Check width={17} style={[styles.checkIcon, this.props.appTheme == "Dark" ? darkTheme.checkIcon : null]}/>
+                                </View>
+                            }
+                        </View>
+                    </TouchableOpacity>
+                )
+            } else {
+                return (
+                    <TouchableOpacity
+                        style={this.props.appTheme == "Dark" ? darkTheme.languageContainerNotAvailable : styles.languageContainerNotAvailable}
+                        activeOpacity={0.8}
+                        key={index}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image source={flag} style={[styles.flagNotAvailable, this.props.appTheme == "Dark" ? darkTheme.flagNotAvailable : null]} />
+                            <View>
+                                <Text style={[this.props.appTheme == "Dark" ? darkTheme.langTextNotAvailable : styles.langTextNotAvailable, {fontWeight: 'bold'}]}>{langText}</Text>
+                                <Text style={this.props.appTheme == "Dark" ? darkTheme.langTextNotAvailable : styles.langTextNotAvailable}>{langTrad}</Text>
+                            </View>
+                        </View>
+                        <View></View>
+                    </TouchableOpacity>
+                )
+            }
         });
 
         return(
@@ -240,6 +257,28 @@ const styles = StyleSheet.create({
         borderWidth: 2
     },
 
+    languageContainerNotAvailable: {
+        width: '100%',
+        height: 53,
+        marginVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'white',
+        opacity: .6,
+        borderRadius: 10,
+        padding: 10,
+        
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 10
+    },
+
     flag: {
         width: 32,
         height: 32,
@@ -248,12 +287,25 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
 
+    flagNotAvailable: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        backgroundColor: '#EF835E',
+        marginRight: 20,
+        opacity: .6
+    },
+
     langText: {
 
     },
 
     langTextSelected: {
         color: '#EF835E'
+    },
+
+    langTextNotAvailable: {
+        color: '#8a8a8a'
     },
 
     checkIconContainer: {
@@ -332,6 +384,28 @@ const darkTheme = StyleSheet.create({
         borderWidth: 2
     },
 
+    languageContainerNotAvailable: {
+        width: '100%',
+        height: 53,
+        marginVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#0d0f15',
+        opacity: .6,
+        borderRadius: 10,
+        padding: 10,
+
+        shadowColor: "#fff",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 10
+    },
+
     flag: {
         backgroundColor: '#EF835E',
     },
@@ -342,6 +416,10 @@ const darkTheme = StyleSheet.create({
 
     langTextSelected: {
         color: '#EF835E'
+    },
+
+    langTextNotAvailable: {
+        color: '#8a8a8a'
     },
 
     checkIconContainer: {
