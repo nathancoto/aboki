@@ -52,15 +52,32 @@ export default class Messages extends Component {
                 {timeout: 10000})
             .then((response) => {
                 response.data.forEach(el => {
-                    Services.findProfileByID(el).then(json => {
+                    let elJson = JSON.parse(el);
+                    Services.findProfileByID(elJson.friend_id).then(json => {
                         let messages = this.state.messages;
+
+                        let timeOrigin = parseInt(elJson.friend_date);
+                        let timeDiff = (new Date() - new Date(timeOrigin)) / 1000;
+                        
+                        if(timeDiff < 60) { // less than 1 min
+                            timeDiff = Math.round(timeDiff) + 's';
+                        } else if(timeDiff < 3600) { // less than 1 hour
+                            timeDiff = Math.round(timeDiff / 60) + 'min';
+                        } else if(timeDiff < 86400) { // less than 1 day
+                            timeDiff = Math.round(timeDiff / 3600) + 'h';
+                        } else if(timeDiff < 604800) { // less than 1 week
+                            timeDiff = Math.round(timeDiff / 86400) + 'j';
+                        } else {
+                            timeDiff = Math.round(timeDiff / 604800) + 'semaines';
+                        }
+
                         messages.push({
-                            id: el,
+                            id: elJson.friend_id,
                             image: json.acf.photo_de_profil,
                             name: json.acf.surname + ' ' + json.acf.name,
                             mail: json.acf.adresse_mail,
-                            message: 'todo message',
-                            timeDiff: 'todo time',
+                            message: elJson.friend_message,
+                            timeDiff: timeDiff,
                             read: true
                         })
                         this.setState({

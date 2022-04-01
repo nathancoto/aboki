@@ -123,7 +123,9 @@ export default class MessageDetail extends Component {
                         message: this.state.inputMessage,
                         sender: this.state.userData.mail,
                         receiver: this.message.mail,
-                        date: Date.now()
+                        date: Date.now(),
+                        sender_id: this.state.userData.id,
+                        receiver_id: this.message.id
                     },
                     {timeout: 10000})
                 .then((response) => {

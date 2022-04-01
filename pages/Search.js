@@ -20,7 +20,9 @@ export default class Search extends Component {
         this.state = {
             inputSearch: '',
             displayUsers: false,
-            displayGroups: false
+            displayGroups: false,
+            members: [],
+            groups: []
         }
 
         this.findUsers();
@@ -121,7 +123,7 @@ export default class Search extends Component {
                 {
                     this.state.displayUsers == true ?
                         <FlatList
-                            data={this.state.members}
+                            data={this.state.inputSearch.length > 0 ? this.state.members.filter(member => member.member.surname.includes(this.state.inputSearch) || member.member.name.includes(this.state.inputSearch)) : this.state.members}
                             renderItem={({item, index}) => <MemberListCard member={item.member} id={item.id} index={index} onSelectMember={this.onSelectMember} appTheme={this.props.appTheme}/>}
                             keyExtractor={(item, index) => index.toString()}
                             style={styles.flatlist}
@@ -129,12 +131,29 @@ export default class Search extends Component {
                         />
                     : this.state.displayGroups == true ?
                         <FlatList
-                            data={this.state.groups}
+                            data={this.state.inputSearch.length > 0 ? this.state.groups.filter(group => group.group.nom_du_groupe.includes(this.state.inputSearch)) : this.state.groups}
                             renderItem={({item, index}) => <GroupListCard group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup} appTheme={this.props.appTheme}/>}
                             keyExtractor={(item, index) => index.toString()}
                             style={styles.flatlist}
                             showsVerticalScrollIndicator={false}
                         />
+                    : this.state.inputSearch.length > 0 ?
+                    <View style={{alignItems: 'flex-start', flexDirection: 'column', width: '100%'}}>
+                        <FlatList
+                            data={this.state.inputSearch.length > 0 ? this.state.members.filter(member => member.member.surname.includes(this.state.inputSearch) || member.member.name.includes(this.state.inputSearch)) : this.state.members}
+                            renderItem={({item, index}) => <MemberListCard member={item.member} id={item.id} index={index} onSelectMember={this.onSelectMember} appTheme={this.props.appTheme}/>}
+                            keyExtractor={(item, index) => index.toString()}
+                            style={styles.flatlist}
+                            showsVerticalScrollIndicator={false}
+                        />
+                        <FlatList
+                            data={this.state.inputSearch.length > 0 ? this.state.groups.filter(group => group.group.nom_du_groupe.includes(this.state.inputSearch)) : this.state.groups}
+                            renderItem={({item, index}) => <GroupListCard group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup} appTheme={this.props.appTheme}/>}
+                            keyExtractor={(item, index) => index.toString()}
+                            style={styles.flatlist}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    </View>
                     :
                     <>
                         <Text style={[styles.subtitleText, this.props.appTheme == "Dark" ? darkTheme.subtitleText : null]}>Personnes qui pourraient vous aider</Text>
