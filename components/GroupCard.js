@@ -29,10 +29,10 @@ export default class GroupCard extends Component {
                 onPress={() => {
                     this.props.onSelectGroup(id);
                 }}
-                style={styles.groupCard}>
-                <Image source={{uri: group.photo_de_profil_du_groupe}} style={styles.image} />
-                <Text style={[styles.text, styles.title]} numberOfLines={1}>{group.nom_du_groupe}</Text>
-                <Text style={styles.text} numberOfLines={1}>{group.nb_participants} {i18n.t('members')}</Text>
+                style={[styles.groupCard, this.props.appTheme == "Dark" ? darkTheme.groupCard : null]}>
+                <Image source={{uri: group.photo_de_profil_du_groupe}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
+                <Text style={[styles.text, styles.title, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{group.nom_du_groupe}</Text>
+                <Text style={[styles.text, this.props.appTheme == "Dark" ? darkTheme.text : null]} numberOfLines={1}>{group.nb_participants} {i18n.t('members')}</Text>
             </TouchableOpacity>
         )
     }
@@ -72,5 +72,24 @@ const styles = StyleSheet.create({
 
     title: {
         fontWeight: 'bold'
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    groupCard: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "#fff",
+    },
+
+    image: {
+        
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    title: {
+        
     }
 })

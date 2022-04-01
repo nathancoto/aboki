@@ -4,6 +4,8 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 import * as G from '../service/global'
 import MessageItem from '../components/MessageItem';
+import axios from 'axios';
+import * as Services from '../service/Api';
 
 // Import des icônes
 import GoBack from '../assets/arrow-left.svg';
@@ -20,7 +22,6 @@ export default class MessageDetail extends Component {
     constructor(props) {
         super(props);
 
-        // Récupère le film passé en paramètre de la navigation (route)
         this.message = this.props.route.params.message;
 
         // Etats
@@ -28,19 +29,47 @@ export default class MessageDetail extends Component {
             inputMessage: '',
             accepted: true,
             hasAccepted: true,
-            messages: [
-                {
-                    id: 1,
-                    message: 'Salut ça va ?',
-                    fromMe: false
-                },
-                {
-                    id: 2,
-                    message: 'Bien et toi ?',
-                    fromMe: true
-                }
-            ]
+            messages: []
         }
+    }
+    
+    componentDidMount() {
+        this.parseUserData();
+    }
+
+    parseUserData() {
+        this.setState({
+            userData: JSON.parse(this.props.userData)
+        }, () => {
+            this.getConversation();
+        });
+    }
+
+    getConversation() {
+        const bddUrl = 'https://dev-aboki.pantheonsite.io/wp-content/plugins/aboki-data-handler/aboki-data-handler.php';
+
+        axios.post(bddUrl,
+                {
+                    conversation_sender: this.state.userData.mail,
+                    conversation_receiver: this.message.mail
+                },
+                {timeout: 10000})
+            .then((response) => {
+                response.data.forEach(el => {
+                    let messages = this.state.messages;
+                    messages.push({
+                        message: el.message,
+                        fromMe: el.sender == this.state.userData.mail ? true : false,
+                        date: el.date
+                    })
+                    this.setState({
+                        messages: messages
+                    })
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     onChangeMessage = (text) => {
@@ -53,10 +82,10 @@ export default class MessageDetail extends Component {
     renderMessages = () => {
         if(this.state.messages.length == 0) {
             return(
-                <View style={accepted.infoContainer}>
-                    <Image source={{uri: this.message.image}} style={hasToAccept.image} />
-                    <Text style={hasToAccept.name}>{this.message.name}</Text>
-                    <Text style={hasToAccept.text}>
+                <View style={[accepted.infoContainer, this.props.appTheme == "Dark" ? acceptedDark.infoContainer : null]}>
+                    <Image source={{uri: this.message.image}} style={[hasToAccept.image, this.props.appTheme == "Dark" ? hasToAcceptDark.image : null]} />
+                    <Text style={[hasToAccept.name, this.props.appTheme == "Dark" ? hasToAcceptDark.name : null]}>{this.message.name}</Text>
+                    <Text style={[hasToAccept.text, this.props.appTheme == "Dark" ? hasToAcceptDark.text : null]}>
                         {this.state.hasAccepted == true ?
                             'Vous avez accepté l\'invitation, bonne discussion !'
                             :
@@ -67,11 +96,11 @@ export default class MessageDetail extends Component {
             )
         } else {
             return(
-                <View style={styles.listContainer}>
+                <View style={[styles.listContainer, this.props.appTheme == "Dark" ? darkTheme.listContainer : null]}>
                     <FlatList
                         data={this.state.messages}
-                        renderItem={({item, index}) => <MessageItem message={item} index={index} otherData={this.message}/>}
-                        keyExtractor={item => item.id}
+                        renderItem={({item, index}) => <MessageItem message={item} index={index} otherData={this.message} appTheme={this.props.appTheme}/>}
+                        keyExtractor={(item, index) => index.toString()}
                         showsVerticalScrollIndicator={false}
                         style={{overflow: 'visible'}}
                         contentContainerStyle={{
@@ -86,72 +115,93 @@ export default class MessageDetail extends Component {
     }
 
     sendMessage = () => {
-        if(this.state.inputMessage !== '') {
-            this.setState({
-                messages: [
-                    ...this.state.messages,
+        if(this.state.inputMessage !== "") {
+            const bddUrl = 'https://dev-aboki.pantheonsite.io/wp-content/plugins/aboki-data-handler/aboki-data-handler.php';
+    
+            axios.post(bddUrl,
                     {
-                        id: this.state.messages.length + 1,
                         message: this.state.inputMessage,
-                        fromMe: true
+                        sender: this.state.userData.mail,
+                        receiver: this.message.mail,
+                        date: Date.now(),
+                        sender_id: this.state.userData.id,
+                        receiver_id: this.message.id
+                    },
+                    {timeout: 10000})
+                .then((response) => {
+                    if(this.state.inputMessage !== '') {
+                        this.setState({
+                            messages: [
+                                ...this.state.messages,
+                                {
+                                    id: this.state.messages.length + 1,
+                                    message: this.state.inputMessage,
+                                    fromMe: true
+                                }
+                            ],
+                            inputMessage: ''
+                        })
                     }
-                ],
-                inputMessage: ''
-            })
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
     }
 
     render() {
         return(
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <View style={styles.headerSide}>
+            <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
+                <View style={[styles.header, this.props.appTheme == "Dark" ? darkTheme.header : null]}>
+                    <View style={[styles.headerSide, this.props.appTheme == "Dark" ? darkTheme.headerSide : null]}>
                         <TouchableOpacity
-                            style={styles.backButtonContainer}
+                            style={[styles.backButtonContainer, this.props.appTheme == "Dark" ? darkTheme.backButtonContainer : null]}
                             onPress={() => {
                                 this.props.navigation.goBack();
                             }}
                             activeOpacity={0.8}>
-                            <View style={styles.backButton}>
-                                <GoBack style={styles.backButtonIcon} />
+                            <View style={[styles.backButton, this.props.appTheme == "Dark" ? darkTheme.backButton : null]}>
+                                <GoBack style={[styles.backButtonIcon, this.props.appTheme == "Dark" ? darkTheme.backButtonIcon : null]} />
                             </View>
                         </TouchableOpacity>
-                        <Image source={{uri: this.message.image}} style={styles.image} />
-                        <Text style={styles.name}>{this.message.name}</Text>
+                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} activeOpacity={0.8} onPress={() => { this.props.navigation.navigate('Profil', {id: this.message.id}); }}>
+                            <Image source={{uri: this.message.image}} style={[styles.image, this.props.appTheme == "Dark" ? darkTheme.image : null]} />
+                            <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>{this.message.name}</Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.headerSide}>
+                    <View style={[styles.headerSide, this.props.appTheme == "Dark" ? darkTheme.headerSide : null]}>
                         <TouchableOpacity
-                            style={[styles.backButtonContainer, {marginHorizontal: 10}]}
+                            style={[styles.backButtonContainer, {marginHorizontal: 10}, this.props.appTheme == "Dark" ? darkTheme.backButtonContainer : null]}
                             onPress={() => {
                                 // TODO
                             }}
                             activeOpacity={0.8}>
-                            <View style={styles.backButton}>
-                                <Phone style={styles.backButtonIcon} />
+                            <View style={[styles.backButton, this.props.appTheme == "Dark" ? darkTheme.backButton : null]}>
+                                <Phone style={[styles.backButtonIcon, this.props.appTheme == "Dark" ? darkTheme.backButtonIcon : null]} />
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={styles.backButtonContainer}
+                            style={[styles.backButtonContainer, this.props.appTheme == "Dark" ? darkTheme.backButtonContainer : null]}
                             onPress={() => {
                                 // TODO
                             }}
                             activeOpacity={0.8}>
-                            <View style={styles.backButton}>
-                                <Info style={styles.backButtonIcon} />
+                            <View style={[styles.backButton, this.props.appTheme == "Dark" ? darkTheme.backButton : null]}>
+                                <Info style={[styles.backButtonIcon, this.props.appTheme == "Dark" ? darkTheme.backButtonIcon : null]} />
                             </View>
                         </TouchableOpacity>
                     </View>
                 </View>
 
                 {this.state.accepted == true ?
-                    <View style={accepted.container}>
+                    <View style={[accepted.container, this.props.appTheme == "Dark" ? acceptedDark.container : null]}>
                         {this.renderMessages()}
-                        <View style={accepted.inputWrapper}>
-                            <View style={accepted.inputContainer}>
+                        <View style={[accepted.inputWrapper, this.props.appTheme == "Dark" ? acceptedDark.container : null]}>
+                            <View style={[accepted.inputContainer, this.props.appTheme == "Dark" ? acceptedDark.inputContainer : null]}>
                                 <TextInput
-                                    style={accepted.input}
+                                    style={[accepted.input, this.props.appTheme == "Dark" ? acceptedDark.input : null]}
                                     placeholder={'Message ...'}
-                                    placeholderTextColor={'black'}
+                                    placeholderTextColor={this.props.appTheme == "Dark" ? 'white' : 'black'}
 
                                     // Valeur à afficher par défaut dans le champ de recherche
                                     value={this.state.inputMessage}
@@ -160,39 +210,39 @@ export default class MessageDetail extends Component {
                                     onChangeText = {this.onChangeMessage}
                                     onFocus = {this.onFocusMessage}/>
                                 <TouchableOpacity
-                                    style={accepted.sendMessageIconContainer}
+                                    style={[accepted.sendMessageIconContainer, this.props.appTheme == "Dark" ? acceptedDark.sendMessageIconContainer : null]}
                                     onPress={() => {
                                         this.sendMessage()
                                     }}
                                     activeOpacity={0.8}
                                 >
-                                    <SendMessage style={accepted.sendMessageIcon} />
+                                    <SendMessage style={[accepted.sendMessageIcon, this.props.appTheme == "Dark" ? acceptedDark.sendMessageIcon : null]} />
                                 </TouchableOpacity>
                             </View>
                         </View>
                     </View>
                     :
-                    <View style={hasToAccept.container}>
-                        <Image source={{uri: this.message.image}} style={hasToAccept.image} />
-                        <Text style={hasToAccept.name}>{this.message.name}</Text>
-                        <Text style={hasToAccept.text}>Cette personne souhaite discuter avec vous.</Text>
+                    <View style={[hasToAccept.container, this.props.appTheme == "Dark" ? hasToAcceptDark.container : null]}>
+                        <Image source={{uri: this.message.image}} style={[hasToAccept.image, this.props.appTheme == "Dark" ? hasToAcceptDark.image : null]} />
+                        <Text style={[hasToAccept.name, this.props.appTheme == "Dark" ? hasToAcceptDark.name : null]}>{this.message.name}</Text>
+                        <Text style={[hasToAccept.text, this.props.appTheme == "Dark" ? hasToAcceptDark.text : null]}>Cette personne souhaite discuter avec vous.</Text>
                         <TouchableOpacity
-                            style={hasToAccept.buttonOutline}
+                            style={[hasToAccept.buttonOutline, this.props.appTheme == "Dark" ? hasToAcceptDark.buttonOutline : null]}
                             onPress={() => {
                                 // TODO
                             }}
                             activeOpacity={.8}>
-                            <Text style={hasToAccept.buttonOutlineText}>Voir son profil</Text>
+                            <Text style={[hasToAccept.buttonOutlineText, this.props.appTheme == "Dark" ? hasToAcceptDark.buttonOutlineText : null]}>Voir son profil</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={hasToAccept.buttonFill}
+                            style={[hasToAccept.buttonFill, this.props.appTheme == "Dark" ? hasToAcceptDark.buttonFill : null]}
                             onPress={() => {
                                 this.setState({
                                     accepted: true
                                 });
                             }}
                             activeOpacity={.8}>
-                            <Text style={hasToAccept.buttonFillText}>Accepter l'invitation</Text>
+                            <Text style={[hasToAccept.buttonFillText, this.props.appTheme == "Dark" ? hasToAcceptDark.buttonFillText : null]}>Accepter l'invitation</Text>
                         </TouchableOpacity>
                     </View>
                 }
@@ -416,5 +466,121 @@ const accepted = StyleSheet.create({
         width: 15,
         height: 15,
         color: 'white'
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: "#0d0f15",
+    },
+
+    header: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "#fff",
+    },
+
+    headerSide: {
+        
+    },
+
+    backButtonContainer: {
+        
+    },
+
+    backButton: {
+        backgroundColor: '#EF835E',
+    },
+
+    backButtonIcon: {
+        color: '#0d0f15'
+    },
+
+    image: {
+        
+    },
+
+    name: {
+        color: 'white'
+    },
+
+    listContainer: {
+        
+    }
+})
+
+const hasToAcceptDark = StyleSheet.create({
+    container: {
+        
+    },
+
+    image: {
+        
+    },
+
+    name: {
+        color: 'white'
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    buttonOutline: {
+        borderColor: '#EF835E',
+    },
+
+    buttonOutlineText: {
+        color: '#EF835E',
+    },
+
+    buttonFill: {
+        backgroundColor: '#EF835E',
+    },
+
+    buttonFillText: {
+        color: '#0d0f15',
+    }
+})
+
+const acceptedDark = StyleSheet.create({
+    container: {
+        backgroundColor: '#0d0f15'
+    },
+
+    infoContainer: {
+        
+    },
+
+    image: {
+        
+    },
+
+    name: {
+        color: 'white'
+    },
+
+    text: {
+        color: 'white'
+    },
+
+    inputWrapper: {
+        backgroundColor: '#0d0f15',
+    },
+
+    inputContainer: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "#fff",
+    },
+
+    input: {
+        color: 'white',
+    },
+
+    sendMessageIconContainer: {
+        backgroundColor: '#EF835E',
+    },
+
+    sendMessageIcon: {
+        color: '#0d0f15'
     }
 })

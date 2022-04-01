@@ -28,19 +28,19 @@ export default class MessageItem extends Component {
         // console.log(message);
 
         return(
-            <View style={message.fromMe ? fromMe.wrapper : received.wrapper}>
+            <View style={message.fromMe ? (this.props.appTheme == "Dark" ? fromMeDark.wrapper : fromMe.wrapper) : (this.props.appTheme == "Dark" ? receivedDark.wrapper : received.wrapper)}>
                 {!message.fromMe ?
-                    <Image source={{uri: otherData.image}} style={received.image} />
+                    <Image source={{uri: otherData.image}} style={[received.image, this.props.appTheme == "Dark" ? receivedDark.image : null]} />
                     : null
                 }
-                <View style={message.fromMe ? fromMe.container : received.container}>
-                    <Text style={message.fromMe ? fromMe.text : received.text}>
+                <View style={message.fromMe ? (this.props.appTheme == "Dark" ? fromMeDark.container : fromMe.container) : (this.props.appTheme == "Dark" ? receivedDark.container : received.container)}>
+                    <Text style={message.fromMe ? (this.props.appTheme == "Dark" ? fromMeDark.text : fromMe.text) : (this.props.appTheme == "Dark" ? receivedDark.text : received.text)}>
                         {message.message}
                     </Text>
                 </View>
                 {!message.fromMe ?
-                    <TouchableOpacity style={received.translateIconContainer} activeOpacity={0.8}>
-                        <Translate style={received.translateIcon} />
+                    <TouchableOpacity style={[received.translateIconContainer, this.props.appTheme == "Dark" ? receivedDark.translateIconContainer : null]} activeOpacity={0.8}>
+                        <Translate style={[received.translateIcon, this.props.appTheme == "Dark" ? receivedDark.translateIcon : null]} />
                     </TouchableOpacity>
                     : null
                 }
@@ -79,7 +79,8 @@ const received = StyleSheet.create({
         height: 'auto',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        marginVertical: 10
     },
     
     container: {
@@ -115,5 +116,77 @@ const received = StyleSheet.create({
         width: 20,
         height: 20,
         color: 'black'
+    }
+})
+
+const fromMeDark = StyleSheet.create({
+    wrapper: {
+        width: screenWidthPadding,
+        height: 'auto',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        marginVertical: 10
+    },
+    
+    container: {
+        width: 'auto',
+        height: 'auto',
+        backgroundColor: '#EF835E',
+        padding: 10,
+        borderRadius: 10
+    },
+
+    text: {
+        color: '#0d0f15',
+        fontSize: 14
+    }
+})
+
+const receivedDark = StyleSheet.create({
+    wrapper: {
+        width: screenWidthPadding,
+        height: 'auto',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        marginVertical: 10
+    },
+    
+    container: {
+        width: 'auto',
+        height: 'auto',
+        backgroundColor: '#0d0f15',
+        color: 'white',
+        padding: 10,
+        borderRadius: 10
+    },
+
+    image: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        marginRight: 10
+    },
+
+    text: {
+        fontSize: 14,
+        color: 'white'
+    },
+
+    translateIconContainer: {
+        width: 36,
+        height: 36,
+        backgroundColor: '#0d0f15',
+        marginLeft: 10,
+        borderRadius: 18,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    translateIcon: {
+        width: 20,
+        height: 20,
+        color: 'white'
     }
 })

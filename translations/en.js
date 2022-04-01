@@ -52,5 +52,9 @@ export default {
     contactUs: 'Contact us',
     notifications : 'Notifications',
     other : 'Other',
-    reportBug : 'Report a bug'
+    reportBug : 'Report a bug',
+    applicationLanguageTitle: 'Application language',
+    myAccount: 'My account',
+    parameters: 'Parameters',
+    disconnect: 'Disconnect'
 };

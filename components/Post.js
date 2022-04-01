@@ -38,6 +38,11 @@ export default class Post extends Component {
         });
     }
 
+    onSelectGroup = (ide) => {
+        // console.log(ide);
+        // this.props.onSelectGroup(ide);
+    }
+
     render() {
         const post = this.props.post;
         // console.log(post);
@@ -59,33 +64,41 @@ export default class Post extends Component {
         }
         return(
             <TouchableOpacity 
-            style={styles.wrapper} 
+            style={[styles.wrapper, this.props.appTheme == "Dark" ? darkTheme.wrapper : null]} 
             onPress={() => {
                 this.props.navigation.navigate('Post_Detail', {post:post});
             }}
             activeOpacity={.5}
             >
-                <View style={styles.postContainer}>
-                    <View style={[styles.side, styles.sideUp]}>
-                        <View style={styles.sideHeader}>
+                <View style={[styles.postContainer, this.props.appTheme == "Dark" ? darkTheme.postContainer : null]}>
+                    <View style={[styles.side, styles.sideUp, this.props.appTheme == "Dark" ? darkTheme.side : null]}>
+                        <View style={[styles.sideHeader, this.props.appTheme == "Dark" ? darkTheme.sideHeader : null]}>
                             <TouchableOpacity
-                                style={styles.postHeader}
-                                onPress={() => {this.props.onSelectGroup(post.acf.groupe.ID)}}>
+                                style={[styles.postHeader, this.props.appTheme == "Dark" ? darkTheme.postHeader : null]}
+                                onPress={() => {
+                                    this.props.onSelectGroup(post.acf.groupe.ID)
+                                }}>
                                 {this.state.group.avatar !== '' ? 
-                                    <View style={styles.headerImageContainer}>
-                                        <Image source={{uri: this.state.group.avatar}} style={styles.headerImage}/>
+                                    <View style={[styles.headerImageContainer, this.props.appTheme == "Dark" ? darkTheme.headerImageContainer : null]}>
+                                        <Image source={{uri: this.state.group.avatar}} style={[styles.headerImage, this.props.appTheme == "Dark" ? darkTheme.headerImage : null]}/>
                                     </View>
-                                    : <View style={styles.headerImage} />
+                                    : <View style={[styles.headerImage, this.props.appTheme == "Dark" ? darkTheme.headerImage : null]} />
                                 }
-                                <Text style={styles.title}>{this.state.group.name}</Text>
+                                <Text style={[styles.title, this.props.appTheme == "Dark" ? darkTheme.title : null]}>{this.state.group.name}</Text>
                             </TouchableOpacity>
                             {timeDiffElement}
                         </View>
-                        <Text style={styles.text}>{post.acf.texte_de_la_publication}</Text>
+                        <Text style={[styles.text, this.props.appTheme == "Dark" ? darkTheme.text : null]}>{post.acf.texte_de_la_publication}</Text>
                     </View>
-                    <View style={[styles.side, styles.sideDown]}>
-                        <Image source={{uri: post.acf.image_de_publication}} style={[styles.image, {aspectRatio: this.state.height !== null ? this.state.width / this.state.height : 1}]}/>
-                    </View>
+                    {
+                        post.acf.image_de_publication == null || post.acf.image_de_publication == false 
+                        ?
+                        <></>
+                        :
+                        <View style={[styles.side, styles.sideDown, this.props.appTheme == "Dark" ? darkTheme.side : null]}>
+                            <Image source={{uri: post.acf.image_de_publication}} style={[styles.image, {aspectRatio: this.state.height !== null ? this.state.width / this.state.height : 1}, this.props.appTheme == "Dark" ? darkTheme.image : null]}/>
+                        </View>
+                    }
                 </View>
             </TouchableOpacity>
         )
@@ -180,5 +193,52 @@ const styles = StyleSheet.create({
     image: {
         borderRadius: 10,
         resizeMode: 'contain'
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    wrapper: {
+
+    },
+
+    postContainer: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "white"
+    },
+
+    side: {
+        
+    },
+
+    sideHeader: {
+        
+    },
+
+    postHeader: {
+        
+    },
+
+    headerImageContainer: {
+        borderColor: '#EF835E'
+    },
+
+    headerImage: {
+        borderColor: '#0d0f15'
+    },
+
+    title: {
+        color: 'white'
+    },
+
+    timeDiff: {
+        color: 'grey'
+    },
+
+    text: {
+        color: 'white',
+    },
+
+    image: {
+        
     }
 })

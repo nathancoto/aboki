@@ -47,94 +47,94 @@ export default class Param_Confidentialite extends Component {
         }
 
         return(
-            <View style={styles.container}>
-                <View style={styles.header}>
+            <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
+                <View style={[styles.header, this.props.appTheme == "Dark" ? darkTheme.header : null]}>
                     <TouchableOpacity
-                        style={styles.backButtonContainer}
+                        style={[styles.backButtonContainer, this.props.appTheme == "Dark" ? darkTheme.backButtonContainer : null]}
                         onPress={() => {
                             this.props.navigation.goBack();
                         }}
                         activeOpacity={0.8}>
-                        <View style={styles.backButton}>
-                            <GoBack style={styles.backButtonIcon} />
+                        <View style={[styles.backButton, this.props.appTheme == "Dark" ? darkTheme.backButton : null]}>
+                            <GoBack style={[styles.backButtonIcon, this.props.appTheme == "Dark" ? darkTheme.backButtonIcon : null]} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.name}>{i18n.t('confidentiality')}</Text>
+                    <Text style={[styles.name, this.props.appTheme == "Dark" ? darkTheme.name : null]}>{i18n.t('confidentiality')}</Text>
                     <View style={{width: 45}} />
                 </View>
 
-                <View style={styles.category}>
-                    <Text style={styles.subtitle}>{i18n.t('bloked')}</Text>
+                <View style={[styles.category, this.props.appTheme == "Dark" ? darkTheme.category : null]}>
+                    <Text style={[styles.subtitle, this.props.appTheme == "Dark" ? darkTheme.subtitle : null]}>{i18n.t('bloked')}</Text>
                     <TouchableOpacity
-                        style={styles.visibleContentContainer}
+                        style={[styles.visibleContentContainer, this.props.appTheme == "Dark" ? darkTheme.visibleContentContainer : null]}
                         onPress={() => {  }}
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <UserBlocked height={22} style={styles.buttonIcon} />
-                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('blockedAccounts')}</Text>
+                            <UserBlocked height={22} style={[styles.buttonIcon, this.props.appTheme == "Dark" ? darkTheme.buttonIcon : null]} />
+                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}, this.props.appTheme == "Dark" ? darkTheme.visibleContentText : null]}>{i18n.t('blockedAccounts')}</Text>
                         </View>
                         <View>
-                            <AngleRight width={20} style={styles.angleRightIcon}/>
+                            <AngleRight width={20} style={[styles.angleRightIcon, this.props.appTheme == "Dark" ? darkTheme.angleRightIcon : null]}/>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.visibleContentContainer}
+                        style={[styles.visibleContentContainer, this.props.appTheme == "Dark" ? darkTheme.visibleContentContainer : null]}
                         onPress={() => {  }}
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <GroupBlocked height={22} style={styles.buttonIcon} />
-                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('blockedGroups')}</Text>
+                            <GroupBlocked height={22} style={[styles.buttonIcon, this.props.appTheme == "Dark" ? darkTheme.buttonIcon : null]} />
+                            <Text style={[styles.visibleContentText, {fontWeight: 'bold'}, this.props.appTheme == "Dark" ? darkTheme.visibleContentText : null]}>{i18n.t('blockedGroups')}</Text>
                         </View>
                         <View>
-                            <AngleRight width={20} style={styles.angleRightIcon}/>
+                            <AngleRight width={20} style={[styles.angleRightIcon, this.props.appTheme == "Dark" ? darkTheme.angleRightIcon : null]}/>
                         </View>
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.category}>
-                    <Text style={styles.subtitle}>{i18n.t('visibleContent')}</Text>
+                <View style={[styles.category, this.props.appTheme == "Dark" ? darkTheme.category : null]}>
+                    <Text style={[styles.subtitle, this.props.appTheme == "Dark" ? darkTheme.subtitle : null]}>{i18n.t('visibleContent')}</Text>
                     <TouchableOpacity
-                        style={this.state.selectedVisibleContent == "Default" ? styles.visibleContentContainerSelected : styles.visibleContentContainer}
-                        onPress={() => { this.changeVisibleContent("Default") }}
+                        style={this.state.selectedVisibleContent == "Public" ? (this.props.appTheme == "Dark" ? darkTheme.visibleContentContainerSelected : styles.visibleContentContainerSelected) : (this.props.appTheme == "Dark" ? darkTheme.visibleContentContainer : styles.visibleContentContainer)}
+                        onPress={() => { this.changeVisibleContent("Public") }}
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Unlock height={22} style={this.state.selectedVisibleContent == "Default" ? styles.buttonIconSelected : styles.buttonIcon} />
-                            <Text style={[this.state.selectedVisibleContent == "Default" ? styles.visibleContentTextSelected : styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('publicAccount')}</Text>
+                            <Unlock height={22} style={this.state.selectedVisibleContent == "Public" ? (this.props.appTheme == "Dark" ? darkTheme.buttonIconSelected : styles.buttonIconSelected) : (this.props.appTheme == "Dark" ? darkTheme.buttonIcon : styles.buttonIcon)} />
+                            <Text style={[this.state.selectedVisibleContent == "Public" ? (this.props.appTheme == "Dark" ? darkTheme.visibleContentTextSelected : styles.visibleContentTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.visibleContentText : styles.visibleContentText), {fontWeight: 'bold'}]}>{i18n.t('publicAccount')}</Text>
                         </View>
                         <View>
-                            {this.state.selectedVisibleContent == "Default" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                            {this.state.selectedVisibleContent == "Public" && <View style={[styles.checkIconContainer, this.props.appTheme == "Dark" ? darkTheme.checkIconContainer : null]}><Check width={17} style={[styles.checkIcon, this.props.appTheme == "Dark" ? darkTheme.checkIcon : null]}/></View>}
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={this.state.selectedVisibleContent == "Light" ? styles.visibleContentContainerSelected : styles.visibleContentContainer}
-                        onPress={() => { this.changeVisibleContent("Light") }}
+                        style={this.state.selectedVisibleContent == "Private" ? (this.props.appTheme == "Dark" ? darkTheme.visibleContentContainerSelected : styles.visibleContentContainerSelected) : (this.props.appTheme == "Dark" ? darkTheme.visibleContentContainer : styles.visibleContentContainer)}
+                        onPress={() => { this.changeVisibleContent("Private") }}
                         activeOpacity={0.8}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Lock height={22} style={this.state.selectedVisibleContent == "Light" ? styles.buttonIconSelected : styles.buttonIcon} />
-                            <Text style={[this.state.selectedVisibleContent == "Light" ? styles.visibleContentTextSelected : styles.visibleContentText, {fontWeight: 'bold'}]}>{i18n.t('privateAccount')}</Text>
+                            <Lock height={22} style={this.state.selectedVisibleContent == "Private" ? (this.props.appTheme == "Dark" ? darkTheme.buttonIconSelected : styles.buttonIconSelected) : (this.props.appTheme == "Dark" ? darkTheme.buttonIcon : styles.buttonIcon)} />
+                            <Text style={[this.state.selectedVisibleContent == "Private" ? (this.props.appTheme == "Dark" ? darkTheme.visibleContentTextSelected : styles.visibleContentTextSelected) : (this.props.appTheme == "Dark" ? darkTheme.visibleContentText : styles.visibleContentText), {fontWeight: 'bold'}]}>{i18n.t('privateAccount')}</Text>
                         </View>
                         <View>
-                            {this.state.selectedVisibleContent == "Light" && <View style={styles.checkIconContainer}><Check width={17} style={styles.checkIcon}/></View>}
+                            {this.state.selectedVisibleContent == "Private" && <View style={[styles.checkIconContainer, this.props.appTheme == "Dark" ? darkTheme.checkIconContainer : null]}><Check width={17} style={[styles.checkIcon, this.props.appTheme == "Dark" ? darkTheme.checkIcon : null]}/></View>}
                         </View>
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.footer}>
-                    <View style={styles.footerBorder} />
-                    <Text style={styles.footerTitle}>{i18n.t('learnMorePrivacyAboki')}</Text>
+                <View style={[styles.footer, this.props.appTheme == "Dark" ? darkTheme.footer : null]}>
+                    <View style={[styles.footerBorder, this.props.appTheme == "Dark" ? darkTheme.footerBorder : null]} />
+                    <Text style={[styles.footerTitle, this.props.appTheme == "Dark" ? darkTheme.footerTitle : null]}>{i18n.t('learnMorePrivacyAboki')}</Text>
                     <TouchableOpacity
-                        style={styles.footerButton}
+                        style={[styles.footerButton, this.props.appTheme == "Dark" ? darkTheme.footerButton : null]}
                         onPress={() => {  }}
                         activeOpacity={0.8}>
-                            <Text>{i18n.t('privacyPolicy')}</Text>
-                            <AngleRight width={16} style={styles.angleRightIcon}/>
+                            <Text style={this.props.appTheme == "Dark" ? darkTheme.footerText : null}>{i18n.t('privacyPolicy')}</Text>
+                            <AngleRight width={16} style={[styles.angleRightIcon, this.props.appTheme == "Dark" ? darkTheme.angleRightIcon : null]}/>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.footerButton}
+                        style={[styles.footerButton, this.props.appTheme == "Dark" ? darkTheme.footerButton : null]}
                         onPress={() => {  }}
                         activeOpacity={0.8}>
-                            <Text>{i18n.t('contactUs')}</Text>
-                            <AngleRight width={16} style={styles.angleRightIcon}/>
+                            <Text style={this.props.appTheme == "Dark" ? darkTheme.footerText : null}>{i18n.t('contactUs')}</Text>
+                            <AngleRight width={16} style={[styles.angleRightIcon, this.props.appTheme == "Dark" ? darkTheme.angleRightIcon : null]}/>
                     </TouchableOpacity>
                 </View>
 
@@ -307,5 +307,130 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginVertical: 5
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: "#0d0f15",
+    },
+
+    header: {
+        
+    },
+
+    backButtonContainer: {
+        
+    },
+
+    backButton: {
+        backgroundColor: '#EF835E',
+    },
+
+    backButtonIcon: {
+        color: '#0d0f15'
+    },
+
+    name: {
+        color: 'white'
+    },
+
+    subtitle: {
+        color: 'white'
+    },
+
+    category: {
+        
+    },
+
+    visibleContentContainer: {
+        width: '100%',
+        height: 53,
+        marginVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#0d0f15',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+
+        shadowColor: "#fff",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 10
+    },
+
+    visibleContentContainerSelected: {
+        width: '100%',
+        height: 53,
+        marginVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#0d0f15',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderColor: '#EF835E',
+        borderWidth: 2
+    },
+
+    visibleContentText: {
+        color: 'white'
+    },
+
+    visibleContentTextSelected: {
+        color: '#EF835E'
+    },
+
+    checkIconContainer: {
+        backgroundColor: '#EF835E',
+    },
+
+    checkIcon: {
+        color: '#0d0f15',
+    },
+
+    angleRightIcon: {
+        color: 'white',
+    },
+
+    buttonIcon: {
+        color: 'white',
+        height: 20,
+        width: 20,
+        marginRight: 20
+    },
+
+    buttonIconSelected: {
+        color: '#EF835E',
+        height: 20,
+        width: 20,
+        marginRight: 20
+    },
+
+    footer: {
+        
+    },
+
+    footerBorder: {
+        backgroundColor: 'white',
+    },
+
+    footerTitle: {
+        color: 'white'
+    },
+
+    footerText: {
+        color: 'white'
+    },
+
+    footerButton: {
+        
     }
 })

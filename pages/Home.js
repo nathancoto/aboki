@@ -54,27 +54,26 @@ export default class Home extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <View style={styles.groupContainer}>
-                    {/* <Text style={styles.label}>{this.state.mode}</Text> */}
-                    <Text style={styles.label}>{i18n.t('groups')}</Text>
+            <View style={[styles.container, this.props.appTheme == "Dark" ? darkTheme.container : null]}>
+                <View style={[styles.groupContainer, this.props.appTheme == "Dark" ? darkTheme.groupContainer : null]}>
+                    <Text style={[styles.label, this.props.appTheme == "Dark" ? darkTheme.label : null]}>{i18n.t('groups')}</Text>
                     <FlatList
                         data={this.state.groups}
-                        renderItem={({item, index}) => <GroupIcon group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup}/>}
-                        keyExtractor={item => item.id}
+                        renderItem={({item, index}) => <GroupIcon group={item.group} id={item.id} index={index} onSelectGroup={this.onSelectGroup} appTheme={this.props.appTheme}/>}
+                        keyExtractor={(item, index) => index.toString()}
                         horizontal={true}
                         style={{overflow: 'visible'}}
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
-                <View style={styles.postContainer}>
+                <View style={[styles.postContainer, this.props.appTheme == "Dark" ? darkTheme.postContainer : null]}>
                     <FlatList
                         data={this.state.posts}
-                        renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost} navigation={this.props.navigation} onSelectGroup={this.onSelectGroup}/>}
-                        keyExtractor={item => item.id}
+                        renderItem={({item, index}) => <Post post={item} index={index} onSelectPost={this.onSelectPost} navigation={this.props.navigation} onSelectGroup={this.onSelectGroup} appTheme={this.props.appTheme}/>}
+                        keyExtractor={(item, index) => index.toString()}
                         style={{overflow: 'visible'}}
                         showsVerticalScrollIndicator={false}
-                        ListHeaderComponent={<Text style={[styles.label, {marginLeft: '5%'}]}>{i18n.t('newPosts')}</Text>}
+                        ListHeaderComponent={<Text style={[styles.label, {marginLeft: '5%'}, this.props.appTheme == "Dark" ? darkTheme.label : null]}>{i18n.t('newPosts')}</Text>}
                     />
                 </View>
             </View>
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     },
 
     groupContainer: {
-        height: 150,
+        height: 170,
         width: '100%',
         paddingHorizontal: '5%',
         paddingTop: 50,
@@ -113,3 +112,17 @@ const styles = StyleSheet.create({
         marginTop: 20
     }
 })
+
+const darkTheme = StyleSheet.create({
+    container: {
+        backgroundColor: "#0d0f15"
+    },
+
+    label: {
+        color: "#fff"
+    },
+
+    groupContainer: {
+        backgroundColor: '#0d0f15'
+    }
+});

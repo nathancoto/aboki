@@ -62,11 +62,11 @@ export default class HobbyCard extends Component {
         });
 
         return(
-            <TouchableOpacity activeOpacity={.8} style={styles.languageCard}>
-                <View style={styles.iconWrapper}>
-                    <Text style={styles.icon}>{emoji}</Text>
+            <TouchableOpacity activeOpacity={.8} style={[styles.languageCard, this.props.appTheme == "Dark" ? darkTheme.languageCard : null]}>
+                <View style={[styles.iconWrapper, this.props.appTheme == "Dark" ? darkTheme.iconWrapper : null]}>
+                    <Text style={[styles.icon, this.props.appTheme == "Dark" ? darkTheme.icon : null]}>{emoji}</Text>
                 </View>
-                <Text style={styles.text}>{hobby}</Text>
+                <Text style={[styles.text, this.props.appTheme == "Dark" ? darkTheme.text : null]}>{hobby}</Text>
             </TouchableOpacity>
         )
     }
@@ -105,5 +105,20 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 14
+    }
+})
+
+const darkTheme = StyleSheet.create({
+    languageCard: {
+        backgroundColor: '#0d0f15',
+        shadowColor: "#fff",
+    },
+
+    iconWrapper: {
+        backgroundColor: '#F6B675',
+    },
+
+    text: {
+        color: 'white'
     }
 })
